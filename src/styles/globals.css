@@ -1,10 +1,17 @@
+/* globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Importa la fuente al inicio */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+/* Variables globales */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-sans: 'Roboto', Arial, Helvetica, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,8 +21,41 @@
   }
 }
 
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.newsletter-button {
+  all: unset;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid white;
+  border-radius: 9999px;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.newsletter-button:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Estilos globales del body */
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }

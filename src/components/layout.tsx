@@ -31,10 +31,10 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Menú lateral */}
       <div className="absolute right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20">
-        <a href="#" className="transition duration-300 hover:font-bold">Store</a>
-        <a href="#" className="transition duration-300 hover:font-bold">Tour</a>
-        <a href="#" className="transition duration-300 hover:font-bold">Photos</a>
-        <a href="#" className="transition duration-300 hover:font-bold">Contact</a>
+        <a href="#" className="transition duration-300 hover:font-bold">Tienda</a>
+        <a href="#" className="transition duration-300 hover:font-bold">Shows</a>
+        <a href="#" className="transition duration-300 hover:font-bold">Fotos</a>
+        <a href="#" className="transition duration-300 hover:font-bold">Contacto</a>
       </div>
 
       {/* Botón Newsletter */}
@@ -49,7 +49,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Redes sociales */}
       <div className="absolute bottom-8 right-8 flex gap-4 z-20">
         <a
-          href="https://www.instagram.com"
+          href="https://www.instagram.com/_marialunares"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:scale-110 transition duration-300"
@@ -57,7 +57,7 @@ export default function Layout({ children }: LayoutProps) {
           <Icon icon="mdi:instagram" className="text-white text-xl" />
         </a>
         <a
-          href="https://www.tiktok.com"
+          href="https://www.tiktok.com/@_marialunares"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:scale-110 transition duration-300"
@@ -65,7 +65,7 @@ export default function Layout({ children }: LayoutProps) {
           <Icon icon="ic:baseline-tiktok" className="text-white text-xl" />
         </a>
         <a
-          href="https://www.youtube.com"
+          href="https://www.youtube.com/@_marialunares"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:scale-110 transition duration-300"
@@ -73,7 +73,7 @@ export default function Layout({ children }: LayoutProps) {
           <Icon icon="mdi:youtube" className="text-white text-xl" />
         </a>
         <a
-          href="https://www.spotify.com"
+          href="https://open.spotify.com/artist/5xO6MugYgEkawkhupiuzbj?si=pWh4yvPfRXivm4QOCqPh1Q"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:scale-110 transition duration-300"
@@ -81,7 +81,7 @@ export default function Layout({ children }: LayoutProps) {
           <Icon icon="mdi:spotify" className="text-white text-xl" />
         </a>
         <a
-          href="https://www.soundcloud.com"
+          href="https://soundcloud.com/marialunares"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:scale-110 transition duration-300"
