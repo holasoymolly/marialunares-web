@@ -3,7 +3,7 @@ export default function Home() {
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
       {/* Video de fondo */}
       <video
-        src="/videos/home-background.mp4"
+        src="/videos/maria-lunares-raices-live-fragmento-1080.mov"
         autoPlay
         loop
         muted
@@ -12,7 +12,7 @@ export default function Home() {
       />
 
       {/* Overlay oscuro */}
-      <div className="absolute inset-0 bg-black bg-opacity-70 -z-10"></div>
+      <div className="absolute inset-0 bg-black bg-opacity-50 -z-10"></div>
 
       {/* Contenido dinámico */}
       <main className="relative z-10 flex justify-center items-center min-h-screen">
