@@ -1,12 +1,15 @@
 import { ReactNode } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import { useRouter } from 'next/router';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const router = useRouter();
+
   return (
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
       {/* Logo */}
@@ -31,11 +34,11 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Menú lateral */}
       <div className="absolute right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20">
-        <a href="#" className="transition duration-300 hover:font-bold">Música</a>
-        <a href="#" className="transition duration-300 hover:font-bold">Videos</a>
-        <a href="#" className="transition duration-300 hover:font-bold">Fotos</a>
+        <span onClick={() => router.push('/musica')} className="transition duration-300 hover:font-bold cursor-pointer">Música</span>
+        <span onClick={() => router.push('/videos')} className="transition duration-300 hover:font-bold cursor-pointer">Videos</span>
+        <span onClick={() => router.push('/fotos')} className="transition duration-300 hover:font-bold cursor-pointer">Fotos</span>
         <a href="https://marialunares.threadless.com/" target="_blank" rel="noopener noreferrer" className="transition duration-300 hover:font-bold">Tienda</a>
-        <a href="#" className="transition duration-300 hover:font-bold">Contacto</a>
+        <span onClick={() => router.push('/contacto')} className="transition duration-300 hover:font-bold cursor-pointer">Contacto</span>
       </div>
 
       {/* Botón Newsletter */}
