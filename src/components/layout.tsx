@@ -31,7 +31,7 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Menú lateral */}
       <div className="absolute right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20">
-        <a href="#" className="transition duration-300 hover:font-bold">Tienda</a>
+        <a href="https://marialunares.threadless.com/" target="_blank" rel="noopener noreferrer" className="transition duration-300 hover:font-bold">Tienda</a>
         <a href="#" className="transition duration-300 hover:font-bold">Shows</a>
         <a href="#" className="transition duration-300 hover:font-bold">Fotos</a>
         <a href="#" className="transition duration-300 hover:font-bold">Contacto</a>
