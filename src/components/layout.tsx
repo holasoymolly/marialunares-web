@@ -39,7 +39,7 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Botón Newsletter */}
       <div className="absolute bottom-8 left-8 z-20">
-        <a href="https://example.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://forms.gle/aZYqhXwWFcDcjwbQ8" target="_blank" rel="noopener noreferrer">
           <button className="px-5 py-1 border border-white text-white font-semibold rounded-full hover:bg-white hover:text-black transition duration-300">
             Newsletter
           </button>
