@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 interface LayoutProps {
   children: ReactNode;
@@ -14,36 +14,67 @@ export default function Layout({ children }: LayoutProps) {
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
       {/* Logo */}
       <div className="absolute top-8 left-8 z-20">
-        <a href="/" className="group block">
+        <a href="/" className="block relative group">
           <Image
             src="/images/ml-logo-blanco.webp"
             alt="Maria Lunares Logo"
             width={100}
-            height={35}
-            className="group-hover:hidden"
+            height={100}
+            className="transition-opacity duration-300 opacity-100 group-hover:opacity-0"
           />
           <Image
             src="/images/ml-logo-blanco-negativo.webp"
             alt="Maria Lunares Logo Hover"
             width={100}
-            height={35}
-            className="hidden group-hover:block"
+            height={100}
+            className="absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
           />
         </a>
       </div>
 
       {/* Menú lateral */}
       <div className="absolute right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20">
-        <span onClick={() => router.push('/musica')} className="transition duration-300 hover:font-bold cursor-pointer">Música</span>
-        <span onClick={() => router.push('/videos')} className="transition duration-300 hover:font-bold cursor-pointer">Videos</span>
-        <span onClick={() => router.push('/fotos')} className="transition duration-300 hover:font-bold cursor-pointer">Fotos</span>
-        <a href="https://marialunares.threadless.com/" target="_blank" rel="noopener noreferrer" className="transition duration-300 hover:font-bold">Tienda</a>
-        <span onClick={() => router.push('/contacto')} className="transition duration-300 hover:font-bold cursor-pointer">Contacto</span>
+        <span
+          onClick={() => router.push("/musica")}
+          className="transition duration-300 hover:font-bold cursor-pointer"
+        >
+          Música
+        </span>
+        <span
+          onClick={() => router.push("/videos")}
+          className="transition duration-300 hover:font-bold cursor-pointer"
+        >
+          Videos
+        </span>
+        <span
+          onClick={() => router.push("/fotos")}
+          className="transition duration-300 hover:font-bold cursor-pointer"
+        >
+          Fotos
+        </span>
+        <a
+          href="https://marialunares.threadless.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition duration-300 hover:font-bold"
+        >
+          Tienda
+        </a>
+        <span
+          onClick={() => router.push("/contacto")}
+          className="transition duration-300 hover:font-bold cursor-pointer"
+        >
+          Contacto
+        </span>
       </div>
 
       {/* Botón Newsletter */}
       <div className="absolute bottom-8 left-8 z-20">
-        <a href="https://forms.gle/aZYqhXwWFcDcjwbQ8" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://forms.gle/aZYqhXwWFcDcjwbQ8"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <button className="px-5 py-1 border border-white text-white font-semibold rounded-full hover:bg-white hover:text-black transition duration-300">
             Newsletter
           </button>
