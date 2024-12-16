@@ -9,10 +9,10 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
       {/* Logo */}
-      <div className="absolute top-8 left-8 z-20">
+      <div className="fixed top-8 left-8 z-20">
         <a
           href="/"
-          className="block bg-logo logo-hover" /* Elimina la lógica condicional */
+          className="block bg-logo logo-hover"
           aria-label="Logo Maria Lunares"
           style={{
             width: "100px",
@@ -22,7 +22,7 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Menú lateral */}
-      <div className="absolute right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20">
+      <div className="fixed right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20">
         <a href="/musica" className="transition duration-300 hover:font-bold cursor-pointer">Música</a>
         <a href="/videos" className="transition duration-300 hover:font-bold cursor-pointer">Videos</a>
         <a href="/fotos" className="transition duration-300 hover:font-bold cursor-pointer">Fotos</a>
@@ -38,7 +38,7 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Botón Newsletter */}
-      <div className="absolute bottom-8 left-8 z-20">
+      <div className="fixed bottom-8 left-8 z-20">
         <a
           href="https://forms.gle/aZYqhXwWFcDcjwbQ8"
           target="_blank"
@@ -51,7 +51,7 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Redes sociales */}
-      <div className="absolute bottom-8 right-8 flex gap-4 z-20">
+      <div className="fixed bottom-8 right-8 flex gap-4 z-20">
         <a
           href="https://www.instagram.com/_marialunares"
           target="_blank"
