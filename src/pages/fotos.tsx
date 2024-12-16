@@ -43,7 +43,7 @@ function Fotos() {
         <h1
           className="text-9xl font-bold absolute"
           style={{
-            top: '-15vh', // Baja el título
+            top: '-8vh', // Baja el título
             left: '-25vw', // Desplaza el texto hacia la izquierda
             margin: 0,
             transform: 'translate(0, 0)',
