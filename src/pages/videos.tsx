@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Layout from '@/components/layout';
 
 function Videos() {
   const youtubeVideos = [
@@ -11,18 +10,18 @@ function Videos() {
   ];
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>Videos - Maria Lunares</title>
       </Head>
-      <div 
+      <div
         className="relative w-screen min-h-screen bg-black text-white"
         style={{
           paddingTop: '28rem', // Baja todo el contenido
         }}
       >
         {/* Título */}
-        <h1 
+        <h1
           className="text-9xl font-bold absolute"
           style={{
             top: '20vh', // Ajusta la posición del título
@@ -80,7 +79,7 @@ function Videos() {
           }
         }
       `}</style>
-    </Layout>
+    </>
   );
 }
 

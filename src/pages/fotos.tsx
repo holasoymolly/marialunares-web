@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Layout from '@/components/layout';
 
 // Función para desordenar las imágenes de manera aleatoria
 function shuffleArray(array: { url: string; title: string }[]): { url: string; title: string }[] {
@@ -35,7 +34,7 @@ function Fotos() {
   ]);
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>Fotos - Maria Lunares</title>
       </Head>
@@ -57,7 +56,8 @@ function Fotos() {
         </h1>
 
         {/* Galería de imágenes */}
-        <div className="masonry-gallery" style={{ marginTop: '35vh' }}> {/* Ajusta margen superior */}
+        <div className="masonry-gallery" style={{ marginTop: '35vh' }}>
+          {/* Ajusta margen superior */}
           {images.map((image: { url: string; title: string }, index: number) => (
             <div key={index} className="gallery-item">
               <img
@@ -113,7 +113,7 @@ function Fotos() {
           }
         }
       `}</style>
-    </Layout>
+    </>
   );
 }
 

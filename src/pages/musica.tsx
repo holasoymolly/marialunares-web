@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Layout from '@/components/layout';
 
 function Musica() {
   const imageLinks = [
@@ -11,15 +10,13 @@ function Musica() {
   ];
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>Música - Maria Lunares</title>
       </Head>
       <div className="relative w-screen h-screen bg-black text-white">
         {/* Título */}
-        <h1 
-          className="text-9xl font-bold absolute desktop-title" 
-        >
+        <h1 className="text-9xl font-bold absolute desktop-title">
           MÚ<br />SI<br />CA
         </h1>
 
@@ -131,7 +128,7 @@ function Musica() {
           }
         }
       `}</style>
-    </Layout>
+    </>
   );
 }
 
