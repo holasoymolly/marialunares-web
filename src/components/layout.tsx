@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import Link from "next/link"; // Importa Link desde next/link
 import { Icon } from "@iconify/react";
 
 interface LayoutProps {
@@ -10,22 +11,28 @@ export default function Layout({ children }: LayoutProps) {
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
       {/* Logo */}
       <div className="fixed top-8 left-8 z-20">
-        <a
-          href="/"
-          className="block bg-logo logo-hover"
-          aria-label="Logo Maria Lunares"
-          style={{
-            width: "100px",
-            height: "100px",
-          }}
-        ></a>
+        <Link href="/" aria-label="Logo Maria Lunares">
+          <div
+            className="block bg-logo logo-hover"
+            style={{
+              width: "100px",
+              height: "100px",
+            }}
+          ></div>
+        </Link>
       </div>
 
       {/* Menú lateral */}
       <div className="fixed right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20">
-        <a href="/musica" className="transition duration-300 hover:font-bold cursor-pointer">Música</a>
-        <a href="/videos" className="transition duration-300 hover:font-bold cursor-pointer">Videos</a>
-        <a href="/fotos" className="transition duration-300 hover:font-bold cursor-pointer">Fotos</a>
+        <Link href="/musica" className="transition duration-300 hover:font-bold cursor-pointer">
+          Música
+        </Link>
+        <Link href="/videos" className="transition duration-300 hover:font-bold cursor-pointer">
+          Videos
+        </Link>
+        <Link href="/fotos" className="transition duration-300 hover:font-bold cursor-pointer">
+          Fotos
+        </Link>
         <a
           href="https://marialunares.threadless.com/"
           target="_blank"
@@ -34,7 +41,9 @@ export default function Layout({ children }: LayoutProps) {
         >
           Tienda
         </a>
-        <a href="/contacto" className="transition duration-300 hover:font-bold cursor-pointer">Contacto</a>
+        <Link href="/contacto" className="transition duration-300 hover:font-bold cursor-pointer">
+          Contacto
+        </Link>
       </div>
 
       {/* Botón Newsletter */}
