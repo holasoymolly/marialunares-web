@@ -104,7 +104,7 @@ function Musica() {
         /* Mobile Styling */
         @media (max-width: 768px) {
           .desktop-title {
-            top: 20vh;
+            top: 40vh;
             left: 20vw;
             font-size: 4rem;
             transform: translate(0, 0); /* Ajuste para evitar conflictos */
