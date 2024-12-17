@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
+import "swiper/css/navigation";
 import Image from "next/image";
 
 // Define la interfaz Producto
@@ -19,6 +20,7 @@ interface Producto {
 export default function Tienda() {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
+  const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
 
   // IDs únicos para PayPal y precios personalizados
   const productoDetalles: Record<string, { hosted_button_id: string; custom_price: string }> = {
@@ -89,12 +91,11 @@ export default function Tienda() {
                 alt={producto.title}
                 width={256}
                 height={256}
-                className="mx-auto mb-4 object-cover rounded-lg shadow-lg"
+                className="mx-auto mb-4 object-cover rounded-lg shadow-lg cursor-pointer"
+                onClick={() => setProductoSeleccionado(producto)} // Abre el modal con la galería
               />
               <h2 className="text-2xl font-semibold mb-2">{producto.title}</h2>
-              <p className="text-lg mb-4">
-                ${producto.custom_price} USD
-              </p>
+              <p className="text-lg mb-4">${producto.custom_price} USD</p>
 
               {/* Botón de compra */}
               <form
@@ -117,6 +118,43 @@ export default function Tienda() {
               </form>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Modal de galería de imágenes */}
+      {productoSeleccionado && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center z-50">
+          <div className="bg-white text-black rounded-lg p-6 max-w-4xl relative">
+            <button
+              className="absolute top-2 right-4 text-2xl font-bold text-black"
+              onClick={() => setProductoSeleccionado(null)}
+            >
+              ×
+            </button>
+
+            <h2 className="text-3xl font-bold mb-4">{productoSeleccionado.title}</h2>
+
+            {/* Carrusel de imágenes */}
+            <Swiper
+  modules={[Navigation, Autoplay]}
+  navigation
+  spaceBetween={10}
+  slidesPerView={1}
+  className="custom-swiper" // Añade esta clase personalizada
+>
+  {productoSeleccionado.images.map((img, index) => (
+    <SwiperSlide key={index}>
+      <Image
+        src={img.src}
+        alt={`Imagen ${index + 1}`}
+        width={600}
+        height={600}
+        className="rounded-lg mx-auto"
+      />
+    </SwiperSlide>
+  ))}
+</Swiper>
+          </div>
         </div>
       )}
     </div>
