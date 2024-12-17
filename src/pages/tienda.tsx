@@ -12,13 +12,12 @@ interface Producto {
   title: string;
   images: { src: string }[];
   variants: { price: number }[];
-  hosted_button_id?: string;
+  hosted_button_id?: string; // Agregamos la propiedad para el PayPal button ID
 }
 
 export default function Tienda() {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
-  const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
 
   // IDs únicos para PayPal
   const hostedButtonIds: Record<string, string> = {
@@ -26,14 +25,6 @@ export default function Tienda() {
     "Melting Logo Tee": "58QGK7G4PD5Z8",
     "Raíces Tee": "FQ7KSVYUVVVR6",
     "Sol Tee": "LUL52QCDGTYTJ",
-  };
-
-  // Precios reales configurados en PayPal
-  const preciosReales: Record<string, string> = {
-    "Alien Tee": "25.00",
-    "Melting Logo Tee": "25.00",
-    "Raíces Tee": "25.00",
-    "Sol Tee": "25.00",
   };
 
   useEffect(() => {
@@ -56,7 +47,7 @@ export default function Tienda() {
     };
 
     fetchProductos();
-  }, []);
+  }, [hostedButtonIds]); // Se añade hostedButtonIds como dependencia
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center">
@@ -95,12 +86,11 @@ export default function Tienda() {
                 alt={producto.title}
                 width={256}
                 height={256}
-                className="mx-auto mb-4 object-cover rounded-lg shadow-lg cursor-pointer"
-                onClick={() => setProductoSeleccionado(producto)}
+                className="mx-auto mb-4 object-cover rounded-lg shadow-lg"
               />
               <h2 className="text-2xl font-semibold mb-2">{producto.title}</h2>
               <p className="text-lg mb-4">
-                ${preciosReales[producto.title] || "N/A"} USD
+                ${producto.variants[0]?.price ? (producto.variants[0].price / 100).toFixed(2) : "N/A"} USD
               </p>
 
               {/* Botón de compra */}
