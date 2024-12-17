@@ -24,7 +24,7 @@ function Videos() {
         <h1
           className="text-9xl font-bold absolute"
           style={{
-            top: '30vh', // Ajusta la posición del título
+            top: '20vh', // Ajusta la posición del título
             left: '3vw',
             margin: 0,
             transform: 'translate(0, 0)',
