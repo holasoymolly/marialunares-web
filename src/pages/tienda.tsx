@@ -12,7 +12,7 @@ interface Producto {
   title: string;
   images: { src: string }[];
   variants: { price: number }[];
-  hosted_button_id?: string; // Agregamos la propiedad para el PayPal button ID
+  hosted_button_id?: string;
 }
 
 export default function Tienda() {
@@ -20,7 +20,7 @@ export default function Tienda() {
   const [loading, setLoading] = useState(true);
   const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
 
-  // Aquí asignamos manualmente los PayPal button IDs a cada producto por su nombre (title)
+  // IDs únicos para PayPal
   const hostedButtonIds: Record<string, string> = {
     "Alien Tee": "U9VJKDT49VP6A",
     "Melting Logo Tee": "58QGK7G4PD5Z8",
@@ -28,13 +28,19 @@ export default function Tienda() {
     "Sol Tee": "LUL52QCDGTYTJ",
   };
 
+  // Precios reales configurados en PayPal
+  const preciosReales: Record<string, string> = {
+    "Alien Tee": "25.00",
+    "Melting Logo Tee": "25.00",
+    "Raíces Tee": "25.00",
+    "Sol Tee": "25.00",
+  };
+
   useEffect(() => {
     const fetchProductos = async () => {
       try {
         const response = await axios.get("/api/printify/products");
-        console.log("Productos recibidos:", response.data);
 
-        // Añadir hosted_button_id correspondiente a cada producto usando el título
         const productosConBotones = response.data.data.map((producto: Producto) => ({
           ...producto,
           hosted_button_id: hostedButtonIds[producto.title] || "BUTTON_ID_POR_DEFECTO",
@@ -90,11 +96,11 @@ export default function Tienda() {
                 width={256}
                 height={256}
                 className="mx-auto mb-4 object-cover rounded-lg shadow-lg cursor-pointer"
-                onClick={() => setProductoSeleccionado(producto)} // Abre el modal
+                onClick={() => setProductoSeleccionado(producto)}
               />
               <h2 className="text-2xl font-semibold mb-2">{producto.title}</h2>
               <p className="text-lg mb-4">
-                ${producto.variants[0]?.price ? (producto.variants[0].price / 100).toFixed(2) : "N/A"} USD
+                ${preciosReales[producto.title] || "N/A"} USD
               </p>
 
               {/* Botón de compra */}
@@ -107,7 +113,7 @@ export default function Tienda() {
                 <input
                   type="hidden"
                   name="hosted_button_id"
-                  value={producto.hosted_button_id} // Usa el ID único basado en el título
+                  value={producto.hosted_button_id}
                 />
                 <button
                   type="submit"
@@ -118,60 +124,6 @@ export default function Tienda() {
               </form>
             </div>
           ))}
-        </div>
-      )}
-
-      {/* Modal de detalles del producto */}
-      {productoSeleccionado && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center z-50">
-          <div className="bg-white text-black rounded-lg p-6 max-w-4xl relative">
-            <button
-              className="absolute top-2 right-4 text-2xl font-bold text-gray-700"
-              onClick={() => setProductoSeleccionado(null)} // Cierra el modal
-            >
-              ×
-            </button>
-
-            <h2 className="text-3xl font-bold mb-4">{productoSeleccionado.title}</h2>
-
-            {/* Carrusel de imágenes adicionales */}
-            <div className="grid grid-cols-2 gap-4">
-              {productoSeleccionado.images.map((img, index) => (
-                <Image
-                  key={index}
-                  src={img.src}
-                  alt={`Imagen ${index + 1}`}
-                  width={200}
-                  height={200}
-                  className="rounded-lg shadow-md"
-                />
-              ))}
-            </div>
-
-            <p className="text-lg mt-4">
-              Precio: ${productoSeleccionado.variants[0]?.price / 100} USD
-            </p>
-
-            {/* Botón de compra en el modal */}
-            <form
-              action="https://www.paypal.com/cgi-bin/webscr"
-              method="post"
-              target="_blank"
-            >
-              <input type="hidden" name="cmd" value="_s-xclick" />
-              <input
-                type="hidden"
-                name="hosted_button_id"
-                value={productoSeleccionado.hosted_button_id}
-              />
-              <button
-                type="submit"
-                className="mt-4 px-8 py-2 bg-black text-white font-bold rounded-full hover:scale-105 transition duration-300"
-              >
-                Comprar Ahora
-              </button>
-            </form>
-          </div>
         </div>
       )}
     </div>
