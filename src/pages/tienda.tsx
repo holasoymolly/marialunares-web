@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/autoplay";
 import Image from "next/image";
 
 // Define la interfaz Producto
@@ -10,26 +12,40 @@ interface Producto {
   title: string;
   images: { src: string }[];
   variants: { price: number }[];
+  hosted_button_id?: string; // Agregamos la propiedad para el PayPal button ID
 }
 
 export default function Tienda() {
   const [productos, setProductos] = useState<Producto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
 
-  // Imágenes locales del banner
-  const imagenesBanner = [
-    { src: "/images/alien-banner.webp", alt: "Alien Tee" },
-    { src: "/images/melting-banner.webp", alt: "Melting Logo Tee" },
-    { src: "/images/raices-banner.webp", alt: "Raíces Tee" },
-    { src: "/images/sol-banner.webp", alt: "Sol Tee" },
-  ];
+  // Aquí asignamos manualmente los PayPal button IDs a cada producto por su nombre (title)
+  const hostedButtonIds: Record<string, string> = {
+    "Alien Tee": "U9VJKDT49VP6A",
+    "Melting Logo Tee": "58QGK7G4PD5Z8",
+    "Raíces Tee": "FQ7KSVYUVVVR6",
+    "Sol Tee": "LUL52QCDGTYTJ",
+  };
 
   useEffect(() => {
     const fetchProductos = async () => {
       try {
         const response = await axios.get("/api/printify/products");
-        setProductos(response.data.data);
+        console.log("Productos recibidos:", response.data);
+
+        // Añadir hosted_button_id correspondiente a cada producto usando el título
+        const productosConBotones = response.data.data.map((producto: Producto) => ({
+          ...producto,
+          hosted_button_id: hostedButtonIds[producto.title] || "BUTTON_ID_POR_DEFECTO",
+        }));
+
+        setProductos(productosConBotones);
       } catch (error) {
         console.error("Error al obtener productos:", error);
+        setProductos([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -40,22 +56,18 @@ export default function Tienda() {
     <div className="min-h-screen bg-black text-white flex flex-col items-center">
       {/* Hero / Banner */}
       <div className="w-screen mx-0 px-0 mb-8">
-        <Swiper spaceBetween={0} slidesPerView={1} autoplay={{ delay: 3000 }}>
-          {imagenesBanner.map((imagen, index) => (
-            <SwiperSlide
-              key={index}
-              className="relative w-screen"
-              style={{ height: "400px" }}
-            >
+        <Swiper modules={[Autoplay]} spaceBetween={0} slidesPerView={1} autoplay={{ delay: 3000 }}>
+          {productos.slice(0, 5).map((producto) => (
+            <SwiperSlide key={producto.id} style={{ height: "600px" }}>
               <Image
-                src={imagen.src}
-                alt={imagen.alt}
-                layout="fill" // Hace que la imagen cubra todo el contenedor
+                src={producto.images[0]?.src}
+                alt={producto.title}
+                layout="fill"
                 objectFit="cover"
                 className="opacity-50"
               />
-              <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center text-center">
-                <h2 className="text-3xl font-bold">{imagen.alt}</h2>
+              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-center">
+                <h2 className="text-3xl font-bold">{producto.title}</h2>
               </div>
             </SwiperSlide>
           ))}
@@ -65,33 +77,103 @@ export default function Tienda() {
       {/* Título */}
       <h1 className="text-6xl font-extrabold my-8 text-center">TIENDA</h1>
 
-      {/* Grid de productos */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
-        {productos.map((producto: Producto) => (
-          <div key={producto.id} className="text-center">
-            <Image
-              src={producto.images[0]?.src}
-              alt={producto.title}
-              width={256}
-              height={256}
-              className="mx-auto mb-4 object-cover rounded-lg shadow-lg"
-            />
-            <h2 className="text-2xl font-semibold mb-2">{producto.title}</h2>
-            <p className="text-lg mb-4">${producto.variants[0]?.price / 100} USD</p>
+      {/* Estado de carga */}
+      {loading ? (
+        <p className="text-xl text-white">Cargando productos...</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
+          {productos.map((producto) => (
+            <div key={producto.id} className="text-center">
+              <Image
+                src={producto.images[0]?.src || "/images/placeholder.jpg"}
+                alt={producto.title}
+                width={256}
+                height={256}
+                className="mx-auto mb-4 object-cover rounded-lg shadow-lg cursor-pointer"
+                onClick={() => setProductoSeleccionado(producto)} // Abre el modal
+              />
+              <h2 className="text-2xl font-semibold mb-2">{producto.title}</h2>
+              <p className="text-lg mb-4">
+                ${producto.variants[0]?.price ? (producto.variants[0].price / 100).toFixed(2) : "N/A"} USD
+              </p>
 
-            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+              {/* Botón de compra */}
+              <form
+                action="https://www.paypal.com/cgi-bin/webscr"
+                method="post"
+                target="_blank"
+              >
+                <input type="hidden" name="cmd" value="_s-xclick" />
+                <input
+                  type="hidden"
+                  name="hosted_button_id"
+                  value={producto.hosted_button_id} // Usa el ID único basado en el título
+                />
+                <button
+                  type="submit"
+                  className="px-8 py-2 bg-white text-black font-bold rounded-full hover:scale-105 transition duration-300"
+                >
+                  Comprar Ahora
+                </button>
+              </form>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Modal de detalles del producto */}
+      {productoSeleccionado && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center z-50">
+          <div className="bg-white text-black rounded-lg p-6 max-w-4xl relative">
+            <button
+              className="absolute top-2 right-4 text-2xl font-bold text-gray-700"
+              onClick={() => setProductoSeleccionado(null)} // Cierra el modal
+            >
+              ×
+            </button>
+
+            <h2 className="text-3xl font-bold mb-4">{productoSeleccionado.title}</h2>
+
+            {/* Carrusel de imágenes adicionales */}
+            <div className="grid grid-cols-2 gap-4">
+              {productoSeleccionado.images.map((img, index) => (
+                <Image
+                  key={index}
+                  src={img.src}
+                  alt={`Imagen ${index + 1}`}
+                  width={200}
+                  height={200}
+                  className="rounded-lg shadow-md"
+                />
+              ))}
+            </div>
+
+            <p className="text-lg mt-4">
+              Precio: ${productoSeleccionado.variants[0]?.price / 100} USD
+            </p>
+
+            {/* Botón de compra en el modal */}
+            <form
+              action="https://www.paypal.com/cgi-bin/webscr"
+              method="post"
+              target="_blank"
+            >
               <input type="hidden" name="cmd" value="_s-xclick" />
-              <input type="hidden" name="hosted_button_id" value="BUTTON_ID_POR_DEFECTO" />
+              <input
+                type="hidden"
+                name="hosted_button_id"
+                value={productoSeleccionado.hosted_button_id}
+              />
               <button
                 type="submit"
-                className="px-8 py-2 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition duration-300"
+                className="mt-4 px-8 py-2 bg-black text-white font-bold rounded-full hover:scale-105 transition duration-300"
               >
                 Comprar Ahora
               </button>
             </form>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
