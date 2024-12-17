@@ -3,6 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    console.log("API Key:", process.env.PRINTIFY_API_KEY); // Verifica si la API Key se está leyendo
+
     const response = await axios.get(
       "https://api.printify.com/v1/shops/19620020/products.json",
       {
