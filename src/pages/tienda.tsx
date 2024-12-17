@@ -2,11 +2,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import Image from "next/image";
+
+// Define la interfaz Producto
+interface Producto {
+  id: string;
+  title: string;
+  images: { src: string }[];
+  variants: { price: number }[];
+}
 
 export default function Tienda() {
-  const [productos, setProductos] = useState([]);
+  const [productos, setProductos] = useState<Producto[]>([]);
 
-  // Array local de imágenes para el banner
+  // Imágenes locales del banner
   const imagenesBanner = [
     { src: "/images/alien-banner.webp", alt: "Alien Tee" },
     { src: "/images/melting-banner.webp", alt: "Melting Logo Tee" },
@@ -29,19 +38,21 @@ export default function Tienda() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center">
-      {/* Hero / Banner con carrusel */}
+      {/* Hero / Banner */}
       <div className="w-screen mx-0 px-0 mb-8">
         <Swiper spaceBetween={0} slidesPerView={1} autoplay={{ delay: 3000 }}>
           {imagenesBanner.map((imagen, index) => (
             <SwiperSlide
               key={index}
               className="relative w-screen"
-              style={{ height: "400px" }} /* Altura ajustada */
+              style={{ height: "400px" }}
             >
-              <img
+              <Image
                 src={imagen.src}
                 alt={imagen.alt}
-                className="w-full h-full object-cover opacity-50"
+                layout="fill" // Hace que la imagen cubra todo el contenedor
+                objectFit="cover"
+                className="opacity-50"
               />
               <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center text-center">
                 <h2 className="text-3xl font-bold">{imagen.alt}</h2>
@@ -52,16 +63,18 @@ export default function Tienda() {
       </div>
 
       {/* Título */}
-      <h1 className="text-9xl font-extrabold my-8 text-center">TIENDA</h1>
+      <h1 className="text-6xl font-extrabold my-8 text-center">TIENDA</h1>
 
       {/* Grid de productos */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
-        {productos.map((producto: any) => (
+        {productos.map((producto: Producto) => (
           <div key={producto.id} className="text-center">
-            <img
+            <Image
               src={producto.images[0]?.src}
               alt={producto.title}
-              className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg shadow-lg"
+              width={256}
+              height={256}
+              className="mx-auto mb-4 object-cover rounded-lg shadow-lg"
             />
             <h2 className="text-2xl font-semibold mb-2">{producto.title}</h2>
             <p className="text-lg mb-4">${producto.variants[0]?.price / 100} USD</p>
@@ -71,7 +84,7 @@ export default function Tienda() {
               <input type="hidden" name="hosted_button_id" value="BUTTON_ID_POR_DEFECTO" />
               <button
                 type="submit"
-                className="px-6 py-1 bg-white hover:scale-105 text-black font-bold rounded-full transition duration-300"
+                className="px-8 py-2 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition duration-300"
               >
                 Comprar Ahora
               </button>
