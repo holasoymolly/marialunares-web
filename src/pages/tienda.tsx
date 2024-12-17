@@ -13,18 +13,19 @@ interface Producto {
   images: { src: string }[];
   variants: { price: number }[];
   hosted_button_id?: string; // Agregamos la propiedad para el PayPal button ID
+  custom_price?: string; // Agregamos un precio personalizado
 }
 
 export default function Tienda() {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // IDs únicos para PayPal
-  const hostedButtonIds: Record<string, string> = {
-    "Alien Tee": "U9VJKDT49VP6A",
-    "Melting Logo Tee": "58QGK7G4PD5Z8",
-    "Raíces Tee": "FQ7KSVYUVVVR6",
-    "Sol Tee": "LUL52QCDGTYTJ",
+  // IDs únicos para PayPal y precios personalizados
+  const productoDetalles: Record<string, { hosted_button_id: string; custom_price: string }> = {
+    "Alien Tee": { hosted_button_id: "U9VJKDT49VP6A", custom_price: "25.00" },
+    "Melting Logo Tee": { hosted_button_id: "58QGK7G4PD5Z8", custom_price: "25.00" },
+    "Raíces Tee": { hosted_button_id: "FQ7KSVYUVVVR6", custom_price: "25.00" },
+    "Sol Tee": { hosted_button_id: "LUL52QCDGTYTJ", custom_price: "25.00" },
   };
 
   useEffect(() => {
@@ -32,12 +33,14 @@ export default function Tienda() {
       try {
         const response = await axios.get("/api/printify/products");
 
-        const productosConBotones = response.data.data.map((producto: Producto) => ({
+        // Agregar IDs de PayPal y precios personalizados
+        const productosConDetalles = response.data.data.map((producto: Producto) => ({
           ...producto,
-          hosted_button_id: hostedButtonIds[producto.title] || "BUTTON_ID_POR_DEFECTO",
+          hosted_button_id: productoDetalles[producto.title]?.hosted_button_id || "BUTTON_ID_POR_DEFECTO",
+          custom_price: productoDetalles[producto.title]?.custom_price || "N/A",
         }));
 
-        setProductos(productosConBotones);
+        setProductos(productosConDetalles);
       } catch (error) {
         console.error("Error al obtener productos:", error);
         setProductos([]);
@@ -47,7 +50,7 @@ export default function Tienda() {
     };
 
     fetchProductos();
-  }, [hostedButtonIds]); // Se añade hostedButtonIds como dependencia
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center">
@@ -90,7 +93,7 @@ export default function Tienda() {
               />
               <h2 className="text-2xl font-semibold mb-2">{producto.title}</h2>
               <p className="text-lg mb-4">
-                ${producto.variants[0]?.price ? (producto.variants[0].price / 100).toFixed(2) : "N/A"} USD
+                ${producto.custom_price} USD
               </p>
 
               {/* Botón de compra */}
