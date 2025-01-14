@@ -1,13 +1,13 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-// Define los precios manualmente
-const preciosManuales: Record<string, number> = {
-  "Alien Tee": 30,
-  "Melting Logo Tee": 30,
-  "Raíces Tee": 30,
-  "Sol Tee": 30,
-};
+// Define una interfaz para el tipo de producto
+interface Producto {
+  id: string;
+  title: string;
+  images: { src: string }[];
+  price: number;
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -21,11 +21,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     // Filtrar y mapear los productos con los precios manuales
-    const productosConPrecios = response.data.data.map((producto: any) => ({
+    const productosConPrecios: Producto[] = response.data.data.map((producto: any) => ({
       id: producto.id,
       title: producto.title,
       images: producto.images,
-      price: preciosManuales[producto.title] || 0, // Asigna el precio manual o 0 si no existe
+      price: 30.0, // Precio manual
     }));
 
     res.status(200).json(productosConPrecios);
