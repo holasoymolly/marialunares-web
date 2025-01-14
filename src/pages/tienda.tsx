@@ -18,7 +18,7 @@ export default function Tienda() {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await axios.get("/api/printify/products");
+        const response = await axios.get<Producto[]>("/api/printify/products");
 
         const productoDetalles: Record<string, { hosted_button_id: string }> = {
           "Alien Tee": { hosted_button_id: "U9VJKDT49VP6A" },
@@ -27,9 +27,11 @@ export default function Tienda() {
           "Sol Tee": { hosted_button_id: "LUL52QCDGTYTJ" },
         };
 
-        const productosConDetalles = response.data.map((producto: Producto) => ({
+        const productosConDetalles = response.data.map((producto) => ({
           ...producto,
-          hosted_button_id: productoDetalles[producto.title as keyof typeof productoDetalles]?.hosted_button_id || "BUTTON_ID_POR_DEFECTO",
+          hosted_button_id:
+            productoDetalles[producto.title as keyof typeof productoDetalles]?.hosted_button_id ||
+            "BUTTON_ID_POR_DEFECTO",
         }));
 
         setProductos(productosConDetalles);

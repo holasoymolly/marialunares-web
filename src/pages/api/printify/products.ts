@@ -8,9 +8,13 @@ interface Producto {
   price: number;
 }
 
+interface ApiResponse {
+  data: Producto[];
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const response = await axios.get<{ data: Producto[] }>(
+    const response = await axios.get<ApiResponse>(
       "https://api.printify.com/v1/shops/19620020/products.json",
       {
         headers: {
@@ -20,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     res.status(200).json(response.data);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error al obtener productos:", error);
     res.status(500).json({ message: "Error al obtener productos", error });
   }
