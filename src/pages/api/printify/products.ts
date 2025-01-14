@@ -1,19 +1,24 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-// Define la interfaz para los productos
-interface Producto {
+// Define las interfaces para los productos y variantes
+interface Variant {
+  id: string;
+  price: number;
+}
+
+interface Product {
   id: string;
   title: string;
   images: { src: string }[];
-  variants: { price: number }[];
+  variants: Variant[];
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     console.log("API Key:", process.env.PRINTIFY_API_KEY); // Verifica si la API Key se está leyendo
 
-    const response = await axios.get(
+    const response = await axios.get<{ data: Product[] }>(
       "https://api.printify.com/v1/shops/19620020/products.json",
       {
         headers: {
@@ -22,19 +27,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     );
 
-    // Mapeamos los datos al formato esperado
-    const productos: Producto[] = response.data.data.map((producto: any) => ({
+    // Aquí puedes mapear los productos con precios manuales si es necesario
+    const productosPrincipales = response.data.data.map((producto) => ({
       id: producto.id,
       title: producto.title,
-      images: producto.images.map((image: any) => ({ src: image.src })),
-      variants: producto.variants.map((variant: any) => ({
-        price: variant.price,
-      })),
+      images: producto.images,
+      price: 30.0, // Asignar manualmente el precio retail
     }));
 
-    res.status(200).json(productos); // Devuelve los productos procesados
+    res.status(200).json(productosPrincipales); // Devuelve los datos como JSON
   } catch (error: any) {
-    console.error("Error fetching products:", error.response?.data || error.message);
-    res.status(500).json({ message: "Error fetching products", error });
+    console.error("Error al obtener productos de Printify:", error.response?.data || error.message);
+    res.status(500).json({
+      message: "Error al obtener productos desde Printify",
+      error: error.response?.data || error.message,
+    });
   }
 }
