@@ -1,6 +1,7 @@
 interface Producto {
     id: string;
     title: string;
+    images?: { src: string }[]; // Agregamos las imágenes
     options?: { name: string; values: string[] }[];
   }
   
@@ -45,6 +46,29 @@ interface Producto {
             ×
           </button>
           <h2 className="text-3xl font-bold mb-4">{producto.title}</h2>
+  
+          {/* Galería de imágenes */}
+          <div className="mb-6">
+            {producto.images && producto.images.length > 0 ? (
+              <div className="flex overflow-x-auto space-x-4">
+                {producto.images.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image.src}
+                    alt={`${producto.title} image ${index + 1}`}
+                    className="h-32 w-32 object-cover rounded-md cursor-pointer transition-transform transform hover:scale-110"
+                    onClick={() =>
+                      alert(`Mostrando imagen ${index + 1}: ${image.src}`)
+                    }
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500">No hay imágenes disponibles.</p>
+            )}
+          </div>
+  
+          {/* Opciones del producto */}
           <div>
             <label className="block mb-2">
               Tamaño:

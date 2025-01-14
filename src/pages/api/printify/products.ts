@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       "https://api.printify.com/v1/shops/19620020/products.json",
       {
         headers: {
-          Authorization: `Bearer ${process.env.PRINTIFY_API_KEY}`, // Asegúrate de que esta clave exista
+          Authorization: `Bearer ${process.env.ML_SHOP_FULL_ACCESS}`, // Asegúrate de que esta clave exista
         },
       }
     );
