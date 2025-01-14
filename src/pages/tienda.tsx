@@ -1,48 +1,53 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Image from "next/image";
 import Head from "next/head";
+import ProductoCard from "../components/productocard";
+import ModalProducto from "../components/modalproducto";
+import Carrito from "../components/carrito";
+import { ShoppingCartIcon as ShoppingCartIconSolid } from "@heroicons/react/solid"; // Ícono relleno
 
 interface Producto {
   id: string;
   title: string;
   images: { src: string }[];
   price: number;
-  hosted_button_id?: string;
+  options?: { name: string; values: string[] }[];
+}
+
+interface Pedido {
+  producto: Producto;
+  size: string;
+  color: string;
+  quantity: number;
 }
 
 export default function Tienda() {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
+  const [modalProducto, setModalProducto] = useState<Producto | null>(null);
+  const [pedido, setPedido] = useState<Pedido | null>(null);
+  const [carrito, setCarrito] = useState<Pedido[]>([]);
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
 
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await axios.get<Producto[]>("/api/printify/products");
-
-        const productoDetalles: Record<string, { hosted_button_id: string }> = {
-          "Alien Tee": { hosted_button_id: "U9VJKDT49VP6A" },
-          "Melting Logo Tee": { hosted_button_id: "58QGK7G4PD5Z8" },
-          "Raíces Tee": { hosted_button_id: "FQ7KSVYUVVVR6" },
-          "Sol Tee": { hosted_button_id: "LUL52QCDGTYTJ" },
-        };
-
-        const productosConDetalles = response.data.map((producto) => ({
+        const response = await axios.get("/api/printify/products");
+        const productosConDetalles = response.data.data.map((producto: Producto) => ({
           ...producto,
-          hosted_button_id:
-            productoDetalles[producto.title as keyof typeof productoDetalles]?.hosted_button_id ||
-            "BUTTON_ID_POR_DEFECTO",
+          price: 30, // Precio manual
+          options: [
+            { name: "Tamaño", values: ["S", "M", "L", "XL"] },
+            { name: "Color", values: ["Blanco", "Negro", "Rojo"] },
+          ],
         }));
-
         setProductos(productosConDetalles);
       } catch (error) {
         console.error("Error al obtener productos:", error);
-        setProductos([]);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProductos();
   }, []);
 
@@ -50,36 +55,62 @@ export default function Tienda() {
     <>
       <Head>
         <title>Tienda - Maria Lunares</title>
-        <meta name="description" content="Explora y compra los productos exclusivos de Maria Lunares." />
       </Head>
       <div className="min-h-screen bg-black text-white flex flex-col items-center">
         <h1 className="text-9xl font-extrabold my-20 text-center">TIENDA</h1>
 
+        {/* Ícono del carrito con contador */}
+        <div className="relative mb-10">
+          <button
+            className="relative flex items-center text-white"
+            onClick={() => setMostrarCarrito(!mostrarCarrito)}
+          >
+            <ShoppingCartIconSolid className="h-8 w-8" />
+            {carrito.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-white text-black text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                {carrito.length}
+              </span>
+            )}
+          </button>
+        </div>
+
         {loading ? (
-          <p className="text-xl text-white">Cargando...</p>
+          <p>Cargando...</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
             {productos.map((producto) => (
-              <div key={producto.id} className="text-center">
-                <Image
-                  src={producto.images[0]?.src || "/images/placeholder.jpg"}
-                  alt={producto.title}
-                  width={200}
-                  height={200}
-                  className="mx-auto mb-4 mt-20 object-cover rounded-lg"
-                />
-                <h2 className="text-2xl font-semibold mb-2">{producto.title}</h2>
-                <p className="text-lg mb-4">${producto.price.toFixed(2)} USD</p>
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-                  <input type="hidden" name="cmd" value="_s-xclick" />
-                  <input type="hidden" name="hosted_button_id" value={producto.hosted_button_id} />
-                  <button type="submit" className="px-8 py-2 bg-white text-black font-bold rounded-full">
-                    Comprar
-                  </button>
-                </form>
-              </div>
+              <ProductoCard
+                key={producto.id}
+                producto={producto}
+                onComprar={() => setModalProducto(producto)}
+              />
             ))}
           </div>
+        )}
+        <ModalProducto
+          producto={modalProducto}
+          pedido={pedido}
+          setPedido={(nuevoPedido) =>
+            setPedido({
+              ...nuevoPedido,
+              producto: modalProducto as Producto, // Garantizamos que el producto esté definido
+            })
+          }
+          onClose={() => setModalProducto(null)}
+          onAddToCart={() => {
+            if (modalProducto && pedido) {
+              setCarrito([...carrito, pedido]);
+              setModalProducto(null);
+              setPedido(null); // Reinicia el pedido después de añadir al carrito
+            }
+          }}
+        />
+        {mostrarCarrito && (
+          <Carrito
+            carrito={carrito}
+            onEliminar={(index) => setCarrito(carrito.filter((_, i) => i !== index))}
+            onCerrar={() => setMostrarCarrito(false)}
+          />
         )}
       </div>
     </>
