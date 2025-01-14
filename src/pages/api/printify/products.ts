@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     console.log("API Key:", process.env.PRINTIFY_API_KEY); // Verifica si la API Key se está leyendo
 
+    // Especificamos el tipo de respuesta esperado de la API
     const response = await axios.get<{ data: Product[] }>(
       "https://api.printify.com/v1/shops/19620020/products.json",
       {
@@ -28,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     // Aquí puedes mapear los productos con precios manuales si es necesario
-    const productosPrincipales = response.data.data.map((producto) => ({
+    const productosPrincipales = response.data.data.map((producto: Product) => ({
       id: producto.id,
       title: producto.title,
       images: producto.images,
@@ -36,11 +37,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }));
 
     res.status(200).json(productosPrincipales); // Devuelve los datos como JSON
-  } catch (error: any) {
-    console.error("Error al obtener productos de Printify:", error.response?.data || error.message);
+  } catch (error) {
+    console.error(
+      "Error al obtener productos de Printify:",
+      (error as any).response?.data || (error as Error).message
+    );
     res.status(500).json({
       message: "Error al obtener productos desde Printify",
-      error: error.response?.data || error.message,
+      error: (error as any).response?.data || (error as Error).message,
     });
   }
 }
