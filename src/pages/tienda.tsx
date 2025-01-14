@@ -51,7 +51,8 @@ export default function Tienda() {
     };
 
     fetchProductos();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productoDetalles]); // Agrega `productoDetalles` como dependencia
 
   return (
     <>
