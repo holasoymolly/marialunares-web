@@ -12,9 +12,8 @@ interface Producto {
   id: string;
   title: string;
   images: { src: string }[];
-  variants: { price: number }[];
-  hosted_button_id?: string; // Agregamos la propiedad para el PayPal button ID
-  custom_price?: string; // Agregamos un precio personalizado
+  price: number; // Precio final
+  hosted_button_id?: string; // ID para PayPal
 }
 
 export default function Tienda() {
@@ -22,12 +21,12 @@ export default function Tienda() {
   const [loading, setLoading] = useState(true);
   const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
 
-  // IDs únicos para PayPal y precios personalizados
-  const productoDetalles: Record<string, { hosted_button_id: string; custom_price: string }> = {
-    "Alien Tee": { hosted_button_id: "U9VJKDT49VP6A", custom_price: "25.00" },
-    "Melting Logo Tee": { hosted_button_id: "58QGK7G4PD5Z8", custom_price: "25.00" },
-    "Raíces Tee": { hosted_button_id: "FQ7KSVYUVVVR6", custom_price: "25.00" },
-    "Sol Tee": { hosted_button_id: "LUL52QCDGTYTJ", custom_price: "25.00" },
+  // IDs únicos para PayPal
+  const productoDetalles: Record<string, { hosted_button_id: string }> = {
+    "Alien Tee": { hosted_button_id: "U9VJKDT49VP6A" },
+    "Melting Logo Tee": { hosted_button_id: "58QGK7G4PD5Z8" },
+    "Raíces Tee": { hosted_button_id: "FQ7KSVYUVVVR6" },
+    "Sol Tee": { hosted_button_id: "LUL52QCDGTYTJ" },
   };
 
   useEffect(() => {
@@ -35,11 +34,10 @@ export default function Tienda() {
       try {
         const response = await axios.get("/api/printify/products");
 
-        // Agregar IDs de PayPal y precios personalizados
-        const productosConDetalles = response.data.data.map((producto: Producto) => ({
+        // Agregar IDs de PayPal
+        const productosConDetalles = response.data.map((producto: Producto) => ({
           ...producto,
           hosted_button_id: productoDetalles[producto.title]?.hosted_button_id || "BUTTON_ID_POR_DEFECTO",
-          custom_price: productoDetalles[producto.title]?.custom_price || "N/A",
         }));
 
         setProductos(productosConDetalles);
@@ -56,32 +54,10 @@ export default function Tienda() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center">
-      {/* Hero / Banner */}
-      <div className="w-screen mx-0 px-0 mb-8">
-        <Swiper modules={[Autoplay]} spaceBetween={0} slidesPerView={1} autoplay={{ delay: 3000 }}>
-          {productos.slice(0, 5).map((producto) => (
-            <SwiperSlide key={producto.id} style={{ height: "600px" }}>
-              <Image
-                src={producto.images[0]?.src}
-                alt={producto.title}
-                layout="fill"
-                objectFit="cover"
-                className="opacity-50"
-              />
-              <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-center">
-                <h2 className="text-3xl font-bold">{producto.title}</h2>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+      <h1 className="text-6xl font-extrabold my-20 text-center">TIENDA</h1>
 
-      {/* Título */}
-      <h1 className="text-6xl font-extrabold my-8 text-center">TIENDA</h1>
-
-      {/* Estado de carga */}
       {loading ? (
-        <p className="text-xl text-white">Cargando productos...</p>
+        <p className="text-xl text-white">Cargando...</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4">
           {productos.map((producto) => (
@@ -89,13 +65,13 @@ export default function Tienda() {
               <Image
                 src={producto.images[0]?.src || "/images/placeholder.jpg"}
                 alt={producto.title}
-                width={256}
-                height={256}
-                className="mx-auto mb-4 object-cover rounded-lg shadow-lg cursor-pointer"
-                onClick={() => setProductoSeleccionado(producto)} // Abre el modal con la galería
+                width={200}
+                height={200}
+                className="mx-auto mb-4 mt-20 object-cover rounded-lg cursor-pointer"
+                onClick={() => setProductoSeleccionado(producto)}
               />
               <h2 className="text-2xl font-semibold mb-2">{producto.title}</h2>
-              <p className="text-lg mb-4">${producto.custom_price} USD</p>
+              <p className="text-lg mb-4">${producto.price.toFixed(2)} USD</p>
 
               {/* Botón de compra */}
               <form
@@ -113,7 +89,7 @@ export default function Tienda() {
                   type="submit"
                   className="px-8 py-2 bg-white text-black font-bold rounded-full hover:scale-105 transition duration-300"
                 >
-                  Comprar Ahora
+                  Comprar
                 </button>
               </form>
             </div>
@@ -121,7 +97,7 @@ export default function Tienda() {
         </div>
       )}
 
-      {/* Modal de galería de imágenes */}
+      {/* Modal de galería */}
       {productoSeleccionado && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center z-50">
           <div className="bg-white text-black rounded-lg p-6 max-w-4xl relative">
@@ -131,29 +107,22 @@ export default function Tienda() {
             >
               ×
             </button>
-
             <h2 className="text-3xl font-bold mb-4">{productoSeleccionado.title}</h2>
 
             {/* Carrusel de imágenes */}
-            <Swiper
-  modules={[Navigation, Autoplay]}
-  navigation
-  spaceBetween={10}
-  slidesPerView={1}
-  className="custom-swiper" // Añade esta clase personalizada
->
-  {productoSeleccionado.images.map((img, index) => (
-    <SwiperSlide key={index}>
-      <Image
-        src={img.src}
-        alt={`Imagen ${index + 1}`}
-        width={600}
-        height={600}
-        className="rounded-lg mx-auto"
-      />
-    </SwiperSlide>
-  ))}
-</Swiper>
+            <Swiper modules={[Navigation, Autoplay]} navigation spaceBetween={10} slidesPerView={1}>
+              {productoSeleccionado.images.map((img, index) => (
+                <SwiperSlide key={index}>
+                  <Image
+                    src={img.src}
+                    alt={`Imagen ${index + 1}`}
+                    width={600}
+                    height={600}
+                    className="rounded-lg mx-auto"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
       )}
