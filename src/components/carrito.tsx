@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FormularioEnvio from "../components/formularioenvio";
 import ResumenPedido from "../components/resumenpedido";
+import Image from "next/image";
 import { TrashIcon } from "@heroicons/react/outline";
 
 interface Pedido {
@@ -64,10 +65,12 @@ export default function Carrito({
       ) : (
         carrito.map((item, index) => (
           <div key={index} className="mb-4 flex items-start">
-            <img
+            <Image
               src={item.producto.images[0]?.src || "/images/placeholder.jpg"}
               alt={item.producto.title}
-              className="h-16 w-16 object-cover rounded-lg mr-4"
+              width={64}
+              height={64}
+              className="object-cover rounded-lg mr-4"
             />
             <div className="flex-grow">
               <h3 className="text-xl font-bold">{item.producto.title}</h3>
@@ -123,7 +126,7 @@ export default function Carrito({
       {mostrarResumen && (
         <ResumenPedido
           carrito={carrito}
-          informacionEnvio={formularioEnvio} // Envía todos los datos del formulario
+          informacionEnvio={formularioEnvio}
           onCancelar={() => setMostrarResumen(false)}
         />
       )}
