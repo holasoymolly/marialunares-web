@@ -1,21 +1,32 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-const PRINTIFY_API_KEY = "TU_API_KEY_DE_PRINTIFY";
+const PRINTIFY_API_KEY = "ML_SHOP_FULL_ACCESS";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Método no permitido" });
   }
 
-  const { carrito, informacionEnvio } = req.body;
+  const { carrito, informacionEnvio }: { 
+    carrito: Array<{ 
+      producto: { id: string }; 
+      quantity: number 
+    }>; 
+    informacionEnvio: { 
+      nombre: string; 
+      direccion: string; 
+      ciudad: string; 
+      codigoPostal: string; 
+      telefono: string 
+    } 
+  } = req.body;
 
   try {
-    // Mapeamos los datos del carrito al formato requerido por Printify
-    const lineItems = carrito.map((item: any) => ({
-      product_id: item.producto.id, // ID del producto en Printify
+    const lineItems = carrito.map((item) => ({
+      product_id: item.producto.id,
       quantity: item.quantity,
-      blueprint_id: 123, // Debes obtener el blueprint_id específico para tu producto
-      variant_id: 456, // Variante específica según talla/color
+      blueprint_id: 123, // Reemplaza con tu blueprint_id
+      variant_id: 456, // Reemplaza con tu variant_id
     }));
 
     const printifyPedido = {
@@ -28,11 +39,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         city: informacionEnvio.ciudad,
         zip: informacionEnvio.codigoPostal,
         phone: informacionEnvio.telefono,
-        country: "DO", // Código de país (República Dominicana)
+        country: "DO",
       },
     };
 
-    // Hacemos la solicitud a Printify
     const response = await fetch("https://api.printify.com/v1/orders.json", {
       method: "POST",
       headers: {
