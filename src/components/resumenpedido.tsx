@@ -10,10 +10,14 @@ interface ResumenPedidoProps {
   }[];
   informacionEnvio: {
     nombre: string;
-    direccion: string;
-    ciudad: string;
+    apellido: string;
+    direccion1: string;
+    direccion2: string;
     codigoPostal: string;
+    ciudadEstado: string;
+    pais: string;
     telefono: string;
+    email: string;
   };
   onCancelar: () => void;
 }
@@ -68,11 +72,14 @@ export default function ResumenPedido({
         </ul>
 
         <h3 className="text-lg font-semibold mb-2">Información de Envío:</h3>
-        <p>Nombre: {informacionEnvio.nombre}</p>
-        <p>Dirección: {informacionEnvio.direccion}</p>
-        <p>Ciudad: {informacionEnvio.ciudad}</p>
+        <p>Nombre: {informacionEnvio.nombre} {informacionEnvio.apellido}</p>
+        <p>Dirección 1: {informacionEnvio.direccion1}</p>
+        <p>Dirección 2: {informacionEnvio.direccion2 || "N/A"}</p>
+        <p>Ciudad/Estado: {informacionEnvio.ciudadEstado}</p>
         <p>Código Postal: {informacionEnvio.codigoPostal}</p>
+        <p>País: {informacionEnvio.pais}</p>
         <p>Teléfono: {informacionEnvio.telefono}</p>
+        <p>Correo Electrónico: {informacionEnvio.email}</p>
 
         <div className="mt-4">
           <h3 className="text-xl font-bold">Total: ${calcularTotal().toFixed(2)}</h3>

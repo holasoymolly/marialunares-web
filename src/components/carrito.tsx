@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FormularioEnvio from "../components/formularioenvio";
 import ResumenPedido from "../components/resumenpedido";
+import { TrashIcon } from "@heroicons/react/outline";
 
 interface Pedido {
   producto: { title: string; price: number; images: { src: string }[] };
@@ -12,18 +13,28 @@ interface Pedido {
 interface CarritoProps {
   carrito: Pedido[];
   onEliminar: (index: number) => void;
+  onActualizarCantidad: (index: number, cantidad: number) => void;
   onCerrar: () => void;
 }
 
-export default function Carrito({ carrito, onEliminar, onCerrar }: CarritoProps) {
+export default function Carrito({
+  carrito,
+  onEliminar,
+  onActualizarCantidad,
+  onCerrar,
+}: CarritoProps) {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [mostrarResumen, setMostrarResumen] = useState(false);
   const [formularioEnvio, setFormularioEnvio] = useState({
     nombre: "",
-    direccion: "",
-    ciudad: "",
+    apellido: "",
+    direccion1: "",
+    direccion2: "",
     codigoPostal: "",
+    ciudadEstado: "",
+    pais: "",
     telefono: "",
+    email: "",
   });
 
   const calcularTotal = () =>
@@ -52,17 +63,42 @@ export default function Carrito({ carrito, onEliminar, onCerrar }: CarritoProps)
         <p>Tu carrito está vacío.</p>
       ) : (
         carrito.map((item, index) => (
-          <div key={index} className="mb-4">
-            <h3 className="text-xl font-bold">{item.producto.title}</h3>
-            <p>Tamaño: {item.size}</p>
-            <p>Color: {item.color}</p>
-            <p>Cantidad: {item.quantity}</p>
-            <p>Precio: ${(item.producto.price * item.quantity).toFixed(2)}</p>
+          <div key={index} className="mb-4 flex items-start">
+            <img
+              src={item.producto.images[0]?.src || "/images/placeholder.jpg"}
+              alt={item.producto.title}
+              className="h-16 w-16 object-cover rounded-lg mr-4"
+            />
+            <div className="flex-grow">
+              <h3 className="text-xl font-bold">{item.producto.title}</h3>
+              <p>Tamaño: {item.size}</p>
+              <p>Color: {item.color}</p>
+              <div className="flex items-center space-x-2">
+                <label htmlFor={`cantidad-${index}`} className="text-sm">
+                  Cantidad:
+                </label>
+                <select
+                  id={`cantidad-${index}`}
+                  value={item.quantity}
+                  onChange={(e) =>
+                    onActualizarCantidad(index, parseInt(e.target.value, 10))
+                  }
+                  className="p-1 border rounded"
+                >
+                  {[...Array(10).keys()].map((num) => (
+                    <option key={num} value={num + 1}>
+                      {num + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <p>Precio: ${(item.producto.price * item.quantity).toFixed(2)}</p>
+            </div>
             <button
-              className="px-4 py-2 bg-red-500 text-white rounded-full mt-2"
+              className="text-gray-500 hover:text-gray-700 transition-colors"
               onClick={() => onEliminar(index)}
             >
-              Eliminar
+              <TrashIcon className="h-6 w-6" />
             </button>
           </div>
         ))
@@ -87,7 +123,7 @@ export default function Carrito({ carrito, onEliminar, onCerrar }: CarritoProps)
       {mostrarResumen && (
         <ResumenPedido
           carrito={carrito}
-          informacionEnvio={formularioEnvio}
+          informacionEnvio={formularioEnvio} // Envía todos los datos del formulario
           onCancelar={() => setMostrarResumen(false)}
         />
       )}

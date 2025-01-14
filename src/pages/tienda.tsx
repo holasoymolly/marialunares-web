@@ -51,6 +51,14 @@ export default function Tienda() {
     fetchProductos();
   }, []);
 
+  const onActualizarCantidad = (index: number, cantidad: number) => {
+    setCarrito((prevCarrito) => {
+      const nuevoCarrito = [...prevCarrito];
+      nuevoCarrito[index].quantity = cantidad;
+      return nuevoCarrito;
+    });
+  };
+
   return (
     <>
       <Head>
@@ -59,7 +67,6 @@ export default function Tienda() {
       <div className="min-h-screen bg-black text-white flex flex-col items-center">
         <h1 className="text-9xl font-extrabold my-20 text-center">TIENDA</h1>
 
-        {/* Ícono del carrito con contador */}
         <div className="relative mb-10">
           <button
             className="relative flex items-center text-white"
@@ -68,7 +75,7 @@ export default function Tienda() {
             <ShoppingCartIconSolid className="h-8 w-8" />
             {carrito.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-white text-black text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
-                {carrito.length}
+                {carrito.reduce((total, item) => total + item.quantity, 0)}
               </span>
             )}
           </button>
@@ -93,7 +100,7 @@ export default function Tienda() {
           setPedido={(nuevoPedido) =>
             setPedido({
               ...nuevoPedido,
-              producto: modalProducto as Producto, // Garantizamos que el producto esté definido
+              producto: modalProducto as Producto,
             })
           }
           onClose={() => setModalProducto(null)}
@@ -101,7 +108,7 @@ export default function Tienda() {
             if (modalProducto && pedido) {
               setCarrito([...carrito, pedido]);
               setModalProducto(null);
-              setPedido(null); // Reinicia el pedido después de añadir al carrito
+              setPedido(null);
             }
           }}
         />
@@ -109,6 +116,7 @@ export default function Tienda() {
           <Carrito
             carrito={carrito}
             onEliminar={(index) => setCarrito(carrito.filter((_, i) => i !== index))}
+            onActualizarCantidad={onActualizarCantidad}
             onCerrar={() => setMostrarCarrito(false)}
           />
         )}
