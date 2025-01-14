@@ -1,8 +1,7 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-// Define la interfaz para los productos obtenidos de Printify
-interface PrintifyProduct {
+interface Producto {
   id: string;
   title: string;
   images: { src: string }[];
@@ -11,7 +10,7 @@ interface PrintifyProduct {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const response = await axios.get(
+    const response = await axios.get<{ data: Producto[] }>(
       "https://api.printify.com/v1/shops/19620020/products.json",
       {
         headers: {
@@ -20,17 +19,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     );
 
-    // Mapea los productos con precios manuales si es necesario
-    const productosPrincipales: PrintifyProduct[] = response.data.data.map((producto: any) => ({
-      id: producto.id,
-      title: producto.title,
-      images: producto.images,
-      price: 30.0, // Asignar precio manual
-    }));
-
-    res.status(200).json(productosPrincipales);
-  } catch (error: unknown) {
-    console.error("Error al obtener productos de Printify:", error);
+    res.status(200).json(response.data);
+  } catch (error: any) {
+    console.error("Error al obtener productos:", error);
     res.status(500).json({ message: "Error al obtener productos", error });
   }
 }

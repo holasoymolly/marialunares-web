@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/autoplay";
-import "swiper/css/navigation";
 import Image from "next/image";
 import Head from "next/head";
 
@@ -25,7 +20,6 @@ export default function Tienda() {
       try {
         const response = await axios.get("/api/printify/products");
 
-        // Detalles de productos con sus hosted_button_id
         const productoDetalles: Record<string, { hosted_button_id: string }> = {
           "Alien Tee": { hosted_button_id: "U9VJKDT49VP6A" },
           "Melting Logo Tee": { hosted_button_id: "58QGK7G4PD5Z8" },
@@ -33,7 +27,6 @@ export default function Tienda() {
           "Sol Tee": { hosted_button_id: "LUL52QCDGTYTJ" },
         };
 
-        // Agregar hosted_button_id a los productos obtenidos
         const productosConDetalles = response.data.map((producto: Producto) => ({
           ...producto,
           hosted_button_id: productoDetalles[producto.title as keyof typeof productoDetalles]?.hosted_button_id || "BUTTON_ID_POR_DEFECTO",
@@ -49,7 +42,7 @@ export default function Tienda() {
     };
 
     fetchProductos();
-  }, []); // Dependencias vacías para que se ejecute solo una vez
+  }, []);
 
   return (
     <>
