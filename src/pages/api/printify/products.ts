@@ -1,22 +1,6 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-interface Image {
-  src: string;
-}
-
-interface Option {
-  name: string;
-  values: string[];
-}
-
-interface Product {
-  id: string;
-  title: string;
-  images: Image[];
-  options: Option[];
-}
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!process.env.PRINTIFY_API_KEY) {
     console.error("La clave PRINTIFY_API_KEY no está configurada.");
@@ -32,12 +16,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(500).json({ message: "No se encontraron productos en Printify." });
     }
 
-    const products = response.data.data.map((producto: Product) => ({
+    const products = response.data.data.map((producto: any) => ({
       id: producto.id,
       title: producto.title,
-      images: producto.images.map((image) => ({ src: image.src })),
-      tallas: producto.options.find((option) => option.name.toLowerCase() === "size")?.values || [],
-      colores: producto.options.find((option) => option.name.toLowerCase() === "color")?.values || [],
+      images: producto.images.map((image: any) => ({ src: image.src })),
+      tallas: producto.options.find((option: any) => option.name.toLowerCase() === "size")?.values || [],
+      colores: producto.options.find((option: any) => option.name.toLowerCase() === "color")?.values || [],
     }));
 
     res.status(200).json({ products });

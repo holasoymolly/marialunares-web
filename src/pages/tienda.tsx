@@ -37,7 +37,7 @@ export default function Tienda() {
         id: producto.id,
         title: producto.title,
         images: producto.images,
-        price: 30,
+        price: 30, // Precio manual o ajustable
         tallas: producto.tallas,
         colores: producto.colores,
       }));

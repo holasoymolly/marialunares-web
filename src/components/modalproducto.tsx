@@ -3,8 +3,9 @@ import Image from "next/image";
 interface Producto {
   id: string;
   title: string;
-  images?: { src: string }[]; 
-  options?: { name: string; values: string[] }[];
+  images: { src: string }[];
+  tallas: string[];
+  colores: string[];
 }
 
 interface Pedido {
@@ -50,7 +51,7 @@ export default function ModalProducto({
         <h2 className="text-3xl font-bold mb-4">{producto.title}</h2>
 
         <div className="mb-6">
-          {producto.images && producto.images.length > 0 ? (
+          {producto.images.length > 0 ? (
             <div className="flex overflow-x-auto space-x-4">
               {producto.images.map((image, index) => (
                 <Image
@@ -78,7 +79,7 @@ export default function ModalProducto({
               }
             >
               <option value="">Seleccionar tamaño</option>
-              {producto.options?.[0]?.values.map((size, index) => (
+              {producto.tallas.map((size, index) => (
                 <option key={index} value={size}>
                   {size}
                 </option>
@@ -95,7 +96,7 @@ export default function ModalProducto({
               }
             >
               <option value="">Seleccionar color</option>
-              {producto.options?.[1]?.values.map((color, index) => (
+              {producto.colores.map((color, index) => (
                 <option key={index} value={color}>
                   {color}
                 </option>
