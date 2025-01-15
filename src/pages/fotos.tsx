@@ -41,15 +41,15 @@ function Fotos() {
       <div className="relative w-screen min-h-screen bg-black text-white">
         {/* Título */}
         <h1
-          className="text-9xl font-bold absolute"
+          className="text-9xl font-bold absolute title"
           style={{
-            top: '-14vh', // Baja el título
-            left: '-25vw', // Desplaza el texto hacia la izquierda
+            top: '-14vh',
+            left: '-25vw',
             margin: 0,
             transform: 'translate(0, 0)',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
-            width: '150vw', // Asegura que el texto ocupe más del ancho del viewport
+            width: '150vw',
           }}
         >
           FOTOS FOTOS FOTOS FOTOS FOTOS FOTOS FOTOS
@@ -57,7 +57,6 @@ function Fotos() {
 
         {/* Galería de imágenes */}
         <div className="masonry-gallery" style={{ marginTop: '35vh' }}>
-          {/* Ajusta margen superior */}
           {images.map((image: { url: string; title: string }, index: number) => (
             <div key={index} className="gallery-item">
               <img
@@ -83,14 +82,14 @@ function Fotos() {
           overflow: hidden;
         }
         .masonry-gallery {
-          column-count: 2; /* Número de columnas */
-          column-gap: 8px; /* Espacio entre columnas */
-          margin: 0; /* Asegura que no haya márgenes */
-          padding: 0; /* Elimina los paddings */
+          column-count: 2;
+          column-gap: 8px;
+          margin: 0;
+          padding: 0;
         }
         .gallery-item {
-          break-inside: avoid; /* Evita romper elementos en columnas */
-          margin-bottom: 8px; /* Espaciado vertical */
+          break-inside: avoid;
+          margin-bottom: 8px;
         }
         .gallery-item img {
           display: block;
@@ -98,15 +97,14 @@ function Fotos() {
           height: auto;
         }
         @media (max-width: 768px) {
-          h1 {
+          .title {
+            top: -11vh !important; /* Ajusta la posición en móviles */
             font-size: 4rem;
-            top: 5vh; /* Ajusta un poco más arriba el título */
-            left: -50vw; /* Ajusta el desplazamiento para móvil */
           }
           .masonry-gallery {
-            column-count: 1; /* Una columna en móviles */
+            column-count: 1;
             column-gap: 4px;
-            margin-top: 35vh !important; /* Ajusta la galería para subirla */
+            margin-top: 35vh !important;
           }
           .gallery-item {
             margin-bottom: 4px;
