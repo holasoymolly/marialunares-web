@@ -10,7 +10,7 @@ interface Producto {
   id: string;
   title: string;
   images: { src: string }[];
-  price: number; // Puedes usar una propiedad para definir el precio base
+  price: number;
   tallas: string[];
   colores: string[];
 }
@@ -29,10 +29,7 @@ export default function Tienda() {
   const [pedido, setPedido] = useState<Pedido | null>(null);
   const [carrito, setCarrito] = useState<Pedido[]>([]);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
-  const [shippingCost, setShippingCost] = useState<number | null>(null);
-  const [taxes, setTaxes] = useState<number | null>(null);
 
-  // Función para obtener los productos desde la API
   const fetchProductos = async () => {
     try {
       const response = await axios.get("/api/printify/products");
@@ -40,7 +37,7 @@ export default function Tienda() {
         id: producto.id,
         title: producto.title,
         images: producto.images,
-        price: 30, // Precio manual o ajustable
+        price: 30,
         tallas: producto.tallas,
         colores: producto.colores,
       }));
@@ -52,41 +49,12 @@ export default function Tienda() {
     }
   };
 
-  // Función para calcular costos de envío según la dirección del cliente
-  const fetchShippingRates = async (country: string, state: string, zip: string) => {
-    try {
-      const response = await axios.post("/api/printify/shipping", { country, state, zip });
-      setShippingCost(response.data.shippingRates?.[0]?.price || 0); // Seleccionar la tarifa de envío principal
-    } catch (error) {
-      console.error("Error al obtener tarifas de envío:", error);
-    }
-  };
-
-  // Función para calcular impuestos según la dirección del cliente
-  const fetchTaxes = async (country: string, state: string) => {
-    try {
-      const response = await axios.post("/api/printify/taxes", { country, state });
-      setTaxes(response.data.taxes?.total || 0); // Total de impuestos
-    } catch (error) {
-      console.error("Error al calcular impuestos:", error);
-    }
-  };
-
   useEffect(() => {
     fetchProductos();
   }, []);
 
   const calcularTotal = () => {
-    const subtotal = carrito.reduce((total, item) => total + item.producto.price * item.quantity, 0);
-    return subtotal + (shippingCost || 0) + (taxes || 0);
-  };
-
-  const onActualizarCantidad = (index: number, cantidad: number) => {
-    setCarrito((prevCarrito) => {
-      const nuevoCarrito = [...prevCarrito];
-      nuevoCarrito[index].quantity = cantidad;
-      return nuevoCarrito;
-    });
+    return carrito.reduce((total, item) => total + item.producto.price * item.quantity, 0);
   };
 
   return (
@@ -97,7 +65,6 @@ export default function Tienda() {
       <div className="min-h-screen bg-black text-white flex flex-col items-center">
         <h1 className="text-6xl lg:text-9xl font-extrabold mt-20 lg:mt-60 text-center">TIENDA</h1>
 
-        {/* Botón para abrir carrito */}
         <div className="relative mb-10">
           <button
             className="relative flex items-center text-white"
@@ -112,7 +79,6 @@ export default function Tienda() {
           </button>
         </div>
 
-        {/* Mostrar productos */}
         {loading ? (
           <p>Cargando...</p>
         ) : (
@@ -127,7 +93,6 @@ export default function Tienda() {
           </div>
         )}
 
-        {/* Modal para producto seleccionado */}
         <ModalProducto
           producto={modalProducto}
           pedido={pedido}
@@ -147,17 +112,21 @@ export default function Tienda() {
           }}
         />
 
-        {/* Carrito */}
         {mostrarCarrito && (
           <Carrito
             carrito={carrito}
             onEliminar={(index) => setCarrito(carrito.filter((_, i) => i !== index))}
-            onActualizarCantidad={onActualizarCantidad}
+            onActualizarCantidad={(index, cantidad) =>
+              setCarrito((prevCarrito) => {
+                const nuevoCarrito = [...prevCarrito];
+                nuevoCarrito[index].quantity = cantidad;
+                return nuevoCarrito;
+              })
+            }
             onCerrar={() => setMostrarCarrito(false)}
           />
         )}
 
-        {/* Mostrar total */}
         <div className="mt-10 text-xl font-bold">
           <p>Total: ${calcularTotal().toFixed(2)}</p>
         </div>
