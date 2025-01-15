@@ -10,7 +10,7 @@ interface Producto {
   id: string;
   title: string;
   images: { src: string }[];
-  price: number;
+  price: number; // Puedes usar una propiedad para definir el precio base
   tallas: string[];
   colores: string[];
 }
@@ -29,33 +29,57 @@ export default function Tienda() {
   const [pedido, setPedido] = useState<Pedido | null>(null);
   const [carrito, setCarrito] = useState<Pedido[]>([]);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
+  const [shippingCost, setShippingCost] = useState<number | null>(null);
+  const [taxes, setTaxes] = useState<number | null>(null);
 
+  // Función para obtener los productos desde la API
   const fetchProductos = async () => {
     try {
       const response = await axios.get("/api/printify/products");
-      console.log("Respuesta de la API:", response.data);
-
-      const productosConDetalles = response.data?.products?.map((producto: Producto) => ({
+      const productosConDetalles = response.data.products.map((producto: Producto) => ({
         id: producto.id,
         title: producto.title,
         images: producto.images,
-        price: 30, // Precio manual (ajustar si es necesario)
+        price: 30, // Precio manual o ajustable
         tallas: producto.tallas,
         colores: producto.colores,
-      })) || [];
-
+      }));
       setProductos(productosConDetalles);
     } catch (error) {
       console.error("Error al obtener productos:", error);
-      setProductos([]); // Configura productos como un array vacío en caso de error.
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Función para calcular costos de envío según la dirección del cliente
+  const fetchShippingRates = async (country: string, state: string, zip: string) => {
+    try {
+      const response = await axios.post("/api/printify/shipping", { country, state, zip });
+      setShippingCost(response.data.shippingRates?.[0]?.price || 0); // Seleccionar la tarifa de envío principal
+    } catch (error) {
+      console.error("Error al obtener tarifas de envío:", error);
+    }
+  };
+
+  // Función para calcular impuestos según la dirección del cliente
+  const fetchTaxes = async (country: string, state: string) => {
+    try {
+      const response = await axios.post("/api/printify/taxes", { country, state });
+      setTaxes(response.data.taxes?.total || 0); // Total de impuestos
+    } catch (error) {
+      console.error("Error al calcular impuestos:", error);
     }
   };
 
   useEffect(() => {
     fetchProductos();
   }, []);
+
+  const calcularTotal = () => {
+    const subtotal = carrito.reduce((total, item) => total + item.producto.price * item.quantity, 0);
+    return subtotal + (shippingCost || 0) + (taxes || 0);
+  };
 
   const onActualizarCantidad = (index: number, cantidad: number) => {
     setCarrito((prevCarrito) => {
@@ -71,8 +95,9 @@ export default function Tienda() {
         <title>Tienda - Maria Lunares</title>
       </Head>
       <div className="min-h-screen bg-black text-white flex flex-col items-center">
-        <h1 className="text-6xl lg:text-9xl font-extrabold mt-60 lg:mt-60 text-center">TIENDA</h1>
+        <h1 className="text-6xl lg:text-9xl font-extrabold mt-20 lg:mt-60 text-center">TIENDA</h1>
 
+        {/* Botón para abrir carrito */}
         <div className="relative mb-10">
           <button
             className="relative flex items-center text-white"
@@ -87,6 +112,7 @@ export default function Tienda() {
           </button>
         </div>
 
+        {/* Mostrar productos */}
         {loading ? (
           <p>Cargando...</p>
         ) : (
@@ -100,6 +126,8 @@ export default function Tienda() {
             ))}
           </div>
         )}
+
+        {/* Modal para producto seleccionado */}
         <ModalProducto
           producto={modalProducto}
           pedido={pedido}
@@ -118,16 +146,21 @@ export default function Tienda() {
             }
           }}
         />
+
+        {/* Carrito */}
         {mostrarCarrito && (
           <Carrito
             carrito={carrito}
-            onEliminar={(index) =>
-              setCarrito(carrito.filter((_, i) => i !== index))
-            }
+            onEliminar={(index) => setCarrito(carrito.filter((_, i) => i !== index))}
             onActualizarCantidad={onActualizarCantidad}
             onCerrar={() => setMostrarCarrito(false)}
           />
         )}
+
+        {/* Mostrar total */}
+        <div className="mt-10 text-xl font-bold">
+          <p>Total: ${calcularTotal().toFixed(2)}</p>
+        </div>
       </div>
     </>
   );
