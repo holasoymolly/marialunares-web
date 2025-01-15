@@ -66,7 +66,7 @@ export default function Tienda() {
       </Head>
       <div className="min-h-screen bg-black text-white flex flex-col items-center">
         {/* Título responsive con márgenes dinámicos */}
-        <h1 className="text-5xl sm:text-7xl lg:text-9xl font-extrabold mt-60 sm:mt-16 lg:mt-60 text-center">
+        <h1 className="text-6xl lg:text-9xl font-extrabold mt-60 lg:mt-60 text-center">
           TIENDA
         </h1>
 
