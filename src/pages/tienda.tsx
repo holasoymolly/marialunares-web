@@ -35,19 +35,19 @@ export default function Tienda() {
       const response = await axios.get("/api/printify/products");
       console.log("Respuesta de la API:", response.data);
 
-      const productosConDetalles = response.data?.products?.map((producto: any) => ({
+      const productosConDetalles = response.data?.products?.map((producto: Producto) => ({
         id: producto.id,
         title: producto.title,
-        images: producto.images.map((image: any) => ({ src: image.src })),
-        price: 30,
-        tallas: producto.tallas || [],
-        colores: producto.colores || [],
+        images: producto.images,
+        price: 30, // Precio manual (ajustar si es necesario)
+        tallas: producto.tallas,
+        colores: producto.colores,
       })) || [];
 
       setProductos(productosConDetalles);
     } catch (error) {
       console.error("Error al obtener productos:", error);
-      setProductos([]);
+      setProductos([]); // Configura productos como un array vacío en caso de error.
     } finally {
       setLoading(false);
     }
