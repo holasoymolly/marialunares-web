@@ -72,10 +72,12 @@ export default function ProductoCard({ producto, onComprar }: ProductoCardProps)
             {/* Miniaturas de la galería */}
             <div className="flex overflow-x-auto space-x-4 justify-center">
               {producto.images.map((image, index) => (
-                <img
+                <Image
                   key={index}
                   src={image.src}
                   alt={`${producto.title} image ${index + 1}`}
+                  width={100} // Ajusta el tamaño como prefieras
+                  height={100}
                   className={`h-24 w-24 object-cover rounded-md cursor-pointer transition-transform transform hover:scale-110 ${
                     imagenSeleccionada === image.src ? "ring-2 ring-black" : ""
                   }`}

@@ -5,6 +5,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { country, state, zip } = req.body; // Datos de envío
 
   if (!process.env.PRINTIFY_API_KEY) {
+    console.error("Falta PRINTIFY_API_KEY en la configuración del servidor.");
     return res.status(500).json({
       message: "Error en la configuración del servidor: falta PRINTIFY_API_KEY.",
     });
@@ -28,15 +29,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
 
     if (!response.data) {
-      return res
-        .status(500)
-        .json({ message: "No se encontraron tarifas de envío." });
+      console.error("No se encontraron tarifas de envío en la respuesta.");
+      return res.status(500).json({ message: "No se encontraron tarifas de envío." });
     }
 
     res.status(200).json({ shippingRates: response.data });
-  } catch (error: unknown) {
+  } catch (error) {
+    console.error("Error al calcular tarifas de envío:", error);
     res.status(500).json({
       message: "Error al calcular tarifas de envío.",
+      error: (error as Error).message, // Captura el mensaje detallado del error.
     });
   }
 }

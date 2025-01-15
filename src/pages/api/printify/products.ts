@@ -1,10 +1,25 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
+interface ProductOption {
+  name: string;
+  values: string[];
+}
+
+interface Product {
+  id: string;
+  title: string;
+  images: { src: string }[];
+  options: ProductOption[];
+  variants: any; // Define mejor si tienes detalles más específicos
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!process.env.PRINTIFY_API_KEY) {
     console.error("La clave de acceso completo (PRINTIFY_API_KEY) no está configurada.");
-    return res.status(500).json({ message: "Error: falta PRINTIFY_API_KEY." });
+    return res
+      .status(500)
+      .json({ message: "Error en la configuración del servidor: falta PRINTIFY_API_KEY." });
   }
 
   try {
@@ -17,26 +32,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     );
 
-    if (!response.data?.data) {
-      console.error("No se encontraron productos.");
-      return res.status(500).json({ message: "No se encontraron productos." });
+    if (!response.data) {
+      console.error("La respuesta de Printify no contiene datos.");
+      return res
+        .status(500)
+        .json({ message: "Error: No se encontraron datos en la respuesta de Printify." });
     }
 
-    const products = response.data.data.map((producto: any) => ({
+    const products = response.data.data.map((producto: Product) => ({
       id: producto.id,
       title: producto.title,
-      images: producto.images.map((image: any) => ({ src: image.src })),
+      images: producto.images.map((image) => ({ src: image.src })),
       tallas:
-        producto.options?.find((option: any) => option.name.toLowerCase() === "size")
+        producto.options?.find((option) => option.name.toLowerCase() === "size")
           ?.values || [],
       colores:
-        producto.options?.find((option: any) => option.name.toLowerCase() === "color")
+        producto.options?.find((option) => option.name.toLowerCase() === "color")
           ?.values || [],
+      variants: producto.variants, // Para las variantes específicas
     }));
 
     res.status(200).json({ products });
-  } catch (error: unknown) {
-    console.error("Error al obtener productos:", error);
-    res.status(500).json({ message: "Error al obtener productos." });
+  } catch (error) {
+    console.error("Error al obtener productos de Printify:", error);
+    res.status(500).json({
+      message: "Error al obtener productos desde Printify.",
+    });
   }
 }
