@@ -65,7 +65,10 @@ export default function Tienda() {
         <title>Tienda - Maria Lunares</title>
       </Head>
       <div className="min-h-screen bg-black text-white flex flex-col items-center">
-        <h1 className="text-9xl font-extrabold my-20 text-center">TIENDA</h1>
+        {/* Título responsive con márgenes dinámicos */}
+        <h1 className="text-5xl sm:text-7xl lg:text-9xl font-extrabold mt-60 sm:mt-16 lg:mt-60 text-center">
+          TIENDA
+        </h1>
 
         <div className="relative mb-10">
           <button
