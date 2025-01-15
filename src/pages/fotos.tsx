@@ -44,7 +44,7 @@ function Fotos() {
         <h1
           className="text-9xl font-bold absolute"
           style={{
-            top: '-14vh',
+            top: '-10vh',
             left: '-25vw',
             margin: 0,
             transform: 'translate(0, 0)',
