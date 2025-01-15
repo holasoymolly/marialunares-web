@@ -98,7 +98,7 @@ function Fotos() {
         }
         @media (max-width: 768px) {
           .title {
-            top: -11vh !important; /* Ajusta la posición en móviles */
+            top: -9vh !important; /* Ajusta la posición en móviles */
             font-size: 4rem;
           }
           .masonry-gallery {
