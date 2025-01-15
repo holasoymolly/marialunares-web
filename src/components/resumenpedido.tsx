@@ -19,17 +19,16 @@ interface ResumenPedidoProps {
     telefono: string;
     email: string;
   };
+  total: number | null; // Total incluido en las props
   onCancelar: () => void;
 }
 
 export default function ResumenPedido({
   carrito,
   informacionEnvio,
+  total,
   onCancelar,
 }: ResumenPedidoProps) {
-  const calcularTotal = () =>
-    carrito.reduce((total, item) => total + item.producto.price * item.quantity, 0);
-
   const enviarPedidoPrintify = async () => {
     const response = await fetch("/api/crear-pedido-printify", {
       method: "POST",
@@ -82,7 +81,9 @@ export default function ResumenPedido({
         <p>Correo Electrónico: {informacionEnvio.email}</p>
 
         <div className="mt-4">
-          <h3 className="text-xl font-bold">Total: ${calcularTotal().toFixed(2)}</h3>
+          <h3 className="text-xl font-bold">
+            Total: ${total ? total.toFixed(2) : "Calculando..."}
+          </h3>
         </div>
 
         <div className="flex justify-end space-x-4 mt-4">
@@ -100,7 +101,7 @@ export default function ResumenPedido({
                   {
                     amount: {
                       currency_code: "USD",
-                      value: calcularTotal().toFixed(2),
+                      value: total ? total.toFixed(2) : "0",
                     },
                   },
                 ],

@@ -127,6 +127,7 @@ export default function Carrito({
         <ResumenPedido
           carrito={carrito}
           informacionEnvio={formularioEnvio}
+          total={calcularTotal()} /* Aquí pasamos el total */
           onCancelar={() => setMostrarResumen(false)}
         />
       )}

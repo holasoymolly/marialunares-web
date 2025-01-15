@@ -4,14 +4,15 @@ import Head from "next/head";
 import ProductoCard from "../components/productocard";
 import ModalProducto from "../components/modalproducto";
 import Carrito from "../components/carrito";
-import { ShoppingCartIcon as ShoppingCartIconSolid } from "@heroicons/react/solid"; // Ícono relleno
+import { ShoppingCartIcon as ShoppingCartIconSolid } from "@heroicons/react/solid";
 
 interface Producto {
   id: string;
   title: string;
   images: { src: string }[];
   price: number;
-  options?: { name: string; values: string[] }[];
+  tallas: string[];
+  colores: string[];
 }
 
 interface Pedido {
@@ -29,25 +30,30 @@ export default function Tienda() {
   const [carrito, setCarrito] = useState<Pedido[]>([]);
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
 
+  const fetchProductos = async () => {
+    try {
+      const response = await axios.get("/api/printify/products");
+      console.log("Respuesta de la API:", response.data);
+
+      const productosConDetalles = response.data?.products?.map((producto: any) => ({
+        id: producto.id,
+        title: producto.title,
+        images: producto.images.map((image: any) => ({ src: image.src })),
+        price: 30,
+        tallas: producto.tallas || [],
+        colores: producto.colores || [],
+      })) || [];
+
+      setProductos(productosConDetalles);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+      setProductos([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProductos = async () => {
-      try {
-        const response = await axios.get("/api/printify/products");
-        const productosConDetalles = response.data.data.map((producto: Producto) => ({
-          ...producto,
-          price: 30, // Precio manual
-          options: [
-            { name: "Tamaño", values: ["S", "M", "L", "XL"] },
-            { name: "Color", values: ["Blanco", "Negro", "Rojo"] },
-          ],
-        }));
-        setProductos(productosConDetalles);
-      } catch (error) {
-        console.error("Error al obtener productos:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchProductos();
   }, []);
 
@@ -65,10 +71,7 @@ export default function Tienda() {
         <title>Tienda - Maria Lunares</title>
       </Head>
       <div className="min-h-screen bg-black text-white flex flex-col items-center">
-        {/* Título responsive con márgenes dinámicos */}
-        <h1 className="text-6xl lg:text-9xl font-extrabold mt-60 lg:mt-60 text-center">
-          TIENDA
-        </h1>
+        <h1 className="text-6xl lg:text-9xl font-extrabold mt-60 lg:mt-60 text-center">TIENDA</h1>
 
         <div className="relative mb-10">
           <button
@@ -118,7 +121,9 @@ export default function Tienda() {
         {mostrarCarrito && (
           <Carrito
             carrito={carrito}
-            onEliminar={(index) => setCarrito(carrito.filter((_, i) => i !== index))}
+            onEliminar={(index) =>
+              setCarrito(carrito.filter((_, i) => i !== index))
+            }
             onActualizarCantidad={onActualizarCantidad}
             onCerrar={() => setMostrarCarrito(false)}
           />
