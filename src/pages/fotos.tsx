@@ -63,11 +63,10 @@ function Fotos() {
               <Image
                 src={image.url}
                 alt={image.title}
+                layout="responsive"
                 width={300}
-                height={400}
+                height={450}
                 className="rounded-lg transition duration-300"
-                placeholder="blur"
-                blurDataURL="/images/placeholder.jpg" // Asegúrate de tener un blur placeholder
               />
             </div>
           ))}
@@ -76,21 +75,13 @@ function Fotos() {
 
       {/* Estilos */}
       <style jsx>{`
-        h1 {
-          color: white;
-          font-size: 9rem;
-          white-space: nowrap;
-          overflow: hidden;
-        }
         .masonry-gallery {
-          column-count: 2;
-          column-gap: 8px;
-          margin: 0;
-          padding: 0;
+          column-count: 2; /* Se mantiene en dos columnas */
+          column-gap: 16px;
         }
         .gallery-item {
           break-inside: avoid;
-          margin-bottom: 8px;
+          margin-bottom: 16px; /* Espaciado entre elementos */
         }
         @media (max-width: 768px) {
           .title {
@@ -98,12 +89,11 @@ function Fotos() {
             font-size: 4rem;
           }
           .masonry-gallery {
-            column-count: 1;
-            column-gap: 4px;
-            margin-top: 35vh !important;
+            column-count: 1; /* Una columna en móviles */
+            column-gap: 8px;
           }
           .gallery-item {
-            margin-bottom: 4px;
+            margin-bottom: 8px;
           }
         }
       `}</style>
