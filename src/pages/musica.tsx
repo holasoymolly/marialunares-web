@@ -3,11 +3,11 @@ import Image from "next/image";
 
 function Musica() {
   const imageLinks = [
-    { url: 'https://open.spotify.com/album/1p4NjRE0zZ2VU5liuQ3hXP?si=tO6qU349Sp6KJIk1ESpr-A', imgSrc: '/images/ml-sol-trips-coverart.webp' },
-    { url: 'https://open.spotify.com/track/6GKHVLuwE5rwx2f02WX1Cw?si=f34fc1905c6b4fe6', imgSrc: '/images/ml-sol-coverart.webp' },
-    { url: 'https://open.spotify.com/track/5S0mbj3MTfEtIyS81vEW3Y?si=17599c4ecfe74663', imgSrc: '/images/ml-sabes-coverart.webp' },
-    { url: 'https://open.spotify.com/album/0VGd8TOS3VEt6SORY72aAW?si=nq_euPY4QxibjGXMIyYVUg', imgSrc: '/images/ml-luna-coverart.webp' },
-    { url: 'https://open.spotify.com/track/3oanYh0xtkJtAXkz8mynbd?si=ca1eb88ba5f94571', imgSrc: '/images/ml-sombra-coverart.webp' }
+    { url: 'https://hypeddit.com/marialunares/soltrips', imgSrc: '/images/ml-sol-trips-coverart.webp' },
+    { url: 'https://hypeddit.com/marialunares/elsol', imgSrc: '/images/ml-sol-coverart.webp' },
+    { url: 'https://hypeddit.com/marialunares/sabes', imgSrc: '/images/ml-sabes-coverart.webp' },
+    { url: 'https://hypeddit.com/marialunares/lunallena', imgSrc: '/images/ml-luna-coverart.webp' },
+    { url: 'https://hypeddit.com/marialunares/sombra', imgSrc: '/images/ml-sombra-coverart.webp' }
   ];
 
   return (
