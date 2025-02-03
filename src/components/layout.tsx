@@ -22,24 +22,29 @@ export default function Layout({ children }: LayoutProps) {
         </Link>
       </div>
 
-              {/* Menú lateral */}
-              <div className="fixed right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20">
-          <Link href="/musica" className="transition duration-300 hover:font-bold cursor-pointer">
-            Música
-          </Link>
-          <Link href="/videos" className="transition duration-300 hover:font-bold cursor-pointer">
-            Videos
-          </Link>
-          <Link href="/fotos" className="transition duration-300 hover:font-bold cursor-pointer">
-            Fotos
-          </Link>
-          <Link href="/tienda" className="transition duration-300 hover:font-bold cursor-pointer">
-            Tienda
-          </Link>
-          <Link href="/contacto" className="transition duration-300 hover:font-bold cursor-pointer">
-            Contacto
-          </Link>
-        </div>
+      {/* Menú lateral */}
+      <div className="fixed right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20">
+        <Link href="/musica" className="transition duration-300 hover:font-bold cursor-pointer">
+          Música
+        </Link>
+        <Link href="/videos" className="transition duration-300 hover:font-bold cursor-pointer">
+          Videos
+        </Link>
+        <Link href="/fotos" className="transition duration-300 hover:font-bold cursor-pointer">
+          Fotos
+        </Link>
+        <a
+          href="https://marialunares.printful.me/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition duration-300 hover:font-bold cursor-pointer"
+        >
+          Tienda
+        </a>
+        <Link href="/contacto" className="transition duration-300 hover:font-bold cursor-pointer">
+          Contacto
+        </Link>
+      </div>
 
       {/* Botón Newsletter */}
       <div className="fixed bottom-8 left-8 z-20">
