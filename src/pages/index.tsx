@@ -3,7 +3,7 @@ export default function Home() {
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
       {/* Video de fondo */}
       <video
-        src="/videos/maria-lunares-raices-live-fragmento-1080.mov"
+        src="/videos/ml-asfalto-fragmento-noaudio.mp4"
         autoPlay
         loop
         muted
