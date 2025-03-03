@@ -2,11 +2,12 @@ import Head from 'next/head';
 
 function Videos() {
   const youtubeVideos = [
-    { url: 'https://www.youtube.com/embed/fbITjrEfzQY?si=dCeKC8hkvo6pwv-i', title: 'Video 1' },
-    { url: 'https://www.youtube.com/embed/SXA7ElJeK60?si=K8Au5_bJrINYeVBW', title: 'Video 2' },
-    { url: 'https://www.youtube.com/embed/o-nTgMCuISE?si=d4_bJgWwkj_wuQ2r', title: 'Video 3' },
-    { url: 'https://www.youtube.com/embed/G1wMt_1MMrY?si=0UUYBZpebbLE6iYy', title: 'Video 4' },
-    { url: 'https://www.youtube.com/embed/4X5MzKsqRCs?si=JThMJLDJ0sJ2uxr2', title: 'Video 5' },
+    { url: 'https://www.youtube.com/embed/1h6RfRX4BL8?si=MGvGNc_anzt2iOXK', title: 'Video 1' },
+    { url: 'https://www.youtube.com/embed/fbITjrEfzQY?si=dCeKC8hkvo6pwv-i', title: 'Video 2' },
+    { url: 'https://www.youtube.com/embed/SXA7ElJeK60?si=K8Au5_bJrINYeVBW', title: 'Video 3' },
+    { url: 'https://www.youtube.com/embed/o-nTgMCuISE?si=d4_bJgWwkj_wuQ2r', title: 'Video 4' },
+    { url: 'https://www.youtube.com/embed/G1wMt_1MMrY?si=0UUYBZpebbLE6iYy', title: 'Video 5' },
+    { url: 'https://www.youtube.com/embed/4X5MzKsqRCs?si=JThMJLDJ0sJ2uxr2', title: 'Video 6' },
   ];
 
   return (
