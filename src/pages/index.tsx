@@ -3,7 +3,7 @@ export default function Home() {
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
       {/* Video de fondo */}
       <video
-        src="/videos/ml-asfalto-fragmento-noaudio.mp4"
+        src="/videos/freepik__closeup-shot-a-person-with-curly-hair-and-unique-s__75283copy.mp4"
         autoPlay
         loop
         muted

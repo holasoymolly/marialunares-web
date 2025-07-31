@@ -32,6 +32,11 @@ function Fotos() {
     { url: "/images/raices-bts-39.jpg", title: "Photo 21" },
     { url: "/images/raices-bts-54.jpg", title: "Photo 22" },
     { url: "/images/raices-bts-57.jpg", title: "Photo 23" },
+    { url: "/images/sev_1479.webp", title: "Photo 24" },
+    { url: "/images/sev_1483.webp", title: "Photo 25" },
+    { url: "/images/sev_1494.webp", title: "Photo 26" },
+    { url: "/images/sev_1515.webp", title: "Photo 27" },
+    { url: "/images/sev_1535.webp", title: "Photo 28" },
   ]);
 
   return (

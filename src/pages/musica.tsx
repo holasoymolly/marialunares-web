@@ -3,11 +3,11 @@ import Image from "next/image";
 
 function Musica() {
   const imageLinks = [
-    { url: 'https://hypeddit.com/nsui0w', imgSrc: '/images/ml-fantasmas-coverart.webp' },
-    { url: 'https://hypeddit.com/4it53w', imgSrc: '/images/ml_coverart_humo.webp' },
-    { url: 'https://hypeddit.com/bjy58z', imgSrc: '/images/ml_coverart_andando.webp' },
-    { url: 'https://hypeddit.com/j4019o', imgSrc: '/images/ml-asfalto-coverart.webp' },
-    { url: 'https://hypeddit.com/marialunares/soltrips', imgSrc: '/images/ml-sol-trips-coverart.webp' }
+    { url: 'https://hypeddit.com/l3psaf', imgSrc: '/images/ml_coverart_denoche.webp' },
+    { url: 'https://hypeddit.com/jz5sqo', imgSrc: '/images/ml-sol-trips-coverart.webp' },
+    { url: 'https://hypeddit.com/uz51hf', imgSrc: '/images/ml-sol-coverart.webp' },
+    { url: 'https://hypeddit.com/lpu6r0', imgSrc: '/images/ml-sabes-coverart.webp' },
+    { url: 'https://hypeddit.com/23xupk', imgSrc: '/images/ml-luna-coverart.webp' }
   ];
 
   return (
