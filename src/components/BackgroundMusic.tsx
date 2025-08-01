@@ -1,10 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-interface BackgroundMusicProps {
-  soundcloudUrl: string;
-}
-
-export default function BackgroundMusic({ soundcloudUrl }: BackgroundMusicProps) {
+export default function BackgroundMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 

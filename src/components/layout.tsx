@@ -61,7 +61,7 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Background Music Player */}
-      <BackgroundMusic soundcloudUrl="https://api.soundcloud.com/playlists/1922801791" />
+      <BackgroundMusic />
 
       {/* Redes sociales */}
       <div className="fixed bottom-8 right-8 flex gap-4 z-20">
