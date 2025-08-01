@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { Icon } from "@iconify/react";
 
 interface BackgroundMusicProps {
   soundcloudUrl: string;
