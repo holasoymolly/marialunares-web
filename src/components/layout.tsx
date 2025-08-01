@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Link from "next/link"; // Importa Link desde next/link
 import { Icon } from "@iconify/react";
+import BackgroundMusic from "./BackgroundMusic";
 
 interface LayoutProps {
   children: ReactNode;
@@ -58,6 +59,9 @@ export default function Layout({ children }: LayoutProps) {
           </button>
         </a>
       </div>
+
+      {/* Background Music Player */}
+      <BackgroundMusic soundcloudUrl="https://api.soundcloud.com/playlists/1922801791" />
 
       {/* Redes sociales */}
       <div className="fixed bottom-8 right-8 flex gap-4 z-20">
