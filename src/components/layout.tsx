@@ -90,14 +90,6 @@ export default function Layout({ children }: LayoutProps) {
           <Icon icon="mdi:youtube" className="text-white text-xl" />
         </a>
         <a
-          href="https://open.spotify.com/artist/5xO6MugYgEkawkhupiuzbj?si=pWh4yvPfRXivm4QOCqPh1Q"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:scale-110 transition duration-300"
-        >
-          <Icon icon="mdi:spotify" className="text-white text-xl" />
-        </a>
-        <a
           href="https://soundcloud.com/marialunares"
           target="_blank"
           rel="noopener noreferrer"
