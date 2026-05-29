@@ -1,14 +1,22 @@
+import Seo from "@/components/Seo";
+import { useTranslations } from "@/i18n/useTranslations";
+
 export default function Home() {
+  const { t } = useTranslations();
   return (
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
+      <Seo title={t.meta.home.title} description={t.meta.home.description} />
       {/* Video de fondo */}
       <video
-        src="/videos/freepik__closeup-shot-a-person-with-curly-hair-and-unique-s__75283.mp4"
+        src="/videos/home-background.mp4"
+        poster="/images/home-poster.webp"
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 h-full w-full object-cover -z-20" // Añadimos -z-10 para que el video quede al fondo
+        preload="none"
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover -z-20"
       />
 
       {/* Overlay oscuro */}

@@ -52,6 +52,17 @@ a {
   color: inherit;
 }
 
+/* Respeta a usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Logo */
 .bg-logo {
   background-image: var(--logo-default);
@@ -73,18 +84,4 @@ a {
   width: 100%;
   min-height: 100vh;
   background-color: black; /* Asegura fondo negro */
-}
-
-/* Personaliza las flechas de navegación del Swiper */
-.custom-swiper .swiper-button-prev,
-.custom-swiper .swiper-button-next {
-  color: black; /* Cambia el color */
-  font-size: 32px; /* Cambia el tamaño */
-  width: 50px;
-  height: 50px;
-}
-
-.custom-swiper .swiper-button-prev::after,
-.custom-swiper .swiper-button-next::after {
-  font-size: 32px; /* Ajusta el tamaño del ícono de flecha */
 }

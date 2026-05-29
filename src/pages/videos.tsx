@@ -1,53 +1,42 @@
-import Head from 'next/head';
+import Seo from "@/components/Seo";
+import YouTubeFacade from "@/components/YouTubeFacade";
+import { useTranslations } from "@/i18n/useTranslations";
 
 function Videos() {
+  const { t } = useTranslations();
   const youtubeVideos = [
-    { url: 'https://www.youtube.com/embed/1h6RfRX4BL8?si=MGvGNc_anzt2iOXK', title: 'Video 1' },
-    { url: 'https://www.youtube.com/embed/fbITjrEfzQY?si=dCeKC8hkvo6pwv-i', title: 'Video 2' },
-    { url: 'https://www.youtube.com/embed/SXA7ElJeK60?si=K8Au5_bJrINYeVBW', title: 'Video 3' },
-    { url: 'https://www.youtube.com/embed/o-nTgMCuISE?si=d4_bJgWwkj_wuQ2r', title: 'Video 4' },
-    { url: 'https://www.youtube.com/embed/G1wMt_1MMrY?si=0UUYBZpebbLE6iYy', title: 'Video 5' },
-    { url: 'https://www.youtube.com/embed/4X5MzKsqRCs?si=JThMJLDJ0sJ2uxr2', title: 'Video 6' },
+    { id: "1h6RfRX4BL8", title: "Video 1" },
+    { id: "fbITjrEfzQY", title: "Video 2" },
+    { id: "SXA7ElJeK60", title: "Video 3" },
+    { id: "o-nTgMCuISE", title: "Video 4" },
+    { id: "G1wMt_1MMrY", title: "Video 5" },
+    { id: "4X5MzKsqRCs", title: "Video 6" },
   ];
 
   return (
     <>
-      <Head>
-        <title>Videos - Maria Lunares</title>
-      </Head>
+      <Seo title={t.meta.videos.title} description={t.meta.videos.description} />
       <div
         className="relative w-screen min-h-screen bg-black text-white"
-        style={{
-          paddingTop: '28rem', // Baja todo el contenido
-        }}
+        style={{ paddingTop: "28rem" }}
       >
         {/* Título */}
         <h1
           className="text-9xl font-bold absolute"
-          style={{
-            top: '20vh', // Ajusta la posición del título
-            left: '3vw',
-            margin: 0,
-            transform: 'translate(0, 0)',
-          }}
+          style={{ top: "20vh", left: "3vw", margin: 0 }}
         >
-          VIDEOS
+          {t.nav.videos.toUpperCase()}
         </h1>
 
         {/* Galería de videos */}
         <div className="flex flex-col gap-8 video-container">
-          {youtubeVideos.map((video, index) => (
-            <div key={index} className="w-screen h-auto relative">
-              <iframe
-                src={video.url}
+          {youtubeVideos.map((video) => (
+            <div key={video.id} className="w-screen relative">
+              <YouTubeFacade
+                id={video.id}
                 title={video.title}
                 className="w-full h-[calc(150vh/3)] transition duration-300"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                style={{
-                  borderRadius: '0.5rem',
-                }}
-              ></iframe>
+              />
             </div>
           ))}
         </div>
@@ -55,16 +44,9 @@ function Videos() {
 
       {/* Estilos */}
       <style jsx>{`
-        body {
-          margin: 0;
-          padding: 0;
-        }
         h1 {
           color: white;
           font-size: 9rem;
-        }
-        iframe {
-          border: none;
         }
         @media (max-width: 768px) {
           h1 {
@@ -72,11 +54,8 @@ function Videos() {
             top: 10vh;
             left: 5vw;
           }
-          iframe {
-            height: 25vh; /* Ajusta la altura proporcional en móviles */
-          }
           .video-container {
-            margin-top: -5rem; /* Sube todos los videos en móviles */
+            margin-top: -5rem;
           }
         }
       `}</style>

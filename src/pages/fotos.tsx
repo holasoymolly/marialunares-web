@@ -1,14 +1,24 @@
-import Head from "next/head";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import Seo from "@/components/Seo";
+import { useTranslations } from "@/i18n/useTranslations";
 
-// Función para desordenar las imágenes de manera aleatoria
-function shuffleArray(array: { url: string; title: string }[]): { url: string; title: string }[] {
-  return array.sort(() => Math.random() - 0.5);
+type Photo = { url: string; title: string };
+
+// Desordena una copia del array (no muta el original) con Fisher–Yates.
+function shuffleArray(array: Photo[]): Photo[] {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
 }
 
 function Fotos() {
-  // Lista de imágenes
-  const images = shuffleArray([
+  const { t } = useTranslations();
+  // Lista de imágenes (orden estable para el render del servidor)
+  const baseImages: Photo[] = [
     { url: "/images/sev_1605.jpg", title: "Photo 1" },
     { url: "/images/sev_1647.jpg", title: "Photo 2" },
     { url: "/images/sev_1651.jpg", title: "Photo 3" },
@@ -37,13 +47,19 @@ function Fotos() {
     { url: "/images/sev_1494.webp", title: "Photo 26" },
     { url: "/images/sev_1515.webp", title: "Photo 27" },
     { url: "/images/sev_1535.webp", title: "Photo 28" },
-  ]);
+  ];
+
+  // Render inicial determinista (servidor y cliente coinciden → sin hydration
+  // mismatch). Tras montar, barajamos una vez en el cliente para dar variedad.
+  const [images, setImages] = useState<Photo[]>(baseImages);
+  useEffect(() => {
+    setImages(shuffleArray(baseImages));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      <Head>
-        <title>Fotos - Maria Lunares</title>
-      </Head>
+      <Seo title={t.meta.fotos.title} description={t.meta.fotos.description} />
       <div className="relative w-screen min-h-screen bg-black text-white">
         {/* Título */}
         <h1
@@ -58,20 +74,22 @@ function Fotos() {
             width: "150vw",
           }}
         >
-          FOTOS FOTOS FOTOS FOTOS FOTOS FOTOS FOTOS
+          {Array(7).fill(t.nav.fotos.toUpperCase()).join(" ")}
         </h1>
 
         {/* Galería de imágenes */}
         <div className="masonry-gallery" style={{ marginTop: "35vh" }}>
           {images.map((image, index) => (
-            <div key={index} className="gallery-item">
+            <div key={image.url} className="gallery-item">
               <Image
                 src={image.url}
                 alt={image.title}
-                layout="responsive"
                 width={300}
                 height={450}
-                className="rounded-lg transition duration-300"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority={index < 2}
+                loading={index < 2 ? "eager" : "lazy"}
+                className="w-full h-auto rounded-lg transition duration-300"
               />
             </div>
           ))}
