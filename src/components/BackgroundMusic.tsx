@@ -6,8 +6,8 @@ export default function BackgroundMusic() {
   const { t } = useTranslations();
   const [open, setOpen] = useState(false);
 
-  // Álbum "De Noche" en SoundCloud.
-  const albumUrl = "https://api.soundcloud.com/playlists/1922801791";
+  // Canción "Lejos" en SoundCloud.
+  const albumUrl = "https://soundcloud.com/marialunares/lejos";
   const playerSrc = `https://w.soundcloud.com/player/?url=${encodeURIComponent(
     albumUrl
   )}&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`;
