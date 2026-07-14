@@ -5,12 +5,13 @@ import { useTranslations } from "@/i18n/useTranslations";
 function Videos() {
   const { t } = useTranslations();
   const youtubeVideos = [
-    { id: "1h6RfRX4BL8", title: "Video 1" },
-    { id: "fbITjrEfzQY", title: "Video 2" },
-    { id: "SXA7ElJeK60", title: "Video 3" },
-    { id: "o-nTgMCuISE", title: "Video 4" },
-    { id: "G1wMt_1MMrY", title: "Video 5" },
-    { id: "4X5MzKsqRCs", title: "Video 6" },
+    { id: "np_QGVpW8iA", title: "Video 1" },
+    { id: "1h6RfRX4BL8", title: "Video 2" },
+    { id: "fbITjrEfzQY", title: "Video 3" },
+    { id: "SXA7ElJeK60", title: "Video 4" },
+    { id: "o-nTgMCuISE", title: "Video 5" },
+    { id: "G1wMt_1MMrY", title: "Video 6" },
+    { id: "4X5MzKsqRCs", title: "Video 7" },
   ];
 
   return (

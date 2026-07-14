@@ -33,10 +33,17 @@ export default function YouTubeFacade({ id, title, className }: YouTubeFacadePro
       style={{ border: "none", borderRadius: "0.5rem", padding: 0 }}
     >
       <img
-        src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+        src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
         alt={title}
         loading="lazy"
         className="h-full w-full object-cover"
+        // Si el video no tiene miniatura en alta (1280×720), caemos a hqdefault.
+        onError={(e) => {
+          const img = e.currentTarget;
+          if (!img.src.endsWith("hqdefault.jpg")) {
+            img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+          }
+        }}
       />
       <span className="absolute inset-0 flex items-center justify-center bg-black/30 transition group-hover:bg-black/10">
         <span className="flex h-16 w-16 items-center justify-center rounded-full bg-red-600/90 transition group-hover:scale-110">
