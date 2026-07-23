@@ -40,13 +40,16 @@ ffmpeg -i originals/videos/<src>.mp4 -frames:v 1 -vf "scale=800:-2" /tmp/poster.
 | Asset | Used by |
 |---|---|
 | `images/sev_*.{jpg,webp}`, `img_9*.jpg`, `raices-bts-*.jpg` (28) | `/fotos` gallery |
-| `images/ml_coverart_denoche.webp`, `ml-sol-trips`, `ml-sol`, `ml-sabes`, `ml-luna` (covers) | `/musica` |
+| `images/ml-sabescorrer-coverart.webp`, `lejos`, `ml_coverart_denoche`, `ml-sol-trips`, `ml-sol` (covers) | `/musica` |
 | `images/ml-logo-blanco.webp`, `ml-logo-blanco-negativo.webp` | logo (default/hover) in `globals.css` |
 | `images/home-poster.webp` | `/` video poster |
 | `videos/home-background.mp4` | `/` background loop |
 | `og-image.jpg` | social share card (all pages, via `Seo`) |
 | `favicon.png`, `favicon.ico` | browser tab |
 | `robots.txt`, `sitemap.xml` | SEO |
+
+> `ml-sabes-coverart.webp` and `ml-luna-coverart.webp` remain in `public/images/`
+> but are no longer linked from `/musica`.
 
 ## Backed up but NOT served (`originals/`, gitignored)
 
