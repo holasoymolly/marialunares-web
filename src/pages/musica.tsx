@@ -5,8 +5,8 @@ import { useTranslations } from "@/i18n/useTranslations";
 function Musica() {
   const { t } = useTranslations();
   const imageLinks = [
-    { url: 'https://hypeddit.com/wdp8t4', imgSrc: '/images/ml-sabescorrer-coverart.webp' },
     { url: 'https://hypeddit.com/7cfw0z', imgSrc: '/images/lejos.webp' },
+    { url: 'https://hypeddit.com/wdp8t4', imgSrc: '/images/ml-sabescorrer-coverart.webp' },
     { url: 'https://hypeddit.com/l3psaf', imgSrc: '/images/ml_coverart_denoche.webp' },
     { url: 'https://hypeddit.com/jz5sqo', imgSrc: '/images/ml-sol-trips-coverart.webp' },
     { url: 'https://hypeddit.com/uz51hf', imgSrc: '/images/ml-sol-coverart.webp' }
