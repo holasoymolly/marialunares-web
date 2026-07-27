@@ -133,7 +133,7 @@ export const translations: Record<Locale, Dict> = {
       placeholder: "Your email",
       button: "Subscribe",
       loading: "Sending…",
-      success: "Done — you're in.",
+      success: "Done. You're in.",
       error: "Something failed. Try again.",
       close: "Close",
     },
