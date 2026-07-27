@@ -5,15 +5,18 @@
 ## Overview
 
 A small content site on **Next.js 15 (Pages Router)**, deployed on **Vercel**. There is no
-database and no custom backend — all content is hardcoded in the pages or pulled from embeds
-(YouTube, SoundCloud) and external links (Printful shop, Hypeddit smart links, Google Forms).
+database and no custom backend — content is either hardcoded in the pages, typed into the release
+catalogue (`src/data/releases.ts`), or pulled from embeds (YouTube, SoundCloud) and external links
+(Printful shop, Hypeddit smart links, Google Forms).
 
 ## Pages (`src/pages`)
 
 | Route | File | Purpose |
 |---|---|---|
 | `/` | `index.tsx` | Hero: muted background video loop (`/videos/home-background.mp4`) with poster + dark overlay. |
-| `/musica` | `musica.tsx` | Grid of album/single covers; each links to a Hypeddit smart link. |
+| `/musica` | `musica/index.tsx` | Cover grid generated from `src/data/releases.ts`. Each cover links to its own release page or, while that page isn't ready, to the Hypeddit smart link. |
+| `/musica/[slug]` | `musica/[slug].tsx` | Release template (SSG via `getStaticPaths`/`getStaticProps`, one page per locale). Cover, description, download CTA, user-initiated SoundCloud preview, lyrics, credits, links, newsletter. Only releases with `hasPage: true` are generated. |
+| `/sitemap.xml` | `sitemap.xml.ts` | XML sitemap rendered on demand from the static route list + the release catalogue. Replaced the old hand-maintained `public/sitemap.xml`. |
 | `/videos` | `videos.tsx` | 6 YouTube videos rendered through `YouTubeFacade` (thumbnail → iframe on click). |
 | `/fotos` | `fotos.tsx` | Masonry (CSS columns) photo gallery via `next/image`; client-side shuffle after mount. The repeating bleed title is localized (`FOTOS…` / `PHOTOS…`). |
 | `/contacto` | `contacto.tsx` | Heading + `mailto:` link. |
@@ -33,6 +36,21 @@ database and no custom backend — all content is hardcoded in the pages or pull
   a heavy third-party embed on first paint.
 - **`YouTubeFacade.tsx`** — lightweight YouTube embed. Shows the thumbnail; loads the
   `youtube-nocookie.com` iframe only when the user presses play.
+- **`SoundCloudFacade.tsx`** — same idea for the per-release preview on `/musica/[slug]`: a play
+  button that mounts the SoundCloud iframe only after a click.
+
+## Content layer (`src/data/releases.ts`)
+
+The release catalogue is a typed array and the single source of truth for `/musica`, the
+`/musica/[slug]` pages and the sitemap. Adding a song = adding one object (see
+[CLAUDE.md → Releases](../CLAUDE.md#releases)). Split of responsibilities:
+
+- **`translations.ts`** — fixed UI labels (Escuchar, Descargar, Letra, Créditos).
+- **`releases.ts`** — per-song content that grows over time (descriptions ES/EN, lyrics, credits,
+  links, checkout URL).
+
+`hasPage` gates whether a release has its own page: while it is false the grid links out to
+`externalUrl`, and `getStaticPaths` does not generate a route for it.
 
 ## Internationalization
 
@@ -48,7 +66,8 @@ database and no custom backend — all content is hardcoded in the pages or pull
 | Service | Where | Notes |
 |---|---|---|
 | YouTube | `/videos` | Embeds via `youtube-nocookie.com`, lazy facade. |
-| SoundCloud | background player | Playlist "De Noche" (`playlists/1922801791`). |
+| SoundCloud | background player + release previews | Background player: track "Lejos". Previews: `soundcloudTrackUrl` per release. |
+| Lemon Squeezy | release download CTA | `checkoutUrl` per release. Empty = disabled "Próximamente" button. |
 | Printful | nav "Tienda" + `/tienda` redirect | External storefront `marialunares.printful.me`. |
 | Hypeddit | `/musica` cover links | Smart links to streaming platforms. |
 | Google Forms | Newsletter button | `forms.gle/...`. |

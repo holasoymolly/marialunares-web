@@ -12,6 +12,26 @@ type Dict = {
   langToggle: { label: string; toEs: string; toEn: string };
   meta: Record<"home" | "musica" | "videos" | "fotos" | "contacto", { title: string; description: string }>;
   contacto: { heading: string };
+  // Etiquetas de la plantilla de release. El contenido de cada canción
+  // (descripción, letra, créditos, enlaces) vive en src/data/releases.ts.
+  release: {
+    back: string;
+    listen: string;
+    playPreview: string;
+    previewLabel: string;
+    download: string;
+    comingSoon: string;
+    lyrics: string;
+    credits: string;
+    links: string;
+    writtenBy: string;
+    mix: string;
+    coverArt: string;
+    coverAltPrefix: string;
+    newsletterHeading: string;
+    reissue: string;
+    externalHint: string;
+  };
 };
 
 export const translations: Record<Locale, Dict> = {
@@ -42,6 +62,24 @@ export const translations: Record<Locale, Dict> = {
       },
     },
     contacto: { heading: "CONTACTO" },
+    release: {
+      back: "Volver a Música",
+      listen: "Escuchar",
+      playPreview: "Escuchar un adelanto",
+      previewLabel: "Reproductor de SoundCloud",
+      download: "Descargar",
+      comingSoon: "Próximamente",
+      lyrics: "Letra",
+      credits: "Créditos",
+      links: "Enlaces",
+      writtenBy: "Escrito por",
+      mix: "Mezcla",
+      coverArt: "Portada",
+      coverAltPrefix: "Portada de",
+      newsletterHeading: "Recibe la música directo",
+      reissue: "nueva versión",
+      externalHint: "se abre en una pestaña nueva",
+    },
   },
   en: {
     nav: { musica: "Music", videos: "Videos", fotos: "Photos", tienda: "Shop", contacto: "Contact", newsletter: "Newsletter" },
@@ -70,5 +108,23 @@ export const translations: Record<Locale, Dict> = {
       },
     },
     contacto: { heading: "CONTACT" },
+    release: {
+      back: "Back to Music",
+      listen: "Listen",
+      playPreview: "Play a preview",
+      previewLabel: "SoundCloud player",
+      download: "Download",
+      comingSoon: "Coming soon",
+      lyrics: "Lyrics",
+      credits: "Credits",
+      links: "Links",
+      writtenBy: "Written by",
+      mix: "Mix",
+      coverArt: "Cover art",
+      coverAltPrefix: "Cover art for",
+      newsletterHeading: "Get the music directly",
+      reissue: "new version",
+      externalHint: "opens in a new tab",
+    },
   },
 };
