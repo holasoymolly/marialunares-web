@@ -1,53 +1,138 @@
+import { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Seo from "@/components/Seo";
 import { useTranslations } from "@/i18n/useTranslations";
 import { releaseHref, releases, hasOwnPage, type Release } from "@/data/releases";
 
-// Grid de portadas generada desde src/data/releases.ts.
-// Cada portada enlaza a su página propia (/musica/<slug>) si está lista,
-// o al smart link externo mientras no lo esté.
-export default function Musica() {
+// Galería de portadas: la composición es la original (título en bleed +
+// portada principal grande y el resto en una rejilla de dos columnas), pero
+// las portadas salen de src/data/releases.ts.
+function Musica() {
   const { t } = useTranslations();
+  const [main, ...rest] = releases;
 
   return (
     <>
       <Seo title={t.meta.musica.title} description={t.meta.musica.description} />
+      <div className="relative w-screen h-screen bg-black text-white">
+        {/* Título */}
+        <h1 className="text-9xl font-bold absolute desktop-title">
+          MÚ<br />SI<br />CA
+        </h1>
 
-      <div className="min-h-[100dvh] w-full bg-black text-white">
-        <div className="mx-auto grid w-full max-w-[1400px] gap-12 px-6 pb-52 pt-44 sm:px-10 sm:pt-40 lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] lg:gap-20 lg:px-16">
-          <h1 className="musica-title font-bold leading-[0.85] tracking-tight">
-            MÚ
-            <br />
-            SI
-            <br />
-            CA
-          </h1>
+        {/* Galería de imágenes */}
+        <div className="absolute gallery-container">
+          {/* Imagen principal */}
+          <div className="mb-5 gallery-main">
+            <CoverLink release={main}>
+              <Image
+                src={main.cover}
+                alt={`${t.release.coverAltPrefix} ${main.title}`}
+                width={384}
+                height={384}
+                sizes="(max-width: 768px) 60vw, 384px"
+                priority
+                className="object-cover rounded-lg transition duration-300 hover:scale-105"
+              />
+            </CoverLink>
+          </div>
 
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-3">
-            {releases.map((release, index) => (
-              <li key={release.slug} className={index === 0 ? "col-span-2" : ""}>
-                <ReleaseCard release={release} priority={index === 0} />
-              </li>
+          {/* Imágenes secundarias */}
+          <div className="grid grid-cols-2 gap-2 gallery-grid">
+            {rest.map((release) => (
+              <CoverLink key={release.slug} release={release}>
+                <Image
+                  src={release.cover}
+                  alt={`${t.release.coverAltPrefix} ${release.title}`}
+                  width={192}
+                  height={192}
+                  sizes="(max-width: 768px) 30vw, 192px"
+                  className="object-cover rounded-lg transition duration-300 hover:scale-105"
+                />
+              </CoverLink>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
 
+      {/* Estilos */}
       <style jsx>{`
-        .musica-title {
-          font-size: 4rem;
-        }
+        /* Desktop Styling */
+        @media (min-width: 1025px) {
+          .desktop-title {
+            top: 35vh;
+            left: 35vw;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+          }
 
-        @media (min-width: 769px) {
-          .musica-title {
-            font-size: 6rem;
+          .gallery-container {
+            top: 55vh;
+            left: 56vw;
+            transform: translate(-50%, -50%);
+          }
+
+          .gallery-main {
+            width: 384px;
+          }
+
+          .gallery-grid {
+            width: 384px;
           }
         }
 
-        @media (min-width: 1025px) {
-          .musica-title {
-            font-size: 8rem;
+        /* Tablet Styling */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .desktop-title {
+            top: 40vh;
+            left: 33vw;
+            font-size: 6rem;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+          }
+
+          .gallery-container {
+            top: 58vh;
+            left: 68vw;
+            transform: translate(-50%, -50%);
+            width: 60vw;
+          }
+
+          .gallery-main {
+            width: 60%;
+          }
+
+          .gallery-grid {
+            width: 60%;
+            gap: 1.5rem;
+          }
+        }
+
+        /* Mobile Styling */
+        @media (max-width: 768px) {
+          .desktop-title {
+            top: 30vh;
+            left: 20vw;
+            font-size: 4rem;
+            transform: translate(0, 0);
+            z-index: 10;
+          }
+
+          .gallery-container {
+            top: 58vh;
+            left: 55vw;
+            transform: translate(-50%, -50%);
+            width: 40vw;
+          }
+
+          .gallery-main {
+            width: 100%;
+          }
+
+          .gallery-grid {
+            width: 100%;
+            gap: 1rem;
           }
         }
       `}</style>
@@ -55,46 +140,18 @@ export default function Musica() {
   );
 }
 
-interface ReleaseCardProps {
-  release: Release;
-  priority: boolean;
-}
-
-function ReleaseCard({ release, priority }: ReleaseCardProps) {
+// Enlaza a la página propia del release si está lista; si no, al smart link
+// externo. Sin destino, la portada se muestra sin enlace.
+function CoverLink({ release, children }: { release: Release; children: ReactNode }) {
   const { t } = useTranslations();
   const href = releaseHref(release);
-  const internal = hasOwnPage(release);
 
-  const cover = (
-    <>
-      <div className="overflow-hidden rounded-lg">
-        <Image
-          src={release.cover}
-          alt={`${t.release.coverAltPrefix} ${release.title}`}
-          width={1000}
-          height={1000}
-          sizes={priority ? "(max-width: 1024px) 92vw, 40vw" : "(max-width: 1024px) 45vw, 20vw"}
-          priority={priority}
-          className="h-auto w-full object-cover transition duration-500 group-hover:scale-105"
-        />
-      </div>
-      <div className="mt-3 flex items-baseline justify-between gap-3">
-        <span className="text-sm transition duration-300 group-hover:font-bold">{release.title}</span>
-        {release.year && <span className="text-xs opacity-50">{release.year}</span>}
-      </div>
-    </>
-  );
+  if (!href) return <>{children}</>;
 
-  const className =
-    "group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white";
-
-  // Sin destino todavía: la portada se muestra, pero no enlaza a ningún sitio.
-  if (!href) return <div className="group block">{cover}</div>;
-
-  if (internal) {
+  if (hasOwnPage(release)) {
     return (
-      <Link href={href} className={className}>
-        {cover}
+      <Link href={href} aria-label={release.title}>
+        {children}
       </Link>
     );
   }
@@ -105,9 +162,10 @@ function ReleaseCard({ release, priority }: ReleaseCardProps) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${release.title} (${t.release.externalHint})`}
-      className={className}
     >
-      {cover}
+      {children}
     </a>
   );
 }
+
+export default Musica;
