@@ -30,8 +30,9 @@ node scripts/optimize-images.mjs   # regenerate optimized images from originals/
 ```
 src/
   pages/            index, musica/ (grid + [slug]), videos, fotos, contacto,
-                    sitemap.xml (+ _app, _document)
-  components/       layout, Seo, BackgroundMusic, YouTubeFacade, SoundCloudFacade
+                    sitemap.xml, api/subscribe (+ _app, _document)
+  components/       layout, Seo, BackgroundMusic, YouTubeFacade, SoundCloudFacade,
+                    Newsletter{Provider,Modal,Form}
   data/             releases.ts (catálogo de canciones — fuente única de /musica)
   i18n/             translations.ts (ES/EN dictionary) + useTranslations.ts
   styles/           globals.css
@@ -61,6 +62,23 @@ aparece sola. No hay ningún otro archivo que tocar.
 `src/i18n/translations.ts` porque son fijas y pocas. El contenido por canción (descripciones ES/EN,
 letra, créditos, enlaces) vive en `releases.ts`: crece con cada release y pertenece al catálogo, no
 al diccionario.
+
+## Newsletter
+
+La lista de correo es propia y vive en **Kit** (antes ConvertKit). El botón "Newsletter" del
+`Layout` y la CTA de las páginas de release abren el mismo modal nativo
+(`NewsletterProvider` → `NewsletterModal` → `NewsletterForm`), que envía el correo a la API route
+`src/pages/api/subscribe.ts`. El Google Form (`forms.gle/...`) quedó retirado.
+
+Variables de entorno (Vercel + `.env.local`, ver `.env.example`):
+
+| Variable | Uso |
+|---|---|
+| `KIT_API_KEY` | API key v4 de Kit. Solo server-side, nunca en el bundle del cliente. |
+| `KIT_FORM_ID` | ID del formulario de Kit al que se suscribe la gente. |
+
+Kit usa **doble opt-in**: el alta no está completa hasta que la persona confirma desde su correo,
+y por eso el mensaje de éxito pide revisar la bandeja de entrada.
 
 ## Conventions
 

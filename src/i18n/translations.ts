@@ -12,6 +12,19 @@ type Dict = {
   langToggle: { label: string; toEs: string; toEn: string };
   meta: Record<"home" | "musica" | "videos" | "fotos" | "contacto", { title: string; description: string }>;
   contacto: { heading: string };
+  // Formulario de newsletter (modal del Layout y CTA de las páginas de release).
+  newsletter: {
+    heading: string;
+    subtext: string;
+    emailLabel: string;
+    placeholder: string;
+    button: string;
+    loading: string;
+    success: string;
+    error: string;
+    privacy: string;
+    close: string;
+  };
   // Etiquetas de la plantilla de release. El contenido de cada canción
   // (descripción, letra, créditos, enlaces) vive en src/data/releases.ts.
   release: {
@@ -28,7 +41,6 @@ type Dict = {
     mix: string;
     coverArt: string;
     coverAltPrefix: string;
-    newsletterHeading: string;
     reissue: string;
     externalHint: string;
   };
@@ -62,6 +74,18 @@ export const translations: Record<Locale, Dict> = {
       },
     },
     contacto: { heading: "CONTACTO" },
+    newsletter: {
+      heading: "Recibe la música directo",
+      subtext: "Lanzamientos, descargas y lo que viene — sin intermediarios.",
+      emailLabel: "Correo electrónico",
+      placeholder: "Tu correo",
+      button: "Suscribirme",
+      loading: "Enviando…",
+      success: "¡Listo! Revisa tu correo para confirmar la suscripción.",
+      error: "Algo salió mal. Intenta de nuevo.",
+      privacy: "Nada de spam. Puedes salirte cuando quieras.",
+      close: "Cerrar",
+    },
     release: {
       back: "Volver a Música",
       listen: "Escuchar",
@@ -76,7 +100,6 @@ export const translations: Record<Locale, Dict> = {
       mix: "Mezcla",
       coverArt: "Portada",
       coverAltPrefix: "Portada de",
-      newsletterHeading: "Recibe la música directo",
       reissue: "nueva versión",
       externalHint: "se abre en una pestaña nueva",
     },
@@ -108,6 +131,18 @@ export const translations: Record<Locale, Dict> = {
       },
     },
     contacto: { heading: "CONTACT" },
+    newsletter: {
+      heading: "Get the music directly",
+      subtext: "Releases, downloads, and what's coming — no middlemen.",
+      emailLabel: "Email address",
+      placeholder: "Your email",
+      button: "Subscribe",
+      loading: "Sending…",
+      success: "Done! Check your inbox to confirm.",
+      error: "Something went wrong. Please try again.",
+      privacy: "No spam. Unsubscribe anytime.",
+      close: "Close",
+    },
     release: {
       back: "Back to Music",
       listen: "Listen",
@@ -122,7 +157,6 @@ export const translations: Record<Locale, Dict> = {
       mix: "Mix",
       coverArt: "Cover art",
       coverAltPrefix: "Cover art for",
-      newsletterHeading: "Get the music directly",
       reissue: "new version",
       externalHint: "opens in a new tab",
     },

@@ -20,6 +20,7 @@ catalogue (`src/data/releases.ts`), or pulled from embeds (YouTube, SoundCloud) 
 | `/videos` | `videos.tsx` | 6 YouTube videos rendered through `YouTubeFacade` (thumbnail → iframe on click). |
 | `/fotos` | `fotos.tsx` | Masonry (CSS columns) photo gallery via `next/image`; client-side shuffle after mount. The repeating bleed title is localized (`FOTOS…` / `PHOTOS…`). |
 | `/contacto` | `contacto.tsx` | Heading + `mailto:` link. |
+| `/api/subscribe` | `api/subscribe.ts` | POST `{ email }`. Validates it and subscribes to Kit (ConvertKit) v4 server-side. The only place the API key is read. |
 | `/tienda` | — | **No page.** `next.config.js` `redirects()` → external Printful shop (307). |
 
 `_app.tsx` wraps every page in `Layout`. `_document.tsx` sets `<html lang>` from the active locale.
@@ -38,6 +39,12 @@ catalogue (`src/data/releases.ts`), or pulled from embeds (YouTube, SoundCloud) 
   `youtube-nocookie.com` iframe only when the user presses play.
 - **`SoundCloudFacade.tsx`** — same idea for the per-release preview on `/musica/[slug]`: a play
   button that mounts the SoundCloud iframe only after a click.
+- **`NewsletterProvider.tsx`** — wraps the app in `_app.tsx` and owns the single newsletter modal.
+  `useNewsletter().openNewsletter()` opens it from anywhere (Layout button, release CTA).
+- **`NewsletterModal.tsx`** — dialog (`role="dialog"`, `aria-modal`), closes with Esc / backdrop /
+  close button, traps Tab inside and restores focus to the trigger on close.
+- **`NewsletterForm.tsx`** — email field + submit, states idle/loading/success/error announced via
+  `aria-live`. Posts to `/api/subscribe`; never sees the API key.
 
 ## Content layer (`src/data/releases.ts`)
 
@@ -70,14 +77,18 @@ The release catalogue is a typed array and the single source of truth for `/musi
 | Lemon Squeezy | release download CTA | `checkoutUrl` per release. Empty = disabled "Próximamente" button. |
 | Printful | nav "Tienda" + `/tienda` redirect | External storefront `marialunares.printful.me`. |
 | Hypeddit | `/musica` cover links | Smart links to streaming platforms. |
-| Google Forms | Newsletter button | `forms.gle/...`. |
+| Kit (ConvertKit) | Newsletter modal | Native form → `POST /api/subscribe` → Kit API v4. Double opt-in. Replaced the old Google Form. |
 
 ## Environment
 
 - `NEXT_PUBLIC_SITE_URL` — absolute site URL for canonical/OG/sitemap. **Defaults to
   `https://marialunares.com`** — confirm and override if the real domain differs.
-- No secrets are required at runtime anymore. (The old `PRINTIFY_API_KEY` in `.env.local`
-  belonged to the removed native checkout and is unused — safe to delete.)
+- `KIT_API_KEY` / `KIT_FORM_ID` — Kit (ConvertKit) credentials for the newsletter. Read **only**
+  inside `src/pages/api/subscribe.ts`; they are not `NEXT_PUBLIC_`, so they never reach the client
+  bundle. Set them in Vercel for Production **and** Preview, and locally in `.env.local`.
+- Template: `.env.example` (the only `.env*` file that is committed).
+- (The old `PRINTIFY_API_KEY` in `.env.local` belonged to the removed native checkout and is
+  unused — safe to delete.)
 
 ## Deployment
 

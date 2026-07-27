@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Icon } from "@iconify/react";
 import BackgroundMusic from "./BackgroundMusic";
+import { useNewsletter } from "./NewsletterProvider";
 import { useTranslations } from "@/i18n/useTranslations";
 import { LOCALES, type Locale } from "@/i18n/translations";
 
@@ -13,6 +14,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
   const { t, locale } = useTranslations();
+  const { openNewsletter } = useNewsletter();
 
   // Cambia de idioma manteniendo la misma ruta.
   const switchTo = (next: Locale) => {
@@ -73,13 +75,15 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </nav>
 
-      {/* Botón Newsletter */}
+      {/* Botón Newsletter: abre el formulario nativo (antes iba a un Google Form) */}
       <div className="fixed bottom-8 left-8 z-20">
-        <a href="https://forms.gle/aZYqhXwWFcDcjwbQ8" target="_blank" rel="noopener noreferrer">
-          <button className="px-5 py-1 border border-white text-white font-semibold rounded-full hover:bg-white hover:text-black transition duration-300">
-            {t.nav.newsletter}
-          </button>
-        </a>
+        <button
+          type="button"
+          onClick={openNewsletter}
+          className="px-5 py-1 border border-white text-white font-semibold rounded-full hover:bg-white hover:text-black transition duration-300"
+        >
+          {t.nav.newsletter}
+        </button>
       </div>
 
       {/* Reproductor de música de fondo */}

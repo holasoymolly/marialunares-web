@@ -4,11 +4,10 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import Seo from "@/components/Seo";
 import SoundCloudFacade from "@/components/SoundCloudFacade";
+import { useNewsletter } from "@/components/NewsletterProvider";
 import { useTranslations } from "@/i18n/useTranslations";
 import { LOCALES } from "@/i18n/translations";
 import { getRelease, hasOwnPage, releases, type Release } from "@/data/releases";
-
-const NEWSLETTER_URL = "https://forms.gle/aZYqhXwWFcDcjwbQ8";
 
 interface ReleasePageProps {
   release: Release;
@@ -23,6 +22,7 @@ function SectionLabel({ children }: { children: string }) {
 // src/data/releases.ts; aquí solo se decide qué se muestra y cómo.
 export default function ReleasePage({ release }: ReleasePageProps) {
   const { t, locale } = useTranslations();
+  const { openNewsletter } = useNewsletter();
 
   const description = locale === "en" ? release.descriptionEn : release.descriptionEs;
   const links = release.links ?? {};
@@ -173,20 +173,21 @@ export default function ReleasePage({ release }: ReleasePageProps) {
                 </section>
               )}
 
-              {/* Newsletter */}
+              {/* Newsletter: abre el mismo modal que el botón del Layout */}
               <section className="border-t border-white/15 pt-10">
                 <h2 className="max-w-[20ch] text-2xl font-bold leading-tight sm:text-3xl">
-                  {t.release.newsletterHeading}
+                  {t.newsletter.heading}
                 </h2>
-                <a
-                  href={NEWSLETTER_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${t.nav.newsletter} (${t.release.externalHint})`}
+                <p className="mt-3 max-w-[46ch] text-sm leading-relaxed opacity-70">
+                  {t.newsletter.subtext}
+                </p>
+                <button
+                  type="button"
+                  onClick={openNewsletter}
                   className="mt-5 inline-flex whitespace-nowrap rounded-full border border-white px-6 py-2 text-sm font-semibold transition duration-300 hover:bg-white hover:text-black active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
                   {t.nav.newsletter}
-                </a>
+                </button>
               </section>
             </div>
           </div>
