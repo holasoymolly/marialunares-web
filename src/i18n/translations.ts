@@ -15,14 +15,12 @@ type Dict = {
   // Formulario de newsletter (modal del Layout y CTA de las páginas de release).
   newsletter: {
     heading: string;
-    subtext: string;
     emailLabel: string;
     placeholder: string;
     button: string;
     loading: string;
     success: string;
     error: string;
-    privacy: string;
     close: string;
   };
   // Etiquetas de la plantilla de release. El contenido de cada canción
@@ -75,15 +73,13 @@ export const translations: Record<Locale, Dict> = {
     },
     contacto: { heading: "CONTACTO" },
     newsletter: {
-      heading: "Recibe la música directo",
-      subtext: "Lanzamientos, descargas y lo que viene — sin intermediarios.",
+      heading: "Suscríbete a mi newsletter",
       emailLabel: "Correo electrónico",
       placeholder: "Tu correo",
       button: "Suscribirme",
       loading: "Enviando…",
-      success: "¡Listo! Revisa tu correo para confirmar la suscripción.",
-      error: "Algo salió mal. Intenta de nuevo.",
-      privacy: "Nada de spam. Puedes salirte cuando quieras.",
+      success: "Listo. Revisa tu correo.",
+      error: "Algo falló. Intenta de nuevo.",
       close: "Cerrar",
     },
     release: {
@@ -132,15 +128,13 @@ export const translations: Record<Locale, Dict> = {
     },
     contacto: { heading: "CONTACT" },
     newsletter: {
-      heading: "Get the music directly",
-      subtext: "Releases, downloads, and what's coming — no middlemen.",
+      heading: "Subscribe to my newsletter",
       emailLabel: "Email address",
       placeholder: "Your email",
       button: "Subscribe",
       loading: "Sending…",
-      success: "Done! Check your inbox to confirm.",
-      error: "Something went wrong. Please try again.",
-      privacy: "No spam. Unsubscribe anytime.",
+      success: "Done. Check your email.",
+      error: "Something failed. Try again.",
       close: "Close",
     },
     release: {

@@ -47,11 +47,13 @@ export default function NewsletterForm({ autoFocus = false }: NewsletterFormProp
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <label htmlFor={inputId} className="block text-xs uppercase tracking-[0.18em] opacity-60">
+      {/* El modal se queda con título, campo y botón; la etiqueta sigue ahí
+          para lectores de pantalla. */}
+      <label htmlFor={inputId} className="sr-only">
         {t.newsletter.emailLabel}
       </label>
 
-      <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <input
           id={inputId}
           ref={inputRef}
@@ -86,8 +88,6 @@ export default function NewsletterForm({ autoFocus = false }: NewsletterFormProp
       >
         {message}
       </p>
-
-      <p className="mt-1 text-xs opacity-50">{t.newsletter.privacy}</p>
     </form>
   );
 }

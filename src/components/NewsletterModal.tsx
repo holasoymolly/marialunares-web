@@ -91,8 +91,6 @@ export default function NewsletterModal({ open, onClose }: NewsletterModalProps)
         <h2 id={headingId} className="max-w-[16ch] text-2xl font-bold leading-tight sm:text-3xl">
           {t.newsletter.heading}
         </h2>
-        <p className="mt-3 text-sm leading-relaxed opacity-70">{t.newsletter.subtext}</p>
-
         <div className="mt-7">
           <NewsletterForm autoFocus />
         </div>

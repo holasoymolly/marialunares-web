@@ -178,9 +178,6 @@ export default function ReleasePage({ release }: ReleasePageProps) {
                 <h2 className="max-w-[20ch] text-2xl font-bold leading-tight sm:text-3xl">
                   {t.newsletter.heading}
                 </h2>
-                <p className="mt-3 max-w-[46ch] text-sm leading-relaxed opacity-70">
-                  {t.newsletter.subtext}
-                </p>
                 <button
                   type="button"
                   onClick={openNewsletter}
