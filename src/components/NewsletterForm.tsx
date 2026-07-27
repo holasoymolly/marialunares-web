@@ -80,11 +80,14 @@ export default function NewsletterForm({ autoFocus = false }: NewsletterFormProp
         </button>
       </div>
 
-      {/* El estado se anuncia a lectores de pantalla sin robar el foco. */}
+      {/* El estado se anuncia a lectores de pantalla sin robar el foco. El
+          párrafo está siempre en el DOM para que aria-live funcione, pero sin
+          mensaje no ocupa alto: así el hueco inferior del modal iguala al
+          superior. */}
       <p
         role="status"
         aria-live="polite"
-        className={`mt-4 min-h-[1.25rem] text-sm ${status === "error" ? "text-white" : "opacity-80"}`}
+        className={`text-sm ${message ? "mt-4" : ""} ${status === "error" ? "text-white" : "opacity-80"}`}
       >
         {message}
       </p>
