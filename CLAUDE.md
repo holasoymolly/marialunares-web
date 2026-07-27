@@ -77,8 +77,16 @@ Variables de entorno (Vercel + `.env.local`, ver `.env.example`):
 | `KIT_API_KEY` | API key v4 de Kit. Solo server-side, nunca en el bundle del cliente. |
 | `KIT_FORM_ID` | ID del formulario de Kit al que se suscribe la gente. |
 
-Kit usa **doble opt-in**: el alta no está completa hasta que la persona confirma desde su correo,
-y por eso el mensaje de éxito pide revisar la bandeja de entrada.
+El alta contra Kit v4 son **dos llamadas, en este orden**:
+
+1. `POST /v4/subscribers` — crea el suscriptor en la cuenta.
+2. `POST /v4/forms/{KIT_FORM_ID}/subscribers` — lo asocia al formulario.
+
+El paso 1 no es opcional: si el correo no existe todavía, el paso 2 responde **404**, no 422.
+
+Los suscriptores dados de alta por API entran con estado `active` (sin confirmación pendiente),
+así que lo que reciba la persona depende de lo que tenga configurado ese formulario en Kit.
+Para ver los formularios de la cuenta y sus IDs: `GET https://api.kit.com/v4/forms`.
 
 ## Conventions
 
