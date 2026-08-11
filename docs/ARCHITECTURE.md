@@ -74,15 +74,17 @@ The release catalogue is a typed array and the single source of truth for `/musi
 |---|---|---|
 | YouTube | `/videos` | Embeds via `youtube-nocookie.com`, lazy facade. |
 | SoundCloud | background player + release previews | Background player: track "Lejos". Previews: `soundcloudTrackUrl` per release. |
-| Lemon Squeezy | release download CTA | `checkoutUrl` per release. Empty = disabled "Próximamente" button. |
+| Lemon Squeezy | release download CTA | `checkoutUrl` per release. Empty = disabled "Próximamente" button. When set, `lemon.js` (loaded with `next/script`, `afterInteractive`) opens the checkout in an overlay; the link keeps `target="_blank"` as a no-JS fallback. |
 | Printful | nav "Tienda" + `/tienda` redirect | External storefront `marialunares.printful.me`. |
 | Hypeddit | `/musica` cover links | Smart links to streaming platforms. |
 | Kit (ConvertKit) | Newsletter modal | Native form → `POST /api/subscribe` → Kit API v4. Double opt-in. Replaced the old Google Form. |
 
 ## Environment
 
-- `NEXT_PUBLIC_SITE_URL` — absolute site URL for canonical/OG/sitemap. **Defaults to
-  `https://marialunares.com`** — confirm and override if the real domain differs.
+- `NEXT_PUBLIC_SITE_URL` — absolute site URL for canonical/OG/sitemap. The code default is
+  `https://marialunares.com`, but the canonical domain is **`https://www.marialunares.com`**
+  (the apex redirects there with a 308), so the variable is set to the `www` form in Vercel for
+  Production and Preview.
 - `KIT_API_KEY` / `KIT_FORM_ID` — Kit (ConvertKit) credentials for the newsletter. Read **only**
   inside `src/pages/api/subscribe.ts`; they are not `NEXT_PUBLIC_`, so they never reach the client
   bundle. Set them in Vercel for Production **and** Preview, and locally in `.env.local`.

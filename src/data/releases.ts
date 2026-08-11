@@ -105,8 +105,7 @@ Y buena suerte`,
       youtube: "https://youtu.be/Ql-CUR6wggk",
     },
     soundcloudTrackUrl: "https://soundcloud.com/marialunares/sabescorrer",
-    // Pegar aquí la URL de Lemon Squeezy para activar el botón de descarga.
-    checkoutUrl: "",
+    checkoutUrl: "https://marialunares.lemonsqueezy.com/checkout/buy/3d3adc09-ffe6-4384-be81-2b0d4d5d0bd5",
     // Se conserva el smart link anterior; al tener hasPage, la grid enlaza a la página propia.
     externalUrl: "https://hypeddit.com/wdp8t4",
     hasPage: true,

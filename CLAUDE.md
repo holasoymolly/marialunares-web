@@ -97,11 +97,14 @@ Para ver los formularios de la cuenta y sus IDs: `GET https://api.kit.com/v4/for
   optimizer. See [docs/ASSETS.md](docs/ASSETS.md).
 - **Comments and copy are in Spanish** to match the existing codebase.
 
-## ⚠️ Needs confirmation
+## Environment
 
-- **Production domain.** SEO/canonical/sitemap default to `https://marialunares.com`. If the real
-  domain differs, set `NEXT_PUBLIC_SITE_URL` in the environment (and update `public/sitemap.xml`,
-  `public/robots.txt`). See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#environment).
+- **Production domain:** `https://www.marialunares.com` (the apex 308-redirects to `www`).
+  `NEXT_PUBLIC_SITE_URL` is set to that value in Vercel for Production and Preview; the code
+  default (without `www`) is only a fallback.
+- **Newsletter:** `KIT_API_KEY` and `KIT_FORM_ID` are set in Vercel for Production and Preview.
+  Copy `.env.example` to `.env.local` to test the signup locally.
+- See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#environment).
 
 ## Deeper docs
 

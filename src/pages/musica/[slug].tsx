@@ -1,5 +1,6 @@
 import type { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
+import Script from "next/script";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import Seo from "@/components/Seo";
@@ -8,6 +9,15 @@ import { useNewsletter } from "@/components/NewsletterProvider";
 import { useTranslations } from "@/i18n/useTranslations";
 import { LOCALES } from "@/i18n/translations";
 import { getRelease, hasOwnPage, releases, type Release } from "@/data/releases";
+
+// lemon.js abre el checkout en un overlay sin salir de la página.
+// createLemonSqueezy() vuelve a registrar el botón cuando se navega de una
+// página de release a otra sin recargar.
+declare global {
+  interface Window {
+    createLemonSqueezy?: () => void;
+  }
+}
 
 interface ReleasePageProps {
   release: Release;
@@ -25,6 +35,13 @@ export default function ReleasePage({ release }: ReleasePageProps) {
   const { openNewsletter } = useNewsletter();
 
   const description = locale === "en" ? release.descriptionEn : release.descriptionEs;
+
+  // El overlay de Lemon Squeezy necesita `embed=1` en la URL y la clase
+  // `lemonsqueezy-button` en el enlace. Si el script no carga (o no hay JS),
+  // el mismo href abre el checkout en una pestaña nueva: nunca se queda muerto.
+  const checkoutHref = release.checkoutUrl
+    ? `${release.checkoutUrl}${release.checkoutUrl.includes("?") ? "&" : "?"}embed=1`
+    : null;
   const links = release.links ?? {};
   const platformLinks = [
     { key: "bandcamp", href: links.bandcamp, icon: "mdi:bandcamp", label: "Bandcamp" },
@@ -81,12 +98,12 @@ export default function ReleasePage({ release }: ReleasePageProps) {
 
               {/* Descarga / compra */}
               <div className="flex flex-wrap items-center gap-4">
-                {release.checkoutUrl ? (
+                {checkoutHref ? (
                   <a
-                    href={release.checkoutUrl}
+                    href={checkoutHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black transition duration-300 hover:bg-white/85 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                    className="lemonsqueezy-button inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black transition duration-300 hover:bg-white/85 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                   >
                     <Icon icon="mdi:tray-arrow-down" className="text-lg" aria-hidden="true" />
                     {t.release.download}
@@ -102,6 +119,14 @@ export default function ReleasePage({ release }: ReleasePageProps) {
                   </button>
                 )}
               </div>
+
+              {checkoutHref && (
+                <Script
+                  src="https://assets.lemonsqueezy.com/lemon.js"
+                  strategy="afterInteractive"
+                  onLoad={() => window.createLemonSqueezy?.()}
+                />
+              )}
 
               {/* Adelanto: el embed solo se monta tras el clic */}
               {release.soundcloudTrackUrl && (
