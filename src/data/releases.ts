@@ -73,21 +73,16 @@ export const releases: Release[] = [
       "Sabes Correr nació en 2017 y renace hoy, terminada como siempre debió sonar. Un adiós entre dos que corren en direcciones opuestas: trip-hop oscuro con guitarras, texturas psicodélicas y sonidos espaciales.",
     descriptionEn:
       "Sabes Correr was written in 2017 and is reborn today, finished the way it always should have sounded. A goodbye between two people running in opposite directions: dark trip-hop with guitars, psychedelic textures and spatial sounds.",
-    lyrics: `[Intro] (Instrumental)
-
-[Verso 1]
-No pierdas la esperanza de amarte a ti mismo
+    lyrics: `No pierdas la esperanza de amarte a ti mismo
 Yo no la he perdido, aunque a ti sí, aunque a ti sí
 Sé que mil y una veces me he clavado tu estaca
 En el pecho vacío, sin ti, sin ti
 
-[Puente]
 Nunca aprendí a decir adiós a un ser vivo
 Los fantasmas de la noche son mis amigos
 Pero de ser necesario, yo reconozco que
 Como el coyote, yo sé matar, yo sé cazar
 
-[Coro]
 Y tú, tú sabes correr
 Tú, tú, tú, tú, corres
 Entre el olvido, ayer y hoy
@@ -98,11 +93,7 @@ Y yo corro por el mío
 Y buena suerte, y buena suerte
 
 Y buena suerte
-Y buena suerte
-
-[Interludio] (Instrumental)
-
-[Outro] (Instrumental)`,
+Y buena suerte`,
     credits: {
       writtenBy: "Maria Lunares (Cinthya Paulino)",
       mix: "Cryo Mix",
