@@ -13,6 +13,15 @@ npm run build    # production build
 npm run lint     # eslint
 ```
 
+## Branches
+
+| Rama | Entorno | URL |
+|---|---|---|
+| `main` | Production | <https://www.marialunares.com> |
+| `preview` | Preview | <https://preview.marialunares.com> |
+
+Los cambios entran por `preview` y se fusionan a `main` cuando están validados.
+
 ## Documentation
 
 Full project context lives in [`CLAUDE.md`](./CLAUDE.md) (the hub) and the focused docs under [`docs/`](./docs):

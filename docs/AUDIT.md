@@ -60,8 +60,10 @@ to **65 MB**). After optimization, served media is **~7.3 MB** total.
 
 ## Remaining opportunities (not yet done)
 
-- **Confirm the production domain** and set `NEXT_PUBLIC_SITE_URL` so canonical/OG/sitemap are
-  correct (currently defaults to `https://marialunares.com`).
+- **`npm run dev` does not hydrate React** in the current local environment (see
+  [CLAUDE.md → Known issues](../CLAUDE.md#known-issues)). Production builds are unaffected; root
+  cause still unknown.
+
 - **Git history still contains the large originals** — the working tree and deploys are now small,
   but a history rewrite (e.g. `git filter-repo`) would shrink clones. Destructive; do only on
   request.

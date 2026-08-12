@@ -19,11 +19,20 @@ site (music, videos, photos, contact, external shop). Spanish-first, with an Eng
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
+npm run dev      # http://localhost:3000  (⚠️ ver "Known issues")
 npm run build    # production build (must pass before deploy)
 npm run lint     # eslint (next lint)
 node scripts/optimize-images.mjs   # regenerate optimized images from originals/
 ```
+
+## Known issues
+
+- **`npm run dev` no hidrata React** en el entorno local actual: la web se ve bien pero nada es
+  interactivo (ni el modal del newsletter, ni el reproductor, ni el overlay de compra). No hay
+  ningún error en consola. **No afecta a producción.** Comprobado que ocurre también con el código
+  anterior a agosto de 2026 y con Node 18/22/26, así que es del entorno, no del repo.
+  Para probar interactividad en local: `npm run build && npx next start`.
+- `npm run build` y `npm run dev` comparten `.next`; al pasar de uno a otro conviene `rm -rf .next`.
 
 ## File map
 
@@ -97,11 +106,29 @@ Para ver los formularios de la cuenta y sus IDs: `GET https://api.kit.com/v4/for
   optimizer. See [docs/ASSETS.md](docs/ASSETS.md).
 - **Comments and copy are in Spanish** to match the existing codebase.
 
+## Branches & environments
+
+| Rama | Entorno | URL |
+|---|---|---|
+| `main` | Production | `https://www.marialunares.com` |
+| `preview` | Preview (staging) | `https://preview.marialunares.com` |
+
+- **Todo cambio entra por `preview`.** Cuando se valida ahí, se fusiona a `main`, y ese merge es
+  el que despliega producción. Nunca se trabaja directamente contra `main`.
+- Las ramas de feature salen de `preview` y vuelven por PR; se borran al fusionar.
+- Vercel construye una preview automática por cada rama que se sube, además de la URL fija de
+  `preview` (que está atada a la rama, no a un deployment concreto).
+- `preview.marialunares.com` tiene la protección de deployments de Vercel activada: pide login.
+
 ## Environment
 
 - **Production domain:** `https://www.marialunares.com` (the apex 308-redirects to `www`).
   `NEXT_PUBLIC_SITE_URL` is set to that value in Vercel for Production and Preview; the code
   default (without `www`) is only a fallback.
+- **Preview domain:** `https://preview.marialunares.com`, atado a la rama `preview`.
+- **DNS:** lo gestiona Vercel (nameservers `ns1.vercel-dns.com` / `ns2.vercel-dns.com`). El
+  registrador sigue siendo GoDaddy: para cambiar nameservers hay que entrar ahí. La zona vive en
+  Vercel (Domains → marialunares.com → DNS Records).
 - **Newsletter:** `KIT_API_KEY` and `KIT_FORM_ID` are set in Vercel for Production and Preview.
   Copy `.env.example` to `.env.local` to test the signup locally.
 - See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#environment).
