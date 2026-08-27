@@ -111,9 +111,6 @@ ffmpeg -i estudio/videos/<src>.mp4 -frames:v 1 -vf "scale=800:-2" /tmp/poster.pn
 
 ## Known gaps
 
-- **`ml-sabes-correr-coverart.webp` is only 672×672**, below the 1200 px standard of every other
-  cover. The file in `public/` was never the full-res one. Re-run the optimizer once the real
-  original is back in `estudio/images/covers/`.
 - `og-image.jpg` is the "De Noche" cover centered on a 1200×630 black canvas. Replace with a
   purpose-built share graphic when available (see [AUDIT.md](AUDIT.md)).
 - Git **history** still holds the old large blobs; only the working tree/deploys are slim.
