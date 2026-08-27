@@ -1,16 +1,16 @@
 // Optimizador de medios: lee los originales a máxima resolución de
-// ./originals/images y escribe versiones para web en ./public/images.
+// ./estudio/images y escribe versiones para web en ./public/images.
 //
 // Descubre los archivos solo. Antes había una lista fija de nombres y era muy
 // fácil añadir una portada nueva, olvidarse de apuntarla y que el script la
 // ignorara sin decir nada. Ahora basta con dejar el archivo en la carpeta
-// correcta de originals/.
+// correcta de estudio/.
 //
-// La estructura de originals/images se refleja tal cual en public/images:
+// La estructura de estudio/images se refleja tal cual en public/images:
 //
-//   originals/images/covers/ml-lejos-coverart.webp
+//   estudio/images/covers/ml-lejos-coverart.webp
 //        -> public/images/covers/ml-lejos-coverart.webp
-//   originals/images/fotos/sev/sev_1605.jpg
+//   estudio/images/fotos/sev/sev_1605.jpg
 //        -> public/images/fotos/sev/sev_1605.jpg
 //
 // Uso: node scripts/optimize-images.mjs
@@ -18,8 +18,9 @@ import sharp from "sharp";
 import { readdir, mkdir, copyFile, stat } from "node:fs/promises";
 import path from "node:path";
 
-const SRC = "originals/images";
+const SRC = "estudio/images";
 const OUT = "public/images";
+const SONGS = "estudio/canciones";
 const QUALITY = 80;
 
 // Una regla por carpeta de primer nivel. `maxEdge` es el lado largo máximo en
@@ -67,13 +68,42 @@ async function encode(inPath, outPath, maxEdge) {
   await pipeline.toFile(outPath);
 }
 
+// Las portadas también pueden venir de la carpeta de trabajo de cada canción:
+// estudio/canciones/<slug>/portada.png -> public/images/covers/ml-<slug>-coverart.webp
+// Así basta con soltar el archivo ahí; no hay que copiarlo a images/covers/.
+async function coversDeCanciones() {
+  const out = [];
+  let slugs;
+  try {
+    slugs = await readdir(SONGS, { withFileTypes: true });
+  } catch {
+    return out;
+  }
+  for (const entry of slugs) {
+    if (!entry.isDirectory()) continue;
+    const dir = path.join(SONGS, entry.name);
+    const files = await readdir(dir).catch(() => []);
+    const portada = files.find(
+      (f) => path.parse(f).name.toLowerCase() === "portada" && EXTS.has(path.extname(f).toLowerCase())
+    );
+    if (portada) {
+      out.push({
+        inPath: path.join(dir, portada),
+        outPath: path.join(OUT, "covers", `ml-${entry.name}-coverart.webp`),
+        slug: entry.name,
+      });
+    }
+  }
+  return out;
+}
+
 async function main() {
   try {
     await stat(SRC);
   } catch {
     console.error(
       `No existe ${SRC}.\n` +
-        `Los originales están fuera del repo (originals/ está en .gitignore).\n` +
+        `Los originales están fuera del repo (estudio/ está en .gitignore).\n` +
         `Recupéralos de tu backup con esta estructura:\n` +
         Object.keys(RULES)
           .map((d) => `  ${SRC}/${d}/`)
@@ -102,6 +132,19 @@ async function main() {
     }
 
     console.log(`${dir}: ${files.length} archivo(s) -> ${path.join(OUT, dir)}`);
+  }
+
+  // Portadas que vienen de estudio/canciones/<slug>/portada.*
+  const desdeCanciones = await coversDeCanciones();
+  for (const { inPath, outPath, slug } of desdeCanciones) {
+    await mkdir(path.dirname(outPath), { recursive: true });
+    await sharp(inPath)
+      .rotate()
+      .resize({ width: RULES.covers.maxEdge, height: RULES.covers.maxEdge, fit: "inside", withoutEnlargement: true })
+      .webp({ quality: QUALITY })
+      .toFile(outPath);
+    total++;
+    console.log(`canciones/${slug}: portada -> ${outPath}`);
   }
 
   console.log(`\nListo. ${total} imagen(es) procesada(s).`);

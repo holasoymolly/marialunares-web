@@ -24,8 +24,9 @@
 .DS_Store
 *.pem
 
-# full-res media originals (kept locally as backup; only optimized assets ship in /public)
-/originals
+# mesa de trabajo: material a máxima resolución y notas por canción.
+# Solo se despliega lo optimizado que vive en /public.
+/estudio
 
 # debug
 npm-debug.log*

@@ -22,7 +22,8 @@ npm install
 npm run dev      # http://localhost:3000  (⚠️ ver "Known issues")
 npm run build    # production build (must pass before deploy)
 npm run lint     # eslint (next lint)
-node scripts/optimize-images.mjs   # regenerate public/images from originals/images
+node scripts/optimize-images.mjs   # regenerate public/images from estudio/
+node scripts/nueva-cancion.mjs <slug>  # crea estudio/canciones/<slug>/ con su NOTAS.md
 ```
 
 ## Known issues
@@ -42,17 +43,17 @@ src/
                     sitemap.xml, api/subscribe (+ _app, _document)
   components/       layout, Seo, BackgroundMusic, YouTubeFacade, SoundCloudFacade,
                     Newsletter{Provider,Modal,Form}
-  data/             releases.ts (catálogo de canciones — fuente única de /musica)
+  data/             releases.ts (catálogo de canciones) · photos.ts (galería de /fotos)
   i18n/             translations.ts (ES/EN dictionary) + useTranslations.ts
   styles/           globals.css
-scripts/            optimize-images.mjs   (sharp media pipeline)
+scripts/            optimize-images.mjs (pipeline de imágenes) · nueva-cancion.mjs
 public/
   images/covers/    portadas, ml-<slug>-coverart.webp
   images/fotos/     sev/ · raices-bts/ · retratos/
   images/brand/     logo (normal y negativo)
   images/home/      póster del video de portada
   videos/           background video · og-image, favicons y robots en la raíz
-originals/          full-res media backup — GITIGNORED, never served
+estudio/            mesa de trabajo: canciones/<slug>/ e images/ — GITIGNORED
 docs/               ARCHITECTURE.md · DESIGN.md · AUDIT.md · ASSETS.md
 ```
 
@@ -61,8 +62,8 @@ docs/               ARCHITECTURE.md · DESIGN.md · AUDIT.md · ASSETS.md
 `/musica` y las páginas `/musica/[slug]` se generan desde **`src/data/releases.ts`**. Para publicar
 una canción nueva basta con añadir un objeto al array `releases`:
 
-1. Deja la portada a máxima resolución en `originals/images/covers/` con el nombre
-   `ml-<slug>-coverart.webp`, ejecuta `node scripts/optimize-images.mjs` y usa la ruta
+1. `node scripts/nueva-cancion.mjs <slug>` crea `estudio/canciones/<slug>/` con su `NOTAS.md`.
+   Deja ahí `portada.png` y el audio, ejecuta `node scripts/optimize-images.mjs` y usa la ruta
    `/images/covers/ml-<slug>-coverart.webp`. El script descubre los archivos solo: no hay
    ninguna lista que actualizar.
 2. Añade la entrada con `slug`, `title`, `year`, `cover`, `descriptionEs`, `descriptionEn`,
@@ -109,7 +110,7 @@ Para ver los formularios de la cuenta y sus IDs: `GET https://api.kit.com/v4/for
 - **Spanish-first.** Default locale `es`; English served under `/en`. All user-facing strings
   go through `src/i18n/translations.ts` — never hardcode copy in components.
 - **Every page renders `<Seo>`** (`src/components/Seo.tsx`) for title/description/OG/hreflang.
-- **Media:** never commit full-res files to `public/`. Drop originals in `originals/` and run the
+- **Media:** never commit full-res files to `public/`. Drop estudio in `estudio/` and run the
   optimizer. See [docs/ASSETS.md](docs/ASSETS.md).
 - **Comments and copy are in Spanish** to match the existing codebase.
 

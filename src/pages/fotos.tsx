@@ -2,8 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Seo from "@/components/Seo";
 import { useTranslations } from "@/i18n/useTranslations";
-
-type Photo = { url: string; title: string };
+import { photos, type Photo } from "@/data/photos";
 
 // Desordena una copia del array (no muta el original) con Fisher–Yates.
 function shuffleArray(array: Photo[]): Photo[] {
@@ -16,38 +15,11 @@ function shuffleArray(array: Photo[]): Photo[] {
 }
 
 function Fotos() {
-  const { t } = useTranslations();
-  // Lista de imágenes (orden estable para el render del servidor)
-  const baseImages: Photo[] = [
-    { url: "/images/fotos/sev/sev_1605.jpg", title: "Photo 1" },
-    { url: "/images/fotos/sev/sev_1647.jpg", title: "Photo 2" },
-    { url: "/images/fotos/sev/sev_1651.jpg", title: "Photo 3" },
-    { url: "/images/fotos/sev/sev_1668.jpg", title: "Photo 4" },
-    { url: "/images/fotos/sev/sev_1730.jpg", title: "Photo 5" },
-    { url: "/images/fotos/sev/sev1785.jpg", title: "Photo 6" },
-    { url: "/images/fotos/retratos/img_9620.jpg", title: "Photo 7" },
-    { url: "/images/fotos/retratos/img_9641.jpg", title: "Photo 8" },
-    { url: "/images/fotos/retratos/img_9644.jpg", title: "Photo 9" },
-    { url: "/images/fotos/retratos/img_9645.jpg", title: "Photo 10" },
-    { url: "/images/fotos/retratos/img_9676.jpg", title: "Photo 11" },
-    { url: "/images/fotos/retratos/img_9680.jpg", title: "Photo 12" },
-    { url: "/images/fotos/raices-bts/raices-bts-3.jpg", title: "Photo 13" },
-    { url: "/images/fotos/raices-bts/raices-bts-4.jpg", title: "Photo 14" },
-    { url: "/images/fotos/raices-bts/raices-bts-6.jpg", title: "Photo 15" },
-    { url: "/images/fotos/raices-bts/raices-bts-9.jpg", title: "Photo 16" },
-    { url: "/images/fotos/raices-bts/raices-bts-20.jpg", title: "Photo 17" },
-    { url: "/images/fotos/raices-bts/raices-bts-22.jpg", title: "Photo 18" },
-    { url: "/images/fotos/raices-bts/raices-bts-28.jpg", title: "Photo 19" },
-    { url: "/images/fotos/raices-bts/raices-bts-31.jpg", title: "Photo 20" },
-    { url: "/images/fotos/raices-bts/raices-bts-39.jpg", title: "Photo 21" },
-    { url: "/images/fotos/raices-bts/raices-bts-54.jpg", title: "Photo 22" },
-    { url: "/images/fotos/raices-bts/raices-bts-57.jpg", title: "Photo 23" },
-    { url: "/images/fotos/sev/sev_1479.webp", title: "Photo 24" },
-    { url: "/images/fotos/sev/sev_1483.webp", title: "Photo 25" },
-    { url: "/images/fotos/sev/sev_1494.webp", title: "Photo 26" },
-    { url: "/images/fotos/sev/sev_1515.webp", title: "Photo 27" },
-    { url: "/images/fotos/sev/sev_1535.webp", title: "Photo 28" },
-  ];
+  const { t, locale } = useTranslations();
+
+  // El orden base es estable para que servidor y cliente rendericen igual.
+  const baseImages = photos;
+  const altFor = (photo: Photo) => (locale === "en" ? photo.altEn : photo.altEs);
 
   // Render inicial determinista (servidor y cliente coinciden → sin hydration
   // mismatch). Tras montar, barajamos una vez en el cliente para dar variedad.
@@ -80,10 +52,10 @@ function Fotos() {
         {/* Galería de imágenes */}
         <div className="masonry-gallery" style={{ marginTop: "35vh" }}>
           {images.map((image, index) => (
-            <div key={image.url} className="gallery-item">
+            <div key={image.src} className="gallery-item">
               <Image
-                src={image.url}
-                alt={image.title}
+                src={image.src}
+                alt={altFor(image)}
                 width={300}
                 height={450}
                 sizes="(max-width: 768px) 100vw, 50vw"

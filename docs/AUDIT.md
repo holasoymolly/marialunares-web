@@ -20,11 +20,11 @@ to **65 MB**). After optimization, served media is **~7.3 MB** total.
 
 ### Performance (P0)
 - **Oversized images** (7–21 MB each, 28 on `/fotos`). → ✅ Re-encoded to web specs (webp/jpeg,
-  ≤2000 px, q80) via `scripts/optimize-images.mjs`; originals moved to gitignored `originals/`.
+  ≤2000 px, q80) via `scripts/optimize-images.mjs`; originals moved to gitignored `estudio/`.
 - **Heavy home background video** (7.5 MB, 10 Mbps). → ✅ Re-encoded to ~435 KB, muted,
   `preload="none"`, with a `poster` image for fast first paint.
 - **~131 MB of unused video** + several unused cover images committed. → ✅ Removed from `public/`
-  (kept in `originals/`).
+  (kept in `estudio/`).
 - **PayPal SDK loaded on every page** for the abandoned checkout. → ✅ Removed.
 - **`next/image` without `sizes`/`priority`**, deprecated `layout="responsive"`. → ✅ Modernized on
   `/fotos` and `/musica`.

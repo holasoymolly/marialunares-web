@@ -4,18 +4,19 @@
 
 ## Golden rule
 
-**Never commit full-res media to `public/`.** Put originals in `originals/` (gitignored) and run
+**Never commit full-res media to `public/`.** Put estudio in `estudio/` (gitignored) and run
 the optimizer. Only optimized files are served. This is what keeps the site fast and the repo
 working tree small.
 
 ## Folder layout
 
-`originals/images/` and `public/images/` mirror each other one-to-one. The optimizer walks the
+`estudio/images/` and `public/images/` mirror each other one-to-one. The optimizer walks the
 first and writes the second, preserving both the folder structure and the filenames, so a page
-`src` is always the original path with `originals/` swapped for `/`.
+`src` is always the original path with `estudio/` swapped for `/`.
 
 ```
-originals/                        (gitignored — your backup)      public/          (served)
+estudio/                        (gitignored — tu mesa de trabajo)  public/       (served)
+  canciones/<slug>/  portada.* + audio/ + NOTAS.md   ← material por canción
   images/                                                           images/
     covers/    ml-<slug>-coverart.webp                                covers/
     fotos/                                                            fotos/
@@ -24,7 +25,6 @@ originals/                        (gitignored — your backup)      public/     
       retratos/      img_9*.jpg                                         retratos/
     brand/     ml-logo-blanco{,-negativo}.webp                       brand/
     home/      home-poster.webp                                      home/
-  releases/<slug>/   cover + audio + NOTAS.md   ← material por canción
   videos/
 ```
 
@@ -37,10 +37,16 @@ Files that live at the root of `public/` and are **not** managed by the optimize
 ## Pipeline
 
 ```bash
-# 1. Drop the full-res file into the right folder of originals/images/
-# 2. Regenerate:
+# Canción nueva: crea su carpeta de trabajo y su NOTAS.md
+node scripts/nueva-cancion.mjs mi-cancion
+
+# Luego deja los archivos donde toca y regenera public/images
 node scripts/optimize-images.mjs
 ```
+
+Además de las carpetas de `estudio/images/`, el optimizador recoge la portada de
+cada canción desde `estudio/canciones/<slug>/portada.*` y la emite como
+`public/images/covers/ml-<slug>-coverart.webp`. No hay que copiar nada a mano.
 
 `scripts/optimize-images.mjs` (uses `sharp`) **discovers files on its own** — there is no list to
 keep in sync. One rule per top-level folder:
@@ -53,17 +59,17 @@ keep in sync. One rule per top-level folder:
 | `brand/` | copied through untouched (already tiny) |
 
 Extension is preserved: `.webp` → webp, `.png` → png, anything else → jpeg via mozjpeg.
-If `originals/images/` is missing, the script exits with an error naming the folders it expects.
+If `estudio/images/` is missing, the script exits with an error naming the folders it expects.
 
 Videos are handled manually with `ffmpeg` (one-off):
 
 ```bash
 # Background loop: downscale, mute, web-optimize
-ffmpeg -i originals/videos/<src>.mp4 -an -vf "scale=800:-2" \
+ffmpeg -i estudio/videos/<src>.mp4 -an -vf "scale=800:-2" \
   -c:v libx264 -profile:v high -preset slow -crf 30 -pix_fmt yuv420p \
   -movflags +faststart public/videos/home-background.mp4
 # Poster frame (then convert PNG → webp with sharp; ffmpeg here lacks a webp encoder)
-ffmpeg -i originals/videos/<src>.mp4 -frames:v 1 -vf "scale=800:-2" /tmp/poster.png
+ffmpeg -i estudio/videos/<src>.mp4 -frames:v 1 -vf "scale=800:-2" /tmp/poster.png
 ```
 
 ## What's served (`public/`)
@@ -86,9 +92,7 @@ ffmpeg -i originals/videos/<src>.mp4 -frames:v 1 -vf "scale=800:-2" /tmp/poster.
 
 - **`ml-sabes-correr-coverart.webp` is only 672×672**, below the 1200 px standard of every other
   cover. The file in `public/` was never the full-res one. Re-run the optimizer once the real
-  original is back in `originals/images/covers/`.
+  original is back in `estudio/images/covers/`.
 - `og-image.jpg` is the "De Noche" cover centered on a 1200×630 black canvas. Replace with a
   purpose-built share graphic when available (see [AUDIT.md](AUDIT.md)).
-- The `/fotos` gallery uses generic alt text ("Photo 1"…"Photo 28"); real descriptions would help
-  accessibility and SEO.
 - Git **history** still holds the old large blobs; only the working tree/deploys are slim.
