@@ -90,7 +90,7 @@ export const translations: Record<Locale, Dict> = {
     brand: {
       descriptorShort: "Neo-bolero espacial, trip-hop y electrónica",
       descriptorLong: "Neo-bolero, trip-hop, electrónica y sonidos espaciales",
-      place: "Aterricé en el Caribe, pero no soy de aquí.",
+      place: "Aterricé en el Caribe, pero no soy de aquí…",
     },
     player: { play: "Reproducir música", label: "Reproductor de música de fondo" },
     langToggle: { label: "Idioma", toEs: "ES", toEn: "EN" },
@@ -183,7 +183,7 @@ export const translations: Record<Locale, Dict> = {
     brand: {
       descriptorShort: "Spatial neo-bolero, trip-hop and electronica",
       descriptorLong: "Neo-bolero, trip-hop, electronica and spatial sounds",
-      place: "I landed in the Caribbean, but I'm not from here.",
+      place: "I landed in the Caribbean, but I'm not from here…",
     },
     player: { play: "Play music", label: "Background music player" },
     langToggle: { label: "Language", toEs: "ES", toEn: "EN" },

@@ -17,6 +17,15 @@ export default function Sobre() {
   const { t } = useTranslations();
   const { openNewsletter } = useNewsletter();
 
+  // El titular se parte justo después de la coma para que las dos mitades de
+  // la frase caigan en líneas distintas. La coma existe en los dos idiomas; si
+  // en alguno faltara, la frase se renderiza en una sola línea.
+  const comma = t.brand.place.indexOf(",");
+  const placeLines =
+    comma === -1
+      ? [t.brand.place]
+      : [t.brand.place.slice(0, comma + 1), t.brand.place.slice(comma + 1).trim()];
+
   const blocks = [
     { key: "what", label: t.sobre.whatLabel, text: t.sobre.what },
     { key: "ml", label: t.sobre.mlLabel, text: t.sobre.ml },
@@ -42,7 +51,11 @@ export default function Sobre() {
             {/* El límite va en em (no en ch sobre el contenedor) para que
                 escale con el tamaño del propio titular. */}
             <h1 className="sobre-title mt-6 max-w-[14em] font-bold tracking-tight">
-              {t.brand.place}
+              {placeLines.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
             </h1>
             <p className="mt-8 max-w-[42ch] text-sm uppercase tracking-[0.18em] opacity-70">
               {t.brand.descriptorLong}
