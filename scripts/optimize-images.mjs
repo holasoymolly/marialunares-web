@@ -89,7 +89,8 @@ async function buscarPortada(dir) {
   const archivos = await readdir(coverart).catch(() => []);
   const imgs = archivos.filter((f) => EXTS.has(path.extname(f).toLowerCase()));
   // El "00" marca la del disco. Si solo hay una imagen, no hace falta marcarla.
-  const delDisco = imgs.find((f) => /-00-|^00[-_.]/i.test(f)) ?? (imgs.length === 1 ? imgs[0] : null);
+  // El "00" puede ir en medio (ml-x-00-ep.png) o al final (ml-x-00.png).
+  const delDisco = imgs.find((f) => /(^|[-\s])00([-\s.]|$)/i.test(f)) ?? (imgs.length === 1 ? imgs[0] : null);
   return delDisco ? path.join(coverart, delDisco) : null;
 }
 

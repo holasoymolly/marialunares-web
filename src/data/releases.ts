@@ -326,13 +326,72 @@ Están las almas`,
     externalUrl: "https://hypeddit.com/jz5sqo",
   },
   {
-    // TODO: confirmar año y añadir descripciones antes de activar hasPage.
+    // TODO: falta el año de publicación, los enlaces por plataforma y el checkout.
     slug: "sol",
     title: "Sol",
     cover: "/images/covers/ml-sol-coverart.webp",
-    descriptionEs: "",
-    descriptionEn: "",
+    descriptionEs:
+      "Amor sin ironía. Sol es la admiración por alguien que calienta como el sol y quema igual, y el asombro de haberse encontrado por una casualidad que nadie esperaba.",
+    descriptionEn:
+      "Love without irony. Sol is about admiring someone who warms you like the sun and burns just the same, and the wonder of having met by a chance nobody saw coming.",
+    lyrics: `[Intro]
+(Instrumental)
+
+[Verso 1]
+Eres como el Sol
+Que calienta la Luna
+Y en las noches más frías
+Me abrigas tú
+
+[Verso 2]
+Eres como el Sol
+Radiante pero quema
+Tan lejos y aún puedo
+Sentirte en mi piel
+
+[Coro]
+Y yo quiero saber si tú entiendes cómo fue esto
+Explícame cómo respiro este aire tan denso
+El aire que se vuelve ligero cuando tú no estás
+Explícamelo, que no lo entiendo
+
+[Verso 3]
+Eres como el Sol
+Y yo un simple mortal
+Y si me acerco mucho
+Puedo estallar
+
+[Verso 4]
+Eres como el Sol
+Pura vitamina
+Y te juro que la ciencia dice
+Que mi piel te necesita
+
+[Coro]
+Y yo quiero saber si tú entiendes cómo fue esto
+Explícame cómo respiro este aire tan denso
+El aire que se vuelve ligero cuando tú no estás
+Explícamelo, que no lo entiendo
+
+[Puente]
+Nah nah nah nah
+Que no lo entiendo
+Nah nah nah nah
+Que no lo entiendo
+
+[Interludio]
+(Instrumental)
+
+[Outro]
+(Instrumental)`,
+    credits: {
+      writtenBy: "Maria Lunares",
+      mix: "Romnie Abreu",
+      mastering: "Romnie Abreu",
+      cover: "Molly Yllom",
+    },
     externalUrl: "https://hypeddit.com/uz51hf",
+    hasPage: true,
   },
 ];
 

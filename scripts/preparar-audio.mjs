@@ -101,7 +101,7 @@ async function portadaPara(num, archivos) {
   const img = (f) => IMG.has(path.extname(f).toLowerCase());
   const soloImgs = archivos.filter(img);
   const propia = num ? soloImgs.find((f) => new RegExp(`[-\\s]${num}[-\\s]`).test(f)) : null;
-  const disco = soloImgs.find((f) => /-00-|^00[-_.]/i.test(f));
+  const disco = soloImgs.find((f) => /(^|[-\s])00([-\s.]|$)/i.test(f));
   const unica = soloImgs.length === 1 ? soloImgs[0] : null;
   const elegida = propia ?? disco ?? unica;
   return elegida ? { ruta: path.join(ART, elegida), propia: Boolean(propia) } : null;
