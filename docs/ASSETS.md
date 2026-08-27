@@ -4,7 +4,7 @@
 
 ## Golden rule
 
-**Never commit full-res media to `public/`.** Put estudio in `estudio/` (gitignored) and run
+**Never commit full-res media to `public/`.** Put the originals in `estudio/` (gitignored) and run
 the optimizer. Only optimized files are served. This is what keeps the site fast and the repo
 working tree small.
 

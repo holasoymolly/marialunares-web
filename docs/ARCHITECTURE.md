@@ -15,6 +15,7 @@ native (Kit).
 | Route | File | Purpose |
 |---|---|---|
 | `/` | `index.tsx` | Hero: muted background video loop (`/videos/home-background.mp4`) with poster + dark overlay. |
+| `/sobre` (EN `/en/about`) | `sobre.tsx` | Identidad del proyecto. El slug inglés se sirve con un rewrite en `next.config.js`; `/en/sobre` redirige a `/en/about`. |
 | `/musica` | `musica/index.tsx` | Cover grid generated from `src/data/releases.ts`. Each cover links to its own release page or, while that page isn't ready, to the Hypeddit smart link. |
 | `/musica/[slug]` | `musica/[slug].tsx` | Release template (SSG via `getStaticPaths`/`getStaticProps`, one page per locale). Cover, description, download CTA, user-initiated SoundCloud preview, lyrics, credits, links, newsletter. Only releases with `hasPage: true` are generated. |
 | `/sitemap.xml` | `sitemap.xml.ts` | XML sitemap rendered on demand from the static route list + the release catalogue. Replaced the old hand-maintained `public/sitemap.xml`. |
@@ -53,9 +54,14 @@ The release catalogue is a typed array and the single source of truth for `/musi
 `/musica/[slug]` pages and the sitemap. Adding a song = adding one object (see
 [CLAUDE.md → Releases](../CLAUDE.md#releases)). Split of responsibilities:
 
-- **`translations.ts`** — fixed UI labels (Escuchar, Descargar, Letra, Créditos).
+- **`translations.ts`** — fixed UI labels (Escuchar, Descargar, Letra, Créditos) y la identidad
+  de marca (`brand`: descriptor de género y frase de lugar).
 - **`releases.ts`** — per-song content that grows over time (descriptions ES/EN, lyrics, credits,
-  links, checkout URL).
+  links, checkout URL). Un sencillo usa `lyrics`; un EP o álbum usa `tracks[]`, y entonces la
+  página lista las pistas en lugar de una única letra. `press` guarda un extracto corto de
+  prensa con su atribución.
+- **`photos.ts`** — catálogo de la galería de `/fotos`: ruta y texto alternativo ES/EN de cada
+  foto. Vive en `data/` por el mismo motivo que `releases.ts`: crece con cada sesión.
 
 `hasPage` gates whether a release has its own page: while it is false the grid links out to
 `externalUrl`, and `getStaticPaths` does not generate a route for it.

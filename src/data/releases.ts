@@ -317,13 +317,31 @@ Están las almas`,
     hasPage: true,
   },
   {
-    // TODO: confirmar título exacto y año antes de activar hasPage.
     slug: "sol-trips",
-    title: "Sol Trips",
+    title: "Sol: Trips",
+    year: 2023,
     cover: "/images/covers/ml-sol-trips-coverart.webp",
-    descriptionEs: "",
-    descriptionEn: "",
+    descriptionEs:
+      "La misma canción atravesada por cinco cabezas distintas. Arialdo AP, Maria Lunares, Mkni, Romnie y Ben Garcia remezclan Sol y la llevan de lo lento a lo agresivo y lo experimental, sin repetirse.",
+    descriptionEn:
+      "The same song run through five different heads. Arialdo AP, Maria Lunares, Mkni, Romnie and Ben Garcia remix Sol, taking it from slow to aggressive and experimental, never repeating themselves.",
+    tracks: [
+      { title: "Sol (A Trip x Arialdo AP)" },
+      { title: "Sol (A Trip x Maria Lunares)" },
+      { title: "Sol (A Trip x Mkni)" },
+      { title: "Sol (A Trip x Romnie)" },
+      { title: "Sol (A Trip x Ben Garcia)" },
+    ],
+    credits: {
+      writtenBy: "Maria Lunares",
+      mix: "Romnie Abreu",
+      mastering: "Romnie Abreu",
+      cover: "Molly Yllom",
+    },
+    checkoutUrl:
+      "https://marialunares.lemonsqueezy.com/checkout/buy/373bbd6d-b912-46e5-b26e-2837209614a5",
     externalUrl: "https://hypeddit.com/jz5sqo",
+    hasPage: true,
   },
   {
     // TODO: falta el año de publicación y los enlaces por plataforma.

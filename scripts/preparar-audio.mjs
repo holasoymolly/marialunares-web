@@ -87,6 +87,21 @@ function numeroDe(file, total) {
 }
 
 // El título sale, por orden: de --title, del nombre numerado, o del slug.
+// El título sale del nombre del archivo, que no siempre es fiel: en un disco de
+// remezclas la pista se llama "Sol (A Trip x Mkni)" y del nombre solo sale
+// "Mkni". Por eso, si el archivo ya trae un título en sus etiquetas, se respeta
+// salvo que se pase --force.
+async function tituloExistente(file) {
+  try {
+    const { stdout } = await run("ffprobe", [
+      "-v", "error", "-show_entries", "format_tags=title", "-of", "csv=p=0", file,
+    ]);
+    return stdout.trim() || null;
+  } catch {
+    return null;
+  }
+}
+
 function tituloDe(file, total) {
   if (tituloUnico) return tituloUnico;
   const m = path.parse(file).name.match(/(?:^|[-\s])\d{2}[-\s]+(.+)$/);
@@ -220,7 +235,7 @@ async function main() {
 
   for (const fuente of base) {
     const num = numeroDe(fuente, base.length);
-    const titulo = tituloDe(fuente, base.length);
+    const titulo = (!force && (await tituloExistente(fuente))) || tituloDe(fuente, base.length);
     const arte = await portadaPara(num, artes);
 
     const tags = [
