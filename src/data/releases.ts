@@ -338,15 +338,23 @@ Están las almas`,
       mastering: "Romnie Abreu",
       cover: "Molly Yllom",
     },
+    links: {
+      bandcamp: "https://marialunares.bandcamp.com/album/sol-trips",
+      soundcloud: "https://soundcloud.com/marialunares/sets/sol-trips",
+      youtube:
+        "https://www.youtube.com/watch?v=G2AeCMqODLA&list=PLTqHMTT-k-sGb8LX0yqbJMfN_2bjH8M4U",
+    },
+    // El reproductor acepta una lista de SoundCloud igual que una pista suelta.
+    soundcloudTrackUrl: "https://soundcloud.com/marialunares/sets/sol-trips",
     checkoutUrl:
       "https://marialunares.lemonsqueezy.com/checkout/buy/373bbd6d-b912-46e5-b26e-2837209614a5",
     externalUrl: "https://hypeddit.com/jz5sqo",
     hasPage: true,
   },
   {
-    // TODO: falta el año de publicación y los enlaces por plataforma.
     slug: "sol",
     title: "Sol",
+    year: 2024,
     cover: "/images/covers/ml-sol-coverart.webp",
     descriptionEs:
       "Amor sin ironía. Sol es la admiración por alguien que calienta como el sol y quema igual, y el asombro de haberse encontrado por una casualidad que nadie esperaba.",
@@ -408,6 +416,12 @@ Que no lo entiendo
       mastering: "Romnie Abreu",
       cover: "Molly Yllom",
     },
+    links: {
+      bandcamp: "https://marialunares.bandcamp.com/track/sol",
+      soundcloud: "https://soundcloud.com/marialunares/sol",
+      youtube: "https://youtu.be/SXA7ElJeK60",
+    },
+    soundcloudTrackUrl: "https://soundcloud.com/marialunares/sol",
     checkoutUrl:
       "https://marialunares.lemonsqueezy.com/checkout/buy/8b9cf9a2-0aac-469d-bd11-5db3b92ba840",
     externalUrl: "https://hypeddit.com/uz51hf",
