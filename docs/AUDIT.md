@@ -82,10 +82,11 @@ Cerrado en la sesión de identidad neo-bolero:
   portadas de Sabes Correr y De Noche se regeneraron desde sus másters.
 - **`public/images` reorganizado** por función: `covers/`, `fotos/<sesion>/`,
   `brand/`, `home/`.
+- **`og-image.jpg` hecho a propósito**: el retrato del sitio sangrando por la
+  derecha sobre negro, con el nombre y el descriptor de género. Lo genera
+  `scripts/og-image.mjs`.
 
 Sigue abierto:
 
-- `og-image.jpg` es la portada de "De Noche" centrada sobre un lienzo negro de
-  1200×630. Falta una gráfica hecha a propósito.
 - El historial de git conserva los blobs grandes antiguos; solo el árbol de
   trabajo y los despliegues son ligeros.

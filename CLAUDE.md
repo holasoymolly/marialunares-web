@@ -37,6 +37,7 @@ node scripts/optimize-images.mjs           # portadas de estudio/ -> public/imag
 node scripts/nueva-cancion.mjs <slug>      # esqueleto de una canción nueva
 node scripts/preparar-audio.mjs <slug> --album "X" --year AAAA   # portada + MP3 + etiquetas
 node scripts/normalizar-nombres.mjs        # simula; --aplicar para renombrar
+node scripts/og-image.mjs                  # regenera la tarjeta para compartir
 ```
 
 ## Known issues
@@ -63,6 +64,7 @@ scripts/            optimize-images.mjs   (portadas -> public/images)
                     nueva-cancion.mjs     (esqueleto de una canción en estudio/)
                     preparar-audio.mjs    (portada incrustada + MP3 + etiquetas)
                     normalizar-nombres.mjs (minúsculas y guiones, con guarda)
+                    og-image.mjs          (tarjeta 1200x630 para redes)
 public/
   images/covers/    portadas, ml-<slug>-coverart.webp
   images/fotos/     sev/ · raices-bts/ · retratos/
