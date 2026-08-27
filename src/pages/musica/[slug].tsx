@@ -242,6 +242,12 @@ export default function ReleasePage({ release }: ReleasePageProps) {
                     <dd>{release.credits.writtenBy}</dd>
                     <dt className="opacity-50">{t.release.mix}</dt>
                     <dd>{release.credits.mix}</dd>
+                    {release.credits.mastering && (
+                      <>
+                        <dt className="opacity-50">{t.release.mastering}</dt>
+                        <dd>{release.credits.mastering}</dd>
+                      </>
+                    )}
                     <dt className="opacity-50">{t.release.coverArt}</dt>
                     <dd>{release.credits.cover}</dd>
                   </dl>

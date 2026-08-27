@@ -71,6 +71,7 @@ type Dict = {
     links: string;
     writtenBy: string;
     mix: string;
+    mastering: string;
     coverArt: string;
     coverAltPrefix: string;
     reissue: string;
@@ -168,6 +169,7 @@ export const translations: Record<Locale, Dict> = {
       links: "Enlaces",
       writtenBy: "Escrito por",
       mix: "Mezcla",
+      mastering: "Masterización",
       coverArt: "Portada",
       coverAltPrefix: "Portada de",
       reissue: "Remastered",
@@ -263,6 +265,7 @@ export const translations: Record<Locale, Dict> = {
       links: "Links",
       writtenBy: "Written by",
       mix: "Mix",
+      mastering: "Mastering",
       coverArt: "Cover art",
       coverAltPrefix: "Cover art for",
       reissue: "Remastered",

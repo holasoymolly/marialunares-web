@@ -19,6 +19,8 @@ export interface ReleaseLinks {
 export interface ReleaseCredits {
   writtenBy: string;
   mix: string;
+  /** Rol aparte de la mezcla, aunque a menudo lo firme la misma persona. */
+  mastering?: string;
   cover: string;
 }
 
@@ -143,9 +145,9 @@ Y buena suerte`,
     hasPage: true,
   },
   {
-    // TODO: confirmar el año de publicación y los créditos.
     slug: "de-noche",
     title: "De Noche",
+    year: 2025,
     cover: "/images/covers/ml-de-noche-coverart.webp",
     descriptionEs:
       "De Noche es la historia de ML, un ser que cae a la Tierra y busca su luz interior en un mundo oscuro que no conoce. Cuatro pistas de trip-hop, electrónica y sonidos espaciales que recorren la dualidad entre esa oscuridad de adentro y la luz de la Luna que la guía.",
@@ -154,6 +156,7 @@ Y buena suerte`,
     tracks: [
       {
         title: "Asfalto",
+        soundcloudTrackUrl: "https://soundcloud.com/marialunares/01-asfalto-de-noche",
         lyrics: `Donde las sombras fluyan
 Bailando en la oscuridad
 Debajo de las estrellas
@@ -169,6 +172,7 @@ Pounding, pounding`,
       },
       {
         title: "Andando",
+        soundcloudTrackUrl: "https://soundcloud.com/marialunares/02-andando-de-noche",
         lyrics: `[Verso]
 Andando
 Andando
@@ -183,6 +187,7 @@ Feeling it
       },
       {
         title: "Humo",
+        soundcloudTrackUrl: "https://soundcloud.com/marialunares/humo-de-noche",
         lyrics: `[Verso]
 Rostros pasan pero están perdidos
 Secretos que se esfuman con el humo
@@ -201,6 +206,7 @@ El abismo es mío`,
       },
       {
         title: "Fantasmas",
+        soundcloudTrackUrl: "https://soundcloud.com/marialunares/04-fantasmas-de-noche",
         lyrics: `[Verso]
 Escondida me habla una luz
 Siento el peso, es una cruz
@@ -224,6 +230,18 @@ Están las almas`,
       quote: "En este EP, ambos aspectos —la producción y la voz— se fusionan de manera perfecta.",
       author: "Max Cueto",
       outlet: "Discolai",
+    },
+    credits: {
+      writtenBy: "Maria Lunares",
+      mix: "Romnie Abreu",
+      mastering: "Romnie Abreu",
+      cover: "Isis Ramírez & Ricardo Torres",
+    },
+    links: {
+      bandcamp: "https://marialunares.bandcamp.com/album/de-noche",
+      soundcloud: "https://soundcloud.com/marialunares/sets/de-noche",
+      youtube:
+        "https://www.youtube.com/watch?v=4rwvryIMs4o&list=PLTqHMTT-k-sF36fA0-edzL7zwMXYQh4pS",
     },
     externalUrl: "https://hypeddit.com/l3psaf",
     hasPage: true,
