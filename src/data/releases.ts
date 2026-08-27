@@ -88,14 +88,81 @@ export interface Release {
 
 export const releases: Release[] = [
   {
-    // TODO: confirmar año y añadir descripciones antes de activar hasPage.
     slug: "lejos",
     title: "Lejos",
+    year: 2026,
     cover: "/images/covers/ml-lejos-coverart.webp",
-    descriptionEs: "",
-    descriptionEn: "",
+    descriptionEs:
+      "Marcharse cansada y abrir las alas igual. Lejos es dejar atrás las cenizas grises que te dieron y buscar el sol un pasito a la vez, aunque duela.",
+    descriptionEn:
+      "Leaving worn out and opening your wings anyway. Lejos is about leaving behind the grey ashes someone gave you and looking for the sun one small step at a time, even when it hurts.",
+    lyrics: `[Verso 1]
+Aunque yo
+Llegue cansada
+Abriré, abriré mis alas
+Y volaré lejos de ti
+Aunque yo llegue cansada
+
+[Pre-Coro]
+Y dejo atrás
+Las cenizas grises
+Las que fui coleccionando
+Las que tú me diste
+
+[Coro]
+Lejos de tu sombra, lejos de tu voz
+Me parto en pedazos, pero busco el sol
+Un pasito a la vez, un pasito otra vez
+Aunque duela, ya ves
+
+[Verso 2]
+Aunque yo
+Llegue cansada
+Abriré mis alas y expondré mi pecho
+Y escucharás mis latidos
+Aunque yo ya estaré muy lejos
+
+[Pre-Coro]
+Y dejo atrás
+Las cenizas grises
+Las que fui coleccionando
+Las que tú me diste
+
+[Coro]
+Lejos de tu sombra, lejos de tu voz
+Me parto en pedazos, pero busco el sol
+Un pasito a la vez, un pasito otra vez
+Aunque duela, ya ves
+
+[Instrumental]
+
+[Puente]
+Cierro mis ojos y el aire pesa
+Un río sin agua que igual me atraviesa
+El pecho cansado, buscando y buscando
+Mi alma que se entrega y se desvela
+
+[Coro]
+Lejos de tu sombra, lejos de tu voz
+Me parto en pedazos, pero busco el sol
+Un pasito a la vez, un pasito otra vez
+Aunque duela, ya ves`,
+    credits: {
+      writtenBy: "Maria Lunares",
+      mix: "Maria Lunares",
+      mastering: "Cryo Mix",
+      cover: "Molly Yllom",
+    },
+    links: {
+      bandcamp: "https://marialunares.bandcamp.com/track/lejos",
+      soundcloud: "https://soundcloud.com/marialunares/lejos",
+      youtube: "https://youtu.be/np_QGVpW8iA",
+    },
+    checkoutUrl:
+      "https://marialunares.lemonsqueezy.com/checkout/buy/4c1fe1ee-6a83-4c14-8da2-9d80939ab2e5",
     externalUrl: "https://hypeddit.com/7cfw0z",
     soundcloudTrackUrl: "https://soundcloud.com/marialunares/lejos",
+    hasPage: true,
   },
   {
     slug: "sabes-correr",

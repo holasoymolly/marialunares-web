@@ -42,13 +42,13 @@ if (!slug) {
 }
 
 const DIR = path.join("estudio/canciones", slug);
-const WAV = path.join(DIR, "audio/wav");
-const MP3 = path.join(DIR, "audio/mp3");
+const AUDIO = path.join(DIR, "audio");
 const ART = path.join(DIR, "coverart");
 
-const album = flag("album", titulizar(slug));
+const album = flag("album", "");
 const year = flag("year", "");
 const artist = flag("artist", "Maria Lunares");
+const tituloUnico = flag("title", "");
 
 // ---------- utilidades ----------
 
@@ -59,18 +59,48 @@ function titulizar(s) {
     .join(" ");
 }
 
-// ml-de-noche-01-asfalto.wav -> { num: "01", titulo: "Asfalto" }
-function leerNombre(file) {
-  const base = path.parse(file).name;
-  const m = base.match(/-(\d{2})-(.+)$/);
-  if (!m) return null;
-  return { num: m[1], titulo: titulizar(m[2]) };
+// Busca archivos con una extensión bajo audio/, a cualquier profundidad.
+// Así da igual que estén en audio/wav/ o sueltos en audio/.
+async function buscarAudio(ext) {
+  const out = [];
+  async function walk(dir) {
+    const entradas = await readdir(dir, { withFileTypes: true }).catch(() => []);
+    for (const e of entradas) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) await walk(full);
+      else if (path.extname(e.name).toLowerCase() === ext) out.push(full);
+    }
+  }
+  await walk(AUDIO);
+  return out.sort();
 }
 
+// El número de pista sale del nombre (…-01-asfalto). Si no lo lleva y solo hay
+// un archivo, es un sencillo: pista 1 de 1.
+function numeroDe(file, total) {
+  const m = path.parse(file).name.match(/-(\d{2})-/);
+  if (m) return m[1];
+  return total === 1 ? "01" : null;
+}
+
+// El título sale, por orden: de --title, del nombre numerado, o del slug.
+function tituloDe(file, total) {
+  if (tituloUnico) return tituloUnico;
+  const m = path.parse(file).name.match(/-\d{2}-(.+)$/);
+  if (m) return titulizar(m[1]);
+  if (total === 1) return titulizar(slug);
+  return titulizar(path.parse(file).name);
+}
+
+// La portada se empareja por número. Si no hay coincidencia, se usa la del
+// disco (la que lleva "-00-"); y si en coverart/ solo hay una imagen, esa.
 async function portadaPara(num, archivos) {
-  const propia = archivos.find((f) => new RegExp(`-${num}-`).test(f) && IMG.has(path.extname(f).toLowerCase()));
-  const disco = archivos.find((f) => /-00-|^00[-_.]/i.test(f) && IMG.has(path.extname(f).toLowerCase()));
-  const elegida = propia ?? disco;
+  const img = (f) => IMG.has(path.extname(f).toLowerCase());
+  const soloImgs = archivos.filter(img);
+  const propia = num ? soloImgs.find((f) => new RegExp(`-${num}-`).test(f)) : null;
+  const disco = soloImgs.find((f) => /-00-|^00[-_.]/i.test(f));
+  const unica = soloImgs.length === 1 ? soloImgs[0] : null;
+  const elegida = propia ?? disco ?? unica;
   return elegida ? { ruta: path.join(ART, elegida), propia: Boolean(propia) } : null;
 }
 
@@ -157,45 +187,45 @@ async function md5Audio(file) {
 
 async function main() {
   try {
-    await stat(WAV);
+    await stat(AUDIO);
   } catch {
-    console.error(`No existe ${WAV}. ¿Está bien el slug?`);
+    console.error(`No existe ${AUDIO}. ¿Está bien el slug?`);
     process.exit(1);
   }
 
-  const wavs = (await readdir(WAV)).filter((f) => f.toLowerCase().endsWith(".wav")).sort();
-  if (!wavs.length) {
-    console.error(`No hay ningún .wav en ${WAV}`);
+  const wavs = await buscarAudio(".wav");
+  const mp3s = await buscarAudio(".mp3");
+  if (!wavs.length && !mp3s.length) {
+    console.error(`No hay audio en ${AUDIO}`);
     process.exit(1);
   }
 
   const artes = await readdir(ART).catch(() => []);
-  if (!artes.length) console.warn(`Aviso: ${ART} está vacío, los audios irán sin portada.\n`);
+  if (!artes.filter((f) => IMG.has(path.extname(f).toLowerCase())).length) {
+    console.warn(`Aviso: no hay imágenes en ${ART}. Los audios irán sin portada.\n`);
+  }
 
-  await mkdir(MP3, { recursive: true });
-  const tmp = await mkdir(path.join(os.tmpdir(), `ml-audio-${slug}`), { recursive: true }).then(
-    () => path.join(os.tmpdir(), `ml-audio-${slug}`)
-  );
+  const total = Math.max(wavs.length, mp3s.length);
+  const disco = album || titulizar(slug);
+  console.log(`${slug} — ${total} pista(s)   álbum "${disco}"${year ? `, ${year}` : ""}\n`);
 
-  const total = wavs.length;
-  console.log(`${slug} — ${total} pista(s)   álbum "${album}"${year ? `, ${year}` : ""}\n`);
+  const tmp = path.join(os.tmpdir(), `ml-audio-${slug}`);
+  await mkdir(tmp, { recursive: true });
 
-  for (const nombre of wavs) {
-    const info = leerNombre(nombre);
-    if (!info) {
-      console.warn(`  ${nombre}: no puedo sacar el número de pista del nombre, lo salto`);
-      continue;
-    }
-    const { num, titulo } = info;
-    const wavPath = path.join(WAV, nombre);
+  // Se recorre por WAV cuando los hay; si solo hay MP3, por MP3.
+  const base = wavs.length ? wavs : mp3s;
+
+  for (const fuente of base) {
+    const num = numeroDe(fuente, base.length);
+    const titulo = tituloDe(fuente, base.length);
     const arte = await portadaPara(num, artes);
 
     const tags = [
       ["TIT2", titulo],
       ["TPE1", artist],
       ["TPE2", artist],
-      ["TALB", album],
-      ["TRCK", `${Number(num)}/${total}`],
+      ["TALB", disco],
+      ["TRCK", `${Number(num ?? 1)}/${total}`],
       ["TYER", year],
       ["TCON", "Electronic"],
     ];
@@ -205,51 +235,70 @@ async function main() {
       jpeg = await sharp(arte.ruta).resize(ART_MAX, ART_MAX, { fit: "cover" }).jpeg({ quality: 88 }).toBuffer();
     }
 
-    // --- WAV ---
-    let notaWav = "sin portada";
-    if (jpeg) {
-      const antes = await md5Audio(wavPath);
-      const salida = await etiquetarWav(wavPath, jpeg, tags);
-      const prueba = path.join(tmp, nombre);
-      await writeFile(prueba, salida);
-      const despues = await md5Audio(prueba);
-      if (antes !== despues || !antes) {
+    // ---- WAV ----
+    let notaWav = "—";
+    if (fuente.toLowerCase().endsWith(".wav")) {
+      if (!jpeg) notaWav = "sin portada";
+      else {
+        const antes = await md5Audio(fuente);
+        const salida = await etiquetarWav(fuente, jpeg, tags);
+        const prueba = path.join(tmp, path.basename(fuente));
+        await writeFile(prueba, salida);
+        const despues = await md5Audio(prueba);
+        if (antes !== despues || !antes) {
+          await unlink(prueba).catch(() => {});
+          throw new Error(`${path.basename(fuente)}: el audio cambiaría. Abortado, no se ha tocado nada.`);
+        }
+        await writeFile(fuente, salida);
         await unlink(prueba).catch(() => {});
-        throw new Error(`${nombre}: el audio cambiaría. Abortado, no se ha tocado nada.`);
+        notaWav = arte.propia ? "portada propia" : "portada del disco";
       }
-      await writeFile(wavPath, salida);
-      await unlink(prueba).catch(() => {});
-      notaWav = arte.propia ? "portada propia" : "portada del disco";
     }
 
-    // --- MP3 ---
-    const mp3Path = path.join(MP3, `${path.parse(nombre).name}.mp3`);
-    const existe = await stat(mp3Path).then(() => true).catch(() => false);
+    // ---- MP3 ----
+    const metaFf = tags.filter(([, v]) => v).flatMap(([id, v]) => {
+      const clave = { TIT2: "title", TPE1: "artist", TPE2: "album_artist", TALB: "album", TRCK: "track", TYER: "date", TCON: "genre" }[id];
+      return ["-metadata", `${clave}=${v}`];
+    });
+    const jpgTmp = path.join(tmp, `${num ?? "01"}.jpg`);
+    if (jpeg) await writeFile(jpgTmp, jpeg);
+
+    // ¿Ya hay un MP3 para esta pista? Se empareja por número, o por ser el único.
+    const existente = num
+      ? mp3s.find((m) => new RegExp(`-${num}-`).test(path.basename(m))) ?? (mp3s.length === 1 ? mp3s[0] : null)
+      : mp3s.length === 1
+        ? mp3s[0]
+        : null;
+
     let notaMp3;
-    if (existe && !force) {
-      notaMp3 = "ya existía (--force para rehacer)";
-    } else {
-      const jpgTmp = path.join(tmp, `${num}.jpg`);
-      if (jpeg) await writeFile(jpgTmp, jpeg);
-      const meta = tags.filter(([, v]) => v).flatMap(([id, v]) => {
-        const clave = { TIT2: "title", TPE1: "artist", TPE2: "album_artist", TALB: "album", TRCK: "track", TYER: "date", TCON: "genre" }[id];
-        return ["-metadata", `${clave}=${v}`];
-      });
+    if (existente && !force) {
+      // Se le añaden etiquetas y portada SIN recodificar: -c:a copy.
+      const salida = path.join(tmp, `tag-${path.basename(existente)}`);
       await run("ffmpeg", [
-        "-y", "-loglevel", "error",
-        "-i", wavPath,
+        "-y", "-loglevel", "error", "-i", existente,
         ...(jpeg ? ["-i", jpgTmp] : []),
-        "-map", "0:a",
-        ...(jpeg ? ["-map", "1:v", "-c:v", "copy", "-disposition:v", "attached_pic"] : []),
-        "-c:a", "libmp3lame", "-b:a", "320k", "-ar", "44100",
-        "-id3v2_version", "3", "-write_id3v1", "1",
-        ...meta,
-        mp3Path,
+        "-map", "0:a", ...(jpeg ? ["-map", "1:v", "-c:v", "copy", "-disposition:v", "attached_pic"] : []),
+        "-c:a", "copy", "-map_metadata", "-1", "-id3v2_version", "3", "-write_id3v1", "1",
+        ...metaFf, salida,
       ]);
-      notaMp3 = existe ? "rehecho" : "creado";
+      await writeFile(existente, await readFile(salida));
+      await unlink(salida).catch(() => {});
+      notaMp3 = jpeg ? "etiquetado, sin recodificar" : "etiquetado (sin portada)";
+    } else {
+      const destino = existente ?? path.join(path.dirname(fuente), `${path.parse(fuente).name}.mp3`);
+      await mkdir(path.dirname(destino), { recursive: true });
+      await run("ffmpeg", [
+        "-y", "-loglevel", "error", "-i", fuente,
+        ...(jpeg ? ["-i", jpgTmp] : []),
+        "-map", "0:a", ...(jpeg ? ["-map", "1:v", "-c:v", "copy", "-disposition:v", "attached_pic"] : []),
+        "-c:a", "libmp3lame", "-b:a", "320k",
+        "-map_metadata", "-1", "-id3v2_version", "3", "-write_id3v1", "1",
+        ...metaFf, destino,
+      ]);
+      notaMp3 = existente ? "rehecho desde el WAV" : "creado";
     }
 
-    console.log(`  ${num}  ${titulo.padEnd(16)} wav: ${notaWav.padEnd(18)} mp3: ${notaMp3}`);
+    console.log(`  ${(num ?? "--").padEnd(3)} ${titulo.padEnd(16)} wav: ${notaWav.padEnd(20)} mp3: ${notaMp3}`);
   }
 
   console.log("\nListo. El PCM de los WAV no se ha modificado (verificado por md5).");
