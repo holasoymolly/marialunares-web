@@ -53,6 +53,9 @@ const tituloUnico = flag("title", "");
 // ---------- utilidades ----------
 
 function titulizar(s) {
+  // "sabes-correr" -> "Sabes Correr". Si ya viene con espacios y mayúsculas
+  // (porque el nombre del archivo era legible), se respeta tal cual.
+  if (/\s/.test(s) && /[A-ZÁÉÍÓÚÑ]/.test(s)) return s.trim();
   return s
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -78,7 +81,7 @@ async function buscarAudio(ext) {
 // El número de pista sale del nombre (…-01-asfalto). Si no lo lleva y solo hay
 // un archivo, es un sencillo: pista 1 de 1.
 function numeroDe(file, total) {
-  const m = path.parse(file).name.match(/-(\d{2})-/);
+  const m = path.parse(file).name.match(/(?:^|[-\s])(\d{2})[-\s]/);
   if (m) return m[1];
   return total === 1 ? "01" : null;
 }
@@ -86,7 +89,7 @@ function numeroDe(file, total) {
 // El título sale, por orden: de --title, del nombre numerado, o del slug.
 function tituloDe(file, total) {
   if (tituloUnico) return tituloUnico;
-  const m = path.parse(file).name.match(/-\d{2}-(.+)$/);
+  const m = path.parse(file).name.match(/(?:^|[-\s])\d{2}[-\s]+(.+)$/);
   if (m) return titulizar(m[1]);
   if (total === 1) return titulizar(slug);
   return titulizar(path.parse(file).name);
@@ -97,7 +100,7 @@ function tituloDe(file, total) {
 async function portadaPara(num, archivos) {
   const img = (f) => IMG.has(path.extname(f).toLowerCase());
   const soloImgs = archivos.filter(img);
-  const propia = num ? soloImgs.find((f) => new RegExp(`-${num}-`).test(f)) : null;
+  const propia = num ? soloImgs.find((f) => new RegExp(`[-\\s]${num}[-\\s]`).test(f)) : null;
   const disco = soloImgs.find((f) => /-00-|^00[-_.]/i.test(f));
   const unica = soloImgs.length === 1 ? soloImgs[0] : null;
   const elegida = propia ?? disco ?? unica;
@@ -265,7 +268,7 @@ async function main() {
 
     // ¿Ya hay un MP3 para esta pista? Se empareja por número, o por ser el único.
     const existente = num
-      ? mp3s.find((m) => new RegExp(`-${num}-`).test(path.basename(m))) ?? (mp3s.length === 1 ? mp3s[0] : null)
+      ? mp3s.find((m) => new RegExp(`[-\\s]${num}[-\\s]`).test(path.basename(m))) ?? (mp3s.length === 1 ? mp3s[0] : null)
       : mp3s.length === 1
         ? mp3s[0]
         : null;

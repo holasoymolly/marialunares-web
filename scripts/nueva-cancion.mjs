@@ -63,21 +63,42 @@ Si aún no tienes el producto creado, déjalo en blanco: la página sale con el
 botón "Próximamente" y lo enchufamos después.
 `;
 
-const LEEME = (slug) => `Deja aquí:
+const LEEME = (slug) => `Carpeta de trabajo de "${slug}". Nada de esto se sube
+a git ni se despliega: aquí viven los originales.
 
-- \`coverart/ml-${slug}-00-ep.png\` — la portada del release, a máxima
-  resolución y cuadrada. El "00" es lo que marca cuál es la del disco: el
-  optimizador la busca por ahí y la convierte en
-  public/images/covers/ml-${slug}-coverart.webp.
-- \`coverart/ml-${slug}-01-<tema>.png\`, \`-02-\`, \`-03-\`… — la portada de cada
-  pista, si las tiene. No van a la web: se incrustan en los archivos de audio.
-- \`audio/wav/\` — los másters.
-- \`audio/mp3/\` — las versiones para quien compre desde el móvil.
-- \`extras/\` — artes alternativos, stems, lo que sea.
-- \`NOTAS.md\` — rellénalo con el año, la letra, los créditos y los enlaces.
+## Dónde va cada cosa
 
-Los nombres de \`coverart/\` y de \`audio/\` deben llevar el mismo número de
-pista, para poder emparejarlos.
+| Carpeta | Qué guarda |
+|---|---|
+| \`coverart/\` | Portadas a máxima resolución. |
+| \`audio/wav/\` | Los másters. |
+| \`audio/mp3/\` | Las versiones para quien compre desde el móvil. |
+| \`extras/\` | Artes alternativos, stems, lo que sea. |
+| \`lemon-squeezy/\` | La imagen 1600x1200 de la ficha de tienda. |
+| \`NOTAS.md\` | Año, letra, créditos y enlaces. Rellénalo. |
+
+## Cómo nombrar los archivos
+
+El nombre de los audios llega tal cual a quien compra, así que conviene que sea
+presentable:
+
+    audio/wav/Maria Lunares - <Título>.wav              (un sencillo)
+    audio/wav/Maria Lunares - <Disco> - 01 <Tema>.wav   (un EP o álbum)
+
+Las portadas se emparejan con el audio **por el número de pista**:
+
+    coverart/ml-${slug}-00-ep.png        la del disco (el "00" la identifica)
+    coverart/ml-${slug}-01-<tema>.png    la de la pista 01
+
+Si solo hay una imagen en \`coverart/\`, no hace falta marcarla: se usa esa.
+
+## Cuando esté todo
+
+    node scripts/optimize-images.mjs
+    node scripts/preparar-audio.mjs ${slug} --album "<Disco>" --year <AAAA>
+
+El primero genera la portada de la web. El segundo incrusta la portada en cada
+audio, crea el MP3 que falte y pone las etiquetas.
 `;
 
 const slug = process.argv[2];
@@ -106,7 +127,7 @@ try {
   // no existe: seguimos
 }
 
-for (const sub of ["audio/wav", "audio/mp3", "coverart", "extras"]) {
+for (const sub of ["audio/wav", "audio/mp3", "coverart", "extras", "lemon-squeezy"]) {
   await mkdir(path.join(dir, sub), { recursive: true });
 }
 await writeFile(path.join(dir, "NOTAS.md"), NOTAS(slug));

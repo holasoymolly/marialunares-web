@@ -20,8 +20,8 @@ estudio/                              (gitignored — masters, never deployed)
   canciones/<slug>/
     coverart/ml-<slug>-00-ep.png        the release cover ("00" identifies it)
     coverart/ml-<slug>-01-<track>.png   per-track covers, numbered like the audio
-    audio/wav/  ·  audio/mp3/
-    extras/  ·  NOTAS.md
+    audio/wav/  ·  audio/mp3/           "Maria Lunares - <Album> - 01 <Track>.wav"
+    extras/  ·  lemon-squeezy/  ·  NOTAS.md
 
 public/images/                        (do not edit by hand)
   covers/    ml-<slug>-coverart.webp    <- generated from canciones/*/portada.*
@@ -61,6 +61,12 @@ node scripts/preparar-audio.mjs mi-cancion --album "Mi Canción" --year 2026
 número con `coverart/`) y genera el MP3 que falte. El muxer de WAV de ffmpeg no
 admite imágenes, así que el script escribe a mano un chunk `id3 ` del RIFF y
 comprueba por md5 que el PCM no cambió. Es idempotente; `--force` rehace los MP3.
+
+Los nombres de los archivos de audio llegan tal cual a quien compra, así que se
+escriben legibles: `Maria Lunares - Lejos.wav` para un sencillo,
+`Maria Lunares - De Noche - 01 Asfalto.wav` para un disco. La portada se
+empareja con el audio por el número de pista, y los scripts aceptan tanto
+guiones (`-01-`) como espacios (`- 01 `).
 
 **Apple Music ignora la portada en WAV** (sí la leen Rekordbox, Serato, Traktor,
 foobar2000). Por eso conviene vender siempre los dos formatos.
