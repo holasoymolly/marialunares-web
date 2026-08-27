@@ -198,6 +198,7 @@ Y buena suerte`,
     credits: {
       writtenBy: "Maria Lunares (Cinthya Paulino)",
       mix: "Cryo Mix",
+      mastering: "Cryo Mix",
       cover: "Maria Lunares (Cinthya Paulino)",
     },
     links: {
