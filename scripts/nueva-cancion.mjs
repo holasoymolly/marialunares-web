@@ -66,7 +66,7 @@ botón "Próximamente" y lo enchufamos después.
 const LEEME = `Deja aquí:
 
 - \`portada.png\` (o .jpg / .webp) — la portada a máxima resolución, cuadrada.
-  El optimizador la convierte sola en /images/covers/ml-<slug>-coverart.webp.
+  El optimizador la convierte sola en public/images/covers/ml-<slug>-coverart.webp.
 - \`audio/\` — el archivo que recibe quien compra (WAV, MP3 o un ZIP con ambos).
 - \`extras/\` — cualquier otra cosa: fotos, artes alternativos, stems.
 - \`NOTAS.md\` — rellénalo con el año, la letra, los créditos y los enlaces.

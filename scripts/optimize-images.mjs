@@ -1,36 +1,41 @@
-// Optimizador de medios: lee los originales a máxima resolución de
-// ./estudio/images y escribe versiones para web en ./public/images.
+// Genera public/images a partir de estudio/.
 //
-// Descubre los archivos solo. Antes había una lista fija de nombres y era muy
-// fácil añadir una portada nueva, olvidarse de apuntarla y que el script la
-// ignorara sin decir nada. Ahora basta con dejar el archivo en la carpeta
-// correcta de estudio/.
+// Las dos carpetas NO son espejo la una de la otra, y es a propósito:
 //
-// La estructura de estudio/images se refleja tal cual en public/images:
+//   estudio/  se ordena por proyecto del mundo real (una canción, una sesión
+//             de fotos) y guarda los archivos a máxima resolución. No se sube
+//             a git ni se despliega.
+//   public/   se ordena por lo que necesita la web y guarda versiones
+//             comprimidas. Lo genera este script: no se edita a mano.
 //
-//   estudio/images/covers/ml-lejos-coverart.webp
-//        -> public/images/covers/ml-lejos-coverart.webp
-//   estudio/images/fotos/sev/sev_1605.jpg
-//        -> public/images/fotos/sev/sev_1605.jpg
+// Ningún nombre de carpeta se repite entre las dos, para que nunca parezcan
+// duplicadas. El mapeo de una a otra es la tabla MAPA de aquí abajo.
 //
 // Uso: node scripts/optimize-images.mjs
 import sharp from "sharp";
 import { readdir, mkdir, copyFile, stat } from "node:fs/promises";
 import path from "node:path";
 
-const SRC = "estudio/images";
+const ESTUDIO = "estudio";
 const OUT = "public/images";
-const SONGS = "estudio/canciones";
 const QUALITY = 80;
 
-// Una regla por carpeta de primer nivel. `maxEdge` es el lado largo máximo en
-// píxeles; `copy` pasa el archivo tal cual (los logos ya son diminutos).
-const RULES = {
-  covers: { maxEdge: 1200 },
-  fotos: { maxEdge: 2000 },
-  home: { maxEdge: 1600 },
-  brand: { copy: true },
-};
+// De dónde sale cada cosa y dónde acaba.
+//   maxEdge: lado largo máximo en píxeles. `copy: true` pasa el archivo tal cual.
+//   porProyecto: cada subcarpeta es una canción; se busca dentro un "portada.*"
+//                y se emite con el nombre que espera releases.ts.
+const MAPA = [
+  {
+    desde: "canciones",
+    hacia: "covers",
+    porProyecto: true,
+    maxEdge: 1200,
+    nombre: (slug) => `ml-${slug}-coverart.webp`,
+  },
+  { desde: "sesiones-fotos", hacia: "fotos", maxEdge: 2000 },
+  { desde: "marca", hacia: "brand", copy: true },
+  { desde: "video-portada", hacia: "home", maxEdge: 1600 },
+];
 
 const EXTS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
@@ -45,111 +50,111 @@ async function walk(dir, base = dir) {
   }
   for (const entry of entries) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      out.push(...(await walk(full, base)));
-    } else if (EXTS.has(path.extname(entry.name).toLowerCase())) {
-      out.push(path.relative(base, full));
-    }
+    if (entry.isDirectory()) out.push(...(await walk(full, base)));
+    else if (EXTS.has(path.extname(entry.name).toLowerCase())) out.push(path.relative(base, full));
   }
   return out;
 }
 
-async function encode(inPath, outPath, maxEdge) {
+async function encode(inPath, outPath, maxEdge, forzarWebp = false) {
   const ext = path.extname(inPath).toLowerCase();
-  let pipeline = sharp(inPath).rotate().resize({
-    width: maxEdge,
-    height: maxEdge,
-    fit: "inside",
-    withoutEnlargement: true,
-  });
-  if (ext === ".webp") pipeline = pipeline.webp({ quality: QUALITY });
+  let pipeline = sharp(inPath)
+    .rotate()
+    .resize({ width: maxEdge, height: maxEdge, fit: "inside", withoutEnlargement: true });
+  if (forzarWebp || ext === ".webp") pipeline = pipeline.webp({ quality: QUALITY });
   else if (ext === ".png") pipeline = pipeline.png({ quality: QUALITY, compressionLevel: 9 });
   else pipeline = pipeline.jpeg({ quality: QUALITY, mozjpeg: true });
   await pipeline.toFile(outPath);
 }
 
-// Las portadas también pueden venir de la carpeta de trabajo de cada canción:
-// estudio/canciones/<slug>/portada.png -> public/images/covers/ml-<slug>-coverart.webp
-// Así basta con soltar el archivo ahí; no hay que copiarlo a images/covers/.
-async function coversDeCanciones() {
-  const out = [];
-  let slugs;
+// Las canciones son un caso aparte: dentro de cada carpeta solo interesa el
+// archivo llamado "portada", y sale con el nombre que espera el catálogo.
+async function procesarCanciones(regla) {
+  const base = path.join(ESTUDIO, regla.desde);
+  let entradas;
   try {
-    slugs = await readdir(SONGS, { withFileTypes: true });
+    entradas = await readdir(base, { withFileTypes: true });
   } catch {
-    return out;
+    return { hechos: 0, sinPortada: [] };
   }
-  for (const entry of slugs) {
-    if (!entry.isDirectory()) continue;
-    const dir = path.join(SONGS, entry.name);
-    const files = await readdir(dir).catch(() => []);
-    const portada = files.find(
+
+  let hechos = 0;
+  const sinPortada = [];
+
+  for (const entrada of entradas) {
+    if (!entrada.isDirectory()) continue;
+    const dir = path.join(base, entrada.name);
+    const archivos = await readdir(dir).catch(() => []);
+    const portada = archivos.find(
       (f) => path.parse(f).name.toLowerCase() === "portada" && EXTS.has(path.extname(f).toLowerCase())
     );
-    if (portada) {
-      out.push({
-        inPath: path.join(dir, portada),
-        outPath: path.join(OUT, "covers", `ml-${entry.name}-coverart.webp`),
-        slug: entry.name,
-      });
+
+    if (!portada) {
+      sinPortada.push(entrada.name);
+      continue;
     }
+
+    const outPath = path.join(OUT, regla.hacia, regla.nombre(entrada.name));
+    await mkdir(path.dirname(outPath), { recursive: true });
+    await encode(path.join(dir, portada), outPath, regla.maxEdge, true);
+    hechos++;
+    console.log(`  ${entrada.name}/${portada}  ->  ${outPath}`);
   }
-  return out;
+
+  return { hechos, sinPortada };
 }
 
 async function main() {
   try {
-    await stat(SRC);
+    await stat(ESTUDIO);
   } catch {
     console.error(
-      `No existe ${SRC}.\n` +
-        `Los originales están fuera del repo (estudio/ está en .gitignore).\n` +
-        `Recupéralos de tu backup con esta estructura:\n` +
-        Object.keys(RULES)
-          .map((d) => `  ${SRC}/${d}/`)
-          .join("\n")
+      `No existe ${ESTUDIO}/.\n\n` +
+        "Es tu mesa de trabajo y está fuera de git, así que hay que recuperarla\n" +
+        "del backup con esta forma:\n" +
+        MAPA.map((r) => `  ${ESTUDIO}/${r.desde}/`).join("\n")
     );
     process.exit(1);
   }
 
   let total = 0;
-  const skipped = [];
+  const vacias = [];
+  const avisos = [];
 
-  for (const [dir, rule] of Object.entries(RULES)) {
-    const files = await walk(path.join(SRC, dir));
-    if (!files.length) {
-      skipped.push(dir);
+  for (const regla of MAPA) {
+    console.log(`\n${regla.desde}/  ->  ${OUT}/${regla.hacia}/`);
+
+    if (regla.porProyecto) {
+      const { hechos, sinPortada } = await procesarCanciones(regla);
+      total += hechos;
+      if (!hechos) vacias.push(regla.desde);
+      if (sinPortada.length) {
+        avisos.push(`sin portada.*: ${sinPortada.join(", ")}`);
+      }
       continue;
     }
 
-    for (const rel of files) {
-      const inPath = path.join(SRC, dir, rel);
-      const outPath = path.join(OUT, dir, rel);
-      await mkdir(path.dirname(outPath), { recursive: true });
-      if (rule.copy) await copyFile(inPath, outPath);
-      else await encode(inPath, outPath, rule.maxEdge);
-      total++;
+    const archivos = await walk(path.join(ESTUDIO, regla.desde));
+    if (!archivos.length) {
+      vacias.push(regla.desde);
+      continue;
     }
 
-    console.log(`${dir}: ${files.length} archivo(s) -> ${path.join(OUT, dir)}`);
+    for (const rel of archivos) {
+      const inPath = path.join(ESTUDIO, regla.desde, rel);
+      const outPath = path.join(OUT, regla.hacia, rel);
+      await mkdir(path.dirname(outPath), { recursive: true });
+      if (regla.copy) await copyFile(inPath, outPath);
+      else await encode(inPath, outPath, regla.maxEdge);
+      total++;
+    }
+    console.log(`  ${archivos.length} archivo(s)`);
   }
 
-  // Portadas que vienen de estudio/canciones/<slug>/portada.*
-  const desdeCanciones = await coversDeCanciones();
-  for (const { inPath, outPath, slug } of desdeCanciones) {
-    await mkdir(path.dirname(outPath), { recursive: true });
-    await sharp(inPath)
-      .rotate()
-      .resize({ width: RULES.covers.maxEdge, height: RULES.covers.maxEdge, fit: "inside", withoutEnlargement: true })
-      .webp({ quality: QUALITY })
-      .toFile(outPath);
-    total++;
-    console.log(`canciones/${slug}: portada -> ${outPath}`);
-  }
-
-  console.log(`\nListo. ${total} imagen(es) procesada(s).`);
-  if (skipped.length) {
-    console.warn(`Carpetas vacías o ausentes en ${SRC}: ${skipped.join(", ")}`);
+  console.log(`\nListo. ${total} imagen(es) generada(s) en ${OUT}.`);
+  for (const aviso of avisos) console.warn(`Aviso: ${aviso}`);
+  if (vacias.length) {
+    console.warn(`Sin material todavía en ${ESTUDIO}/: ${vacias.join(", ")}`);
   }
 }
 

@@ -53,7 +53,8 @@ public/
   images/brand/     logo (normal y negativo)
   images/home/      póster del video de portada
   videos/           background video · og-image, favicons y robots en la raíz
-estudio/            mesa de trabajo: canciones/<slug>/ e images/ — GITIGNORED
+estudio/            mesa de trabajo (GITIGNORED): canciones/<slug>/ ·
+                    sesiones-fotos/ · marca/ · video-portada/
 docs/               ARCHITECTURE.md · DESIGN.md · AUDIT.md · ASSETS.md
 ```
 
