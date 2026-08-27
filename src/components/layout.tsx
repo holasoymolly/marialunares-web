@@ -31,7 +31,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
       {/* Logo */}
       <div className="fixed top-8 left-8 z-20">
-        <Link href="/" aria-label="María Lunares — inicio">
+        <Link href="/" aria-label="Maria Lunares — inicio">
           <div className="block bg-logo logo-hover" style={{ width: "100px", height: "100px" }}></div>
         </Link>
       </div>

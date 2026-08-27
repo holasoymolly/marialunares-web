@@ -22,7 +22,7 @@ const FUENTE = "Helvetica Neue, Helvetica, Arial, sans-serif";
 const texto = `
 <svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
   <text x="72" y="300" font-family="${FUENTE}" font-size="86" font-weight="700"
-        letter-spacing="-2.5" fill="#ffffff">María Lunares</text>
+        letter-spacing="-2.5" fill="#ffffff">Maria Lunares</text>
 
   <text x="76" y="352" font-family="${FUENTE}" font-size="21" font-weight="500"
         letter-spacing="3.4" fill="#ffffff" opacity="0.82">NEO-BOLERO ESPACIAL</text>

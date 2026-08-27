@@ -79,7 +79,7 @@ export default function ReleasePage({ release }: ReleasePageProps) {
   return (
     <>
       <Seo
-        title={`${release.title} — María Lunares`}
+        title={`${release.title} — Maria Lunares`}
         description={description || t.meta.musica.description}
       />
 

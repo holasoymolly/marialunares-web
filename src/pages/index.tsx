@@ -25,7 +25,7 @@ export default function Home() {
       {/* Nombre, género y frase de lugar */}
       <main className="relative z-10 flex min-h-screen items-center justify-center px-6">
         <div className="home-enter flex flex-col items-center text-center">
-          <h1 className="home-title font-bold tracking-tight">María Lunares</h1>
+          <h1 className="home-title font-bold tracking-tight">Maria Lunares</h1>
           <p className="mt-6 max-w-[26ch] text-sm uppercase tracking-[0.2em] opacity-90 sm:max-w-none sm:text-base">
             {t.brand.descriptorShort}
           </p>

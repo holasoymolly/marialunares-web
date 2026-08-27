@@ -11,7 +11,7 @@ The aesthetic is **minimal, dark, editorial** — oversized display type over bl
 - Oversized headings (`text-9xl`) that bleed off-canvas on some pages (e.g. `/fotos`,
   `/musica`) for a poster-like, editorial feel. These display titles are localized too
   (e.g. the repeating `FOTOS…` / `PHOTOS…` strip on `/fotos`).
-- The logo (María Lunares wordmark) swaps to a negative version on hover.
+- The logo (Maria Lunares wordmark) swaps to a negative version on hover.
 
 ## Color
 

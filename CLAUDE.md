@@ -1,10 +1,10 @@
-# CLAUDE.md — María Lunares
+# CLAUDE.md — Maria Lunares
 
 Hub document for AI assistants and developers. Keep this file lean; details live in `docs/`.
 
 ## What this is
 
-The official website for the music artist **María Lunares**: a small, visual, single-purpose
+The official website for the music artist **Maria Lunares**: a small, visual, single-purpose
 site (music, videos, photos, contact, external shop). Spanish-first, with an English version.
 
 **El género es neo-bolero espacial.** Del bolero viene la lírica —el desamor, la melancolía sin
@@ -15,7 +15,7 @@ y sonidos espaciales.
 > electrónica, sonidos espaciales o experimental, para que no se lea como bolero tradicional.
 > La regla está anotada también en `src/i18n/translations.ts`.
 
-María Lunares es el proyecto de **Cinthya (Molly) Paulino**. Ya no toca formato DJ set: no usar
+Maria Lunares es el proyecto de **Cinthya (Molly) Paulino**. Ya no toca formato DJ set: no usar
 ese encuadre en ningún texto.
 
 ## Stack
@@ -109,7 +109,7 @@ al diccionario.
 
 ## Páginas de contenido
 
-- **`/sobre`** (en inglés, `/about`) — identidad del proyecto: apertura, qué es María Lunares,
+- **`/sobre`** (en inglés, `/about`) — identidad del proyecto: apertura, qué es Maria Lunares,
   el alter ego ML, la historia y el cierre con CTA. Todo el copy en `translations.ts` (`sobre`
   y `brand`).
 - El slug cambia entre idiomas solo en esta página. `next.config.js` reescribe `/en/about` a la

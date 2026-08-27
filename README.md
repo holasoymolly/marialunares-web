@@ -1,6 +1,6 @@
-# María Lunares
+# Maria Lunares
 
-Official website for the music artist **María Lunares** — music, videos, photos, and shop links.
+Official website for the music artist **Maria Lunares** — music, videos, photos, and shop links.
 
 Built with **Next.js 15 (Pages Router) · TypeScript · Tailwind CSS**, deployed on **Vercel**.
 
