@@ -70,8 +70,29 @@ async function encode(inPath, outPath, maxEdge, forzarWebp = false) {
   await pipeline.toFile(outPath);
 }
 
-// Las canciones son un caso aparte: dentro de cada carpeta solo interesa el
-// archivo llamado "portada", y sale con el nombre que espera el catálogo.
+// Las canciones son un caso aparte. La portada del release puede estar en dos
+// sitios, en este orden:
+//
+//   1. coverart/<lo que sea>-00-<lo que sea>.png   <- convención de Molly: el
+//      "00" marca la portada del disco, y 01, 02… las de cada pista.
+//   2. portada.png en la raíz de la carpeta        <- alternativa simple.
+//
+// Las portadas por pista no se emiten a public/: hoy la web no las usa, viven
+// en estudio/ y se incrustan en los archivos de audio al venderlos.
+async function buscarPortada(dir) {
+  const enRaiz = (await readdir(dir).catch(() => [])).find(
+    (f) => path.parse(f).name.toLowerCase() === "portada" && EXTS.has(path.extname(f).toLowerCase())
+  );
+  if (enRaiz) return path.join(dir, enRaiz);
+
+  const coverart = path.join(dir, "coverart");
+  const archivos = await readdir(coverart).catch(() => []);
+  const delDisco = archivos.find(
+    (f) => /-00-|^00[-_.]/i.test(f) && EXTS.has(path.extname(f).toLowerCase())
+  );
+  return delDisco ? path.join(coverart, delDisco) : null;
+}
+
 async function procesarCanciones(regla) {
   const base = path.join(ESTUDIO, regla.desde);
   let entradas;
@@ -87,10 +108,7 @@ async function procesarCanciones(regla) {
   for (const entrada of entradas) {
     if (!entrada.isDirectory()) continue;
     const dir = path.join(base, entrada.name);
-    const archivos = await readdir(dir).catch(() => []);
-    const portada = archivos.find(
-      (f) => path.parse(f).name.toLowerCase() === "portada" && EXTS.has(path.extname(f).toLowerCase())
-    );
+    const portada = await buscarPortada(dir);
 
     if (!portada) {
       sinPortada.push(entrada.name);
@@ -99,9 +117,9 @@ async function procesarCanciones(regla) {
 
     const outPath = path.join(OUT, regla.hacia, regla.nombre(entrada.name));
     await mkdir(path.dirname(outPath), { recursive: true });
-    await encode(path.join(dir, portada), outPath, regla.maxEdge, true);
+    await encode(portada, outPath, regla.maxEdge, true);
     hechos++;
-    console.log(`  ${entrada.name}/${portada}  ->  ${outPath}`);
+    console.log(`  ${path.relative(base, portada)}  ->  ${outPath}`);
   }
 
   return { hechos, sinPortada };

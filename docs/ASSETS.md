@@ -17,7 +17,11 @@ copies. No folder name is shared between them, so they never look duplicated.
 
 ```
 estudio/                              (gitignored — masters, never deployed)
-  canciones/<slug>/                     portada.* + audio/ + extras/ + NOTAS.md
+  canciones/<slug>/
+    coverart/ml-<slug>-00-ep.png        the release cover ("00" identifies it)
+    coverart/ml-<slug>-01-<track>.png   per-track covers, numbered like the audio
+    audio/wav/  ·  audio/mp3/
+    extras/  ·  NOTAS.md
 
 public/images/                        (do not edit by hand)
   covers/    ml-<slug>-coverart.webp    <- generated from canciones/*/portada.*
@@ -43,12 +47,23 @@ Files at the root of `public/` that the script does **not** manage:
 ## Pipeline
 
 ```bash
-# Canción nueva: crea su carpeta de trabajo y su NOTAS.md
+# 1. Canción nueva: crea su carpeta de trabajo y su NOTAS.md
 node scripts/nueva-cancion.mjs mi-cancion
 
-# Luego deja los archivos donde toca y regenera public/images
+# 2. Deja los archivos y regenera public/images
 node scripts/optimize-images.mjs
+
+# 3. Deja los audios listos para vender: portada incrustada + MP3 320 kbps
+node scripts/preparar-audio.mjs mi-cancion --album "Mi Canción" --year 2026
 ```
+
+`preparar-audio.mjs` incrusta en cada WAV la portada de su pista (emparejada por
+número con `coverart/`) y genera el MP3 que falte. El muxer de WAV de ffmpeg no
+admite imágenes, así que el script escribe a mano un chunk `id3 ` del RIFF y
+comprueba por md5 que el PCM no cambió. Es idempotente; `--force` rehace los MP3.
+
+**Apple Music ignora la portada en WAV** (sí la leen Rekordbox, Serato, Traktor,
+foobar2000). Por eso conviene vender siempre los dos formatos.
 
 Además de las carpetas de `estudio/images/`, el optimizador recoge la portada de
 cada canción desde `estudio/canciones/<slug>/portada.*` y la emite como

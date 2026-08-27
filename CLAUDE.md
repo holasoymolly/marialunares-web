@@ -24,6 +24,7 @@ npm run build    # production build (must pass before deploy)
 npm run lint     # eslint (next lint)
 node scripts/optimize-images.mjs   # regenerate public/images from estudio/
 node scripts/nueva-cancion.mjs <slug>  # crea estudio/canciones/<slug>/ con su NOTAS.md
+node scripts/preparar-audio.mjs <slug> --album "X" --year 2025   # portadas + MP3
 ```
 
 ## Known issues
@@ -46,15 +47,16 @@ src/
   data/             releases.ts (catálogo de canciones) · photos.ts (galería de /fotos)
   i18n/             translations.ts (ES/EN dictionary) + useTranslations.ts
   styles/           globals.css
-scripts/            optimize-images.mjs (pipeline de imágenes) · nueva-cancion.mjs
+scripts/            optimize-images.mjs · nueva-cancion.mjs · preparar-audio.mjs
 public/
   images/covers/    portadas, ml-<slug>-coverart.webp
   images/fotos/     sev/ · raices-bts/ · retratos/
   images/brand/     logo (normal y negativo)
   images/home/      póster del video de portada
   videos/           background video · og-image, favicons y robots en la raíz
-estudio/            mesa de trabajo (GITIGNORED): canciones/<slug>/ ·
-                    sesiones-fotos/ · marca/ · video-portada/
+estudio/            mesa de trabajo (GITIGNORED). Por canción:
+                    coverart/ (00 = disco, 01+ = pistas) · audio/{wav,mp3}/ ·
+                    extras/ · NOTAS.md
 docs/               ARCHITECTURE.md · DESIGN.md · AUDIT.md · ASSETS.md
 ```
 

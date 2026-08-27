@@ -63,13 +63,21 @@ Si aún no tienes el producto creado, déjalo en blanco: la página sale con el
 botón "Próximamente" y lo enchufamos después.
 `;
 
-const LEEME = `Deja aquí:
+const LEEME = (slug) => `Deja aquí:
 
-- \`portada.png\` (o .jpg / .webp) — la portada a máxima resolución, cuadrada.
-  El optimizador la convierte sola en public/images/covers/ml-<slug>-coverart.webp.
-- \`audio/\` — el archivo que recibe quien compra (WAV, MP3 o un ZIP con ambos).
-- \`extras/\` — cualquier otra cosa: fotos, artes alternativos, stems.
+- \`coverart/ml-${slug}-00-ep.png\` — la portada del release, a máxima
+  resolución y cuadrada. El "00" es lo que marca cuál es la del disco: el
+  optimizador la busca por ahí y la convierte en
+  public/images/covers/ml-${slug}-coverart.webp.
+- \`coverart/ml-${slug}-01-<tema>.png\`, \`-02-\`, \`-03-\`… — la portada de cada
+  pista, si las tiene. No van a la web: se incrustan en los archivos de audio.
+- \`audio/wav/\` — los másters.
+- \`audio/mp3/\` — las versiones para quien compre desde el móvil.
+- \`extras/\` — artes alternativos, stems, lo que sea.
 - \`NOTAS.md\` — rellénalo con el año, la letra, los créditos y los enlaces.
+
+Los nombres de \`coverart/\` y de \`audio/\` deben llevar el mismo número de
+pista, para poder emparejarlos.
 `;
 
 const slug = process.argv[2];
@@ -98,15 +106,16 @@ try {
   // no existe: seguimos
 }
 
-await mkdir(path.join(dir, "audio"), { recursive: true });
-await mkdir(path.join(dir, "extras"), { recursive: true });
+for (const sub of ["audio/wav", "audio/mp3", "coverart", "extras"]) {
+  await mkdir(path.join(dir, sub), { recursive: true });
+}
 await writeFile(path.join(dir, "NOTAS.md"), NOTAS(slug));
-await writeFile(path.join(dir, "LEEME.md"), LEEME);
+await writeFile(path.join(dir, "LEEME.md"), LEEME(slug));
 
 console.log(`Listo: ${dir}
 
-  1. Deja la portada como ${dir}/portada.png
-  2. El audio a vender en ${dir}/audio/
+  1. La portada del disco en ${dir}/coverart/ml-${slug}-00-ep.png
+  2. El audio en ${dir}/audio/wav/ y ${dir}/audio/mp3/
   3. Rellena ${dir}/NOTAS.md
   4. Avísame y monto la página.
 `);
