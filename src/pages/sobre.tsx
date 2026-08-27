@@ -37,7 +37,7 @@ export default function Sobre() {
       key: "ml",
       label: t.sobre.mlLabel,
       text: t.sobre.ml,
-      image: { src: "/images/fotos/sev/sev_1479.webp", w: 1334, h: 2000, max: "22rem" },
+      image: { src: "/images/fotos/sev/sev_1515.webp", w: 1334, h: 2000, max: "22rem" },
     },
     {
       key: "project",
