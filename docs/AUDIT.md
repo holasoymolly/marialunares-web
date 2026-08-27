@@ -69,3 +69,23 @@ to **65 MB**). After optimization, served media is **~7.3 MB** total.
   request.
 - Consider a real Open Graph design (branded 1200×630) instead of the auto-generated cover crop.
 - Optionally self-host or further trim the SoundCloud player.
+
+## Estado a 27-08-2026
+
+Cerrado en la sesión de identidad neo-bolero:
+
+- **Catálogo completo.** Las cinco entradas de `releases.ts` tienen página propia
+  en ES y EN, con año, letra o pistas, créditos, enlaces, reproductor y checkout.
+- **Texto alternativo real** en las 28 fotos de `/fotos`, en ES y EN
+  (`src/data/photos.ts`). Antes decían "Photo 1"…"Photo 28".
+- **`public/` de 10 MB a 6,9 MB.** `lejos.webp` pasó de 2,4 MB a 136 KB; las
+  portadas de Sabes Correr y De Noche se regeneraron desde sus másters.
+- **`public/images` reorganizado** por función: `covers/`, `fotos/<sesion>/`,
+  `brand/`, `home/`.
+
+Sigue abierto:
+
+- `og-image.jpg` es la portada de "De Noche" centrada sobre un lienzo negro de
+  1200×630. Falta una gráfica hecha a propósito.
+- El historial de git conserva los blobs grandes antiguos; solo el árbol de
+  trabajo y los despliegues son ligeros.
