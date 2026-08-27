@@ -46,3 +46,4 @@ Full project context lives in [`CLAUDE.md`](./CLAUDE.md) (the hub) and the focus
 - [`docs/DESIGN.md`](./docs/DESIGN.md) — brand & visual system.
 - [`docs/AUDIT.md`](./docs/AUDIT.md) — UX & performance audit with prioritized recommendations.
 - [`docs/ASSETS.md`](./docs/ASSETS.md) — media inventory & optimization pipeline.
+- [`docs/CARRITO.md`](./docs/CARRITO.md) — compra de varios releases a la vez: análisis y decisión (aparcado).

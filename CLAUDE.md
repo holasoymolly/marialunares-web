@@ -183,3 +183,4 @@ Para ver los formularios de la cuenta y sus IDs: `GET https://api.kit.com/v4/for
 - [docs/DESIGN.md](docs/DESIGN.md) — brand & visual system.
 - [docs/AUDIT.md](docs/AUDIT.md) — UX & performance audit + status of recommendations.
 - [docs/ASSETS.md](docs/ASSETS.md) — media inventory & optimization pipeline.
+- [docs/CARRITO.md](docs/CARRITO.md) — compra de varios releases a la vez: análisis y decisión (aparcado).
