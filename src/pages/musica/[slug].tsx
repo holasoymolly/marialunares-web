@@ -84,7 +84,9 @@ export default function ReleasePage({ release }: ReleasePageProps) {
       />
 
       <div className="min-h-[100dvh] w-full bg-black text-white">
-        <article className="release-enter mx-auto w-full max-w-[1400px] px-6 pb-52 pt-44 sm:px-10 sm:pt-40 lg:px-16">
+        {/* El menú fijo mide 268px en móvil y 316px desde `sm`. Por debajo de `lg`
+            el texto ocupa todo el ancho y pasaría por debajo. Ver docs/DESIGN.md. */}
+        <article className="release-enter mx-auto w-full max-w-[1400px] px-6 pb-52 pt-72 sm:px-10 sm:pt-80 lg:px-16 lg:pt-40">
           <Link
             href="/musica"
             className="inline-flex items-center gap-2 text-sm opacity-70 transition duration-300 hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"

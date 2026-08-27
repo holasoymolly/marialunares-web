@@ -1,6 +1,9 @@
 # Maria Lunares
 
-Official website for the music artist **Maria Lunares** — music, videos, photos, and shop links.
+Official website for the music artist **Maria Lunares** — neo-bolero espacial: trip-hop,
+electrónica y sonidos espaciales. Música, videos, fotos y tienda.
+
+> El nombre se escribe **sin tilde**: Maria Lunares.
 
 Built with **Next.js 15 (Pages Router) · TypeScript · Tailwind CSS**, deployed on **Vercel**.
 
@@ -8,9 +11,22 @@ Built with **Next.js 15 (Pages Router) · TypeScript · Tailwind CSS**, deployed
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
+npm run dev      # http://localhost:3000  (⚠️ no hidrata en local: ver CLAUDE.md)
 npm run build    # production build
 npm run lint     # eslint
+
+# Para probar interactividad en local hay que compilar:
+npm run build && npx next start
+```
+
+## Scripts de medios
+
+```bash
+node scripts/nueva-cancion.mjs <slug>       # esqueleto de una canción en estudio/
+node scripts/optimize-images.mjs            # portadas de estudio/ -> public/images
+node scripts/preparar-audio.mjs <slug> …    # portada incrustada + MP3 + etiquetas
+node scripts/normalizar-nombres.mjs         # minúsculas y guiones (con guarda de colisiones)
+node scripts/og-image.mjs                   # tarjeta 1200x630 para redes
 ```
 
 ## Branches

@@ -39,9 +39,9 @@ the red YouTube play button — used sparingly.
 
 ```
 ┌───────────────────────────────────────────────┐
-│ [logo]                         Música / Videos  │  ← nav + ES|EN toggle (top-right)
-│                                Fotos / Tienda   │
-│                                Contacto         │
+│ [logo]                         Sobre / Música   │  ← nav + ES|EN toggle (top-right)
+│                                Videos / Fotos   │
+│                                Tienda/Contacto  │
 │                                                 │
 │                 (page content)                  │
 │                                                 │
@@ -50,6 +50,46 @@ the red YouTube play button — used sparingly.
 ```
 
 Positioning uses `position: fixed` with `z-20`/`z-30`; page media sits at negative z-index.
+
+## El menú fijo ocupa sitio, y hay que contarlo
+
+El menú de la esquina superior derecha mide **268 px de alto en móvil** y **316 px a partir de
+`sm`** (seis enlaces más el selector de idioma). Por debajo de `lg` el contenido ocupa todo el
+ancho y pasaría por debajo de él, así que las páginas de texto largo arrancan más abajo:
+
+```
+pt-72 sm:pt-80 lg:pt-40
+```
+
+A partir de `lg` la columna de texto es lo bastante estrecha para no cruzarse con el menú, y se
+puede subir. Añadir un enlace al menú cambia estos números.
+
+## Páginas de texto largo
+
+`/sobre` y `/musica/[slug]` comparten un mismo ritmo, pensado para leerse:
+
+- **Etiqueta de sección** en versalitas: `text-xs uppercase tracking-[0.2em] opacity-60`
+  (Escuchar, Letra, Pistas, Créditos, Enlaces, Prensa).
+- **Dos columnas a partir de `lg`**: la etiqueta a la izquierda en una columna estrecha
+  (`minmax(0,12rem)`), el texto a la derecha. Debajo de `lg` se apilan.
+- **Ancho de lectura** limitado: `max-w-[58ch]` en párrafos, `max-w-[46ch]` en letras.
+- **Botones** en píldora: el principal blanco sobre negro, el secundario con borde.
+- **Entrada** con un `fade-up` de 500–700 ms, anulado por `prefers-reduced-motion`.
+
+En los titulares grandes el límite de ancho va en `em`, no en `ch` sobre el contenedor: `ch` se
+calcula con el tamaño de fuente del elemento padre, así que un `max-w-[24ch]` en el contenedor de
+un titular de 76 px lo parte en seis líneas.
+
+## Home
+
+Nombre en grande, debajo el descriptor de género en versalitas espaciadas, y debajo la frase de
+lugar. Todo centrado sobre el video de fondo con un velo negro al 50%.
+
+## Tarjeta para compartir
+
+`public/og-image.jpg`, 1200×630, la genera `scripts/og-image.mjs`: el retrato de la home
+sangrando por la derecha sobre negro, fundido con un degradado, y a la izquierda el nombre, el
+descriptor y el dominio. Se rehace cuando cambie la foto o el descriptor.
 
 ## Responsive breakpoints
 
