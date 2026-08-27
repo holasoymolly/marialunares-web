@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { DEFAULT_LOCALE, type Locale } from "@/i18n/translations";
+import { DEFAULT_LOCALE, LOCALES, type Locale } from "@/i18n/translations";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://marialunares.com").replace(/\/$/, "");
 const OG_IMAGE = "/og-image.jpg";
@@ -8,20 +8,29 @@ const OG_IMAGE = "/og-image.jpg";
 interface SeoProps {
   title: string;
   description: string;
+  /**
+   * Ruta canónica por idioma, solo para las páginas cuyo slug cambia entre
+   * ES y EN (hoy únicamente /sobre ↔ /about). Sin esta prop se usa la ruta
+   * actual, que es lo correcto para el resto del sitio: /musica, /fotos y
+   * /contacto conservan el slug español en inglés.
+   */
+  paths?: Partial<Record<Locale, string>>;
 }
 
-// Construye la URL absoluta de una ruta para un locale dado.
-function urlFor(locale: Locale, path: string): string {
-  const clean = path === "/" ? "" : path;
-  const prefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
-  return `${SITE_URL}${prefix}${clean}`;
-}
-
-export default function Seo({ title, description }: SeoProps) {
+export default function Seo({ title, description, paths }: SeoProps) {
   const router = useRouter();
   const path = router.asPath.split("?")[0].split("#")[0];
   const locale = (router.locale as Locale) ?? DEFAULT_LOCALE;
-  const canonical = urlFor(locale, path);
+
+  // Construye la URL absoluta de una ruta para un locale dado.
+  const urlFor = (target: Locale): string => {
+    const raw = paths?.[target] ?? path;
+    const clean = raw === "/" ? "" : raw;
+    const prefix = target === DEFAULT_LOCALE ? "" : `/${target}`;
+    return `${SITE_URL}${prefix}${clean}`;
+  };
+
+  const canonical = urlFor(locale);
   const ogImage = `${SITE_URL}${OG_IMAGE}`;
 
   return (
@@ -31,9 +40,10 @@ export default function Seo({ title, description }: SeoProps) {
       <link rel="canonical" href={canonical} />
 
       {/* Alternativas de idioma */}
-      <link rel="alternate" hrefLang="es" href={urlFor("es", path)} />
-      <link rel="alternate" hrefLang="en" href={urlFor("en", path)} />
-      <link rel="alternate" hrefLang="x-default" href={urlFor("es", path)} />
+      {LOCALES.map((l) => (
+        <link key={l} rel="alternate" hrefLang={l} href={urlFor(l)} />
+      ))}
+      <link rel="alternate" hrefLang="x-default" href={urlFor(DEFAULT_LOCALE)} />
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />

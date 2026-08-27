@@ -10,12 +10,25 @@ import { hasOwnPage, releases } from "@/data/releases";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://marialunares.com").replace(/\/$/, "");
 
-const STATIC_PATHS = ["/", "/musica", "/videos", "/fotos", "/contacto"];
+// Casi todas las rutas conservan el slug español en inglés (/en/musica,
+// /en/fotos). La excepción es /sobre, que en inglés se sirve como /about.
+interface Route {
+  es: string;
+  en: string;
+}
 
-function url(path: string): string {
-  const clean = path === "/" ? "" : path;
-  const es = `${SITE_URL}${clean}`;
-  const en = `${SITE_URL}/en${clean}`;
+const STATIC_ROUTES: Route[] = [
+  { es: "/", en: "/" },
+  { es: "/sobre", en: "/about" },
+  { es: "/musica", en: "/musica" },
+  { es: "/videos", en: "/videos" },
+  { es: "/fotos", en: "/fotos" },
+  { es: "/contacto", en: "/contacto" },
+];
+
+function url(route: Route): string {
+  const es = `${SITE_URL}${route.es === "/" ? "" : route.es}`;
+  const en = `${SITE_URL}/en${route.en === "/" ? "" : route.en}`;
   return `  <url>
     <loc>${es}</loc>
     <xhtml:link rel="alternate" hreflang="es" href="${es}"/>
@@ -25,14 +38,17 @@ function url(path: string): string {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  const paths = [
-    ...STATIC_PATHS,
-    ...releases.filter(hasOwnPage).map((release) => `/musica/${release.slug}`),
+  const routes: Route[] = [
+    ...STATIC_ROUTES,
+    ...releases.filter(hasOwnPage).map((release) => ({
+      es: `/musica/${release.slug}`,
+      en: `/musica/${release.slug}`,
+    })),
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${paths.map(url).join("\n")}
+${routes.map(url).join("\n")}
 </urlset>
 `;
 

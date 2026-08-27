@@ -24,6 +24,24 @@ const nextConfig = {
         destination: "https://marialunares.printful.me/",
         permanent: false,
       },
+      // La página de identidad se sirve en inglés como /en/about. Se redirige
+      // /en/sobre para no dejar dos URLs con el mismo contenido indexable.
+      {
+        source: "/en/sobre",
+        destination: "/en/about",
+        locale: false,
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      // El archivo es src/pages/sobre.tsx; en inglés su URL pública es /about.
+      {
+        source: "/en/about",
+        destination: "/en/sobre",
+        locale: false,
+      },
     ];
   },
 };

@@ -16,6 +16,10 @@ export default function Layout({ children }: LayoutProps) {
   const { t, locale } = useTranslations();
   const { openNewsletter } = useNewsletter();
 
+  // La página existe una sola vez (src/pages/sobre.tsx), pero su URL pública
+  // en inglés es /about (ver el rewrite en next.config.js).
+  const sobreHref = locale === "en" ? "/about" : "/sobre";
+
   // Cambia de idioma manteniendo la misma ruta.
   const switchTo = (next: Locale) => {
     if (next !== locale) {
@@ -37,6 +41,9 @@ export default function Layout({ children }: LayoutProps) {
         aria-label={t.nav.musica}
         className="fixed right-8 top-8 flex flex-col items-end gap-4 text-sm sm:text-lg z-20"
       >
+        <Link href={sobreHref} className="transition duration-300 hover:font-bold cursor-pointer">
+          {t.nav.sobre}
+        </Link>
         <Link href="/musica" className="transition duration-300 hover:font-bold cursor-pointer">
           {t.nav.musica}
         </Link>
