@@ -103,7 +103,7 @@ export const translations: Record<Locale, Dict> = {
       sobre: {
         title: "Sobre — Maria Lunares",
         description:
-          "Maria Lunares es el proyecto musical de Cinthya Paulino: neo-bolero espacial, la lírica del bolero escrita sobre trip-hop, electrónica y sonidos espaciales.",
+          "Maria Lunares es el proyecto musical de Cinthya (Molly) Paulino: neo-bolero espacial, la lírica del bolero escrita sobre trip-hop, electrónica y sonidos espaciales.",
       },
       musica: {
         title: "Música — Maria Lunares",
@@ -131,7 +131,7 @@ export const translations: Record<Locale, Dict> = {
       eyebrow: "Sobre",
       whatLabel: "Qué es",
       what:
-        "Maria Lunares es el proyecto musical de Cinthya Paulino. Neo-bolero espacial: la lírica del bolero; el desamor, la melancolía sin vergüenza, la entrega total, en la línea de La Lupe; escrita sobre trip-hop, electrónica, guitarras con reverb y sonidos espaciales. Del bolero viene la escritura, no la instrumentación: la herida de siempre, contada con mis sonidos de adentro.",
+        "Maria Lunares es el proyecto musical de Cinthya (Molly) Paulino. Neo-bolero espacial: la lírica del bolero; el desamor, la melancolía sin vergüenza, la entrega total, en la línea de La Lupe; escrita sobre trip-hop, electrónica, guitarras con reverb y sonidos espaciales. Del bolero viene la escritura, no la instrumentación: la herida de siempre, contada con mis sonidos de adentro.",
       mlLabel: "ML",
       ml:
         "ML es quien canta. Una entidad andrógina y oscura que llegó tarde a un mundo que no acaba de entender, y que observa la experiencia humana: el cuerpo, el amor, la culpa, la belleza; como quien mira algo por primera vez. No vine a encajar. Vine a mirar, y a contarte lo que vi.",
@@ -196,7 +196,7 @@ export const translations: Record<Locale, Dict> = {
       sobre: {
         title: "About — Maria Lunares",
         description:
-          "Maria Lunares is the music project of Cinthya Paulino: spatial neo-bolero, the lyrics of the bolero written over trip-hop, electronica and spatial sounds.",
+          "Maria Lunares is the music project of Cinthya (Molly) Paulino: spatial neo-bolero, the lyrics of the bolero written over trip-hop, electronica and spatial sounds.",
       },
       musica: {
         title: "Music — Maria Lunares",
@@ -224,7 +224,7 @@ export const translations: Record<Locale, Dict> = {
       eyebrow: "About",
       whatLabel: "What it is",
       what:
-        "Maria Lunares is the music project of Cinthya Paulino. Spatial neo-bolero: the lyrics of the bolero; heartbreak, unashamed melancholy, total surrender, in the vein of La Lupe; written over trip-hop, electronica, reverb-drenched guitars and spatial sounds. The bolero is in the writing, not the instrumentation: the same old wound, told with my sounds.",
+        "Maria Lunares is the music project of Cinthya (Molly) Paulino. Spatial neo-bolero: the lyrics of the bolero; heartbreak, unashamed melancholy, total surrender, in the vein of La Lupe; written over trip-hop, electronica, reverb-drenched guitars and spatial sounds. The bolero is in the writing, not the instrumentation: the same old wound, told with my sounds.",
       mlLabel: "ML",
       ml:
         "ML is the one who sings. An androgynous, dark entity who arrived late to a world she still doesn't quite understand, watching human experience: the body, love, guilt, beauty; like someone seeing it for the first time. I didn't come to fit in. I came to look, and to tell you what I saw.",

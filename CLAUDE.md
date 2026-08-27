@@ -22,7 +22,7 @@ npm install
 npm run dev      # http://localhost:3000  (⚠️ ver "Known issues")
 npm run build    # production build (must pass before deploy)
 npm run lint     # eslint (next lint)
-node scripts/optimize-images.mjs   # regenerate optimized images from originals/
+node scripts/optimize-images.mjs   # regenerate public/images from originals/images
 ```
 
 ## Known issues
@@ -46,7 +46,12 @@ src/
   i18n/             translations.ts (ES/EN dictionary) + useTranslations.ts
   styles/           globals.css
 scripts/            optimize-images.mjs   (sharp media pipeline)
-public/             optimized images, background video, og-image, favicon, robots
+public/
+  images/covers/    portadas, ml-<slug>-coverart.webp
+  images/fotos/     sev/ · raices-bts/ · retratos/
+  images/brand/     logo (normal y negativo)
+  images/home/      póster del video de portada
+  videos/           background video · og-image, favicons y robots en la raíz
 originals/          full-res media backup — GITIGNORED, never served
 docs/               ARCHITECTURE.md · DESIGN.md · AUDIT.md · ASSETS.md
 ```
@@ -56,8 +61,10 @@ docs/               ARCHITECTURE.md · DESIGN.md · AUDIT.md · ASSETS.md
 `/musica` y las páginas `/musica/[slug]` se generan desde **`src/data/releases.ts`**. Para publicar
 una canción nueva basta con añadir un objeto al array `releases`:
 
-1. Optimiza la portada (`originals/images` → `node scripts/optimize-images.mjs`) y usa la ruta
-   `/images/<archivo>.webp`.
+1. Deja la portada a máxima resolución en `originals/images/covers/` con el nombre
+   `ml-<slug>-coverart.webp`, ejecuta `node scripts/optimize-images.mjs` y usa la ruta
+   `/images/covers/ml-<slug>-coverart.webp`. El script descubre los archivos solo: no hay
+   ninguna lista que actualizar.
 2. Añade la entrada con `slug`, `title`, `year`, `cover`, `descriptionEs`, `descriptionEn`,
    `lyrics`, `credits`, `links` y `soundcloudTrackUrl`.
 3. Pon `hasPage: true` cuando las descripciones ES/EN estén escritas. Sin ese flag la portada de

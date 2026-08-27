@@ -11,8 +11,8 @@
   --font-sans: "Roboto", Arial, Helvetica, sans-serif;
 
   /* Variables para el logo */
-  --logo-default: url("/images/ml-logo-blanco.webp");
-  --logo-hover: url("/images/ml-logo-blanco-negativo.webp");
+  --logo-default: url("/images/brand/ml-logo-blanco.webp");
+  --logo-hover: url("/images/brand/ml-logo-blanco-negativo.webp");
 }
 
 @media (prefers-color-scheme: dark) {

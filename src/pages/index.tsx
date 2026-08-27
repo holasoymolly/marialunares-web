@@ -9,7 +9,7 @@ export default function Home() {
       {/* Video de fondo */}
       <video
         src="/videos/home-background.mp4"
-        poster="/images/home-poster.webp"
+        poster="/images/home/home-poster.webp"
         autoPlay
         loop
         muted
