@@ -243,6 +243,8 @@ Están las almas`,
       youtube:
         "https://www.youtube.com/watch?v=4rwvryIMs4o&list=PLTqHMTT-k-sF36fA0-edzL7zwMXYQh4pS",
     },
+    checkoutUrl:
+      "https://marialunares.lemonsqueezy.com/checkout/buy/496b0382-2660-4001-854a-cacf3fa1a3dd",
     externalUrl: "https://hypeddit.com/l3psaf",
     hasPage: true,
   },
