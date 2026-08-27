@@ -326,7 +326,7 @@ Están las almas`,
     externalUrl: "https://hypeddit.com/jz5sqo",
   },
   {
-    // TODO: falta el año de publicación, los enlaces por plataforma y el checkout.
+    // TODO: falta el año de publicación y los enlaces por plataforma.
     slug: "sol",
     title: "Sol",
     cover: "/images/covers/ml-sol-coverart.webp",
@@ -390,6 +390,8 @@ Que no lo entiendo
       mastering: "Romnie Abreu",
       cover: "Molly Yllom",
     },
+    checkoutUrl:
+      "https://marialunares.lemonsqueezy.com/checkout/buy/8b9cf9a2-0aac-469d-bd11-5db3b92ba840",
     externalUrl: "https://hypeddit.com/uz51hf",
     hasPage: true,
   },
