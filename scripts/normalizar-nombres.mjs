@@ -25,7 +25,10 @@ const soloSlug = args.find((a) => !a.startsWith("--"));
 function slugify(s) {
   return s
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
+    // "MariaLunaresSol" -> "Maria Lunares Sol": sin esto, un nombre pegado se
+    // queda ilegible al pasarlo a minúsculas.
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/-{2,}/g, "-")
@@ -80,7 +83,8 @@ async function main() {
         const f = origenes[0];
         if (f === nuevo) continue;
         // 2) Ya existe otro archivo con ese nombre.
-        if (await existe(path.join(dir, nuevo))) {
+        const soloCambiaLaCaja = f.toLowerCase() === nuevo.toLowerCase();
+        if (!soloCambiaLaCaja && (await existe(path.join(dir, nuevo)))) {
           problemas.push(`${dir}\n      "${f}" -> "${nuevo}", que YA EXISTE`);
           continue;
         }
@@ -114,7 +118,13 @@ async function main() {
     const despues = path.join(dir, a);
     const esAudio = AUDIO.has(path.extname(de).toLowerCase());
     const h1 = esAudio ? await md5(antes) : null;
-    await rename(antes, despues);
+    if (de.toLowerCase() === a.toLowerCase()) {
+      const puente = path.join(dir, `.tmp-${a}`);
+      await rename(antes, puente);
+      await rename(puente, despues);
+    } else {
+      await rename(antes, despues);
+    }
     const h2 = esAudio ? await md5(despues) : null;
     const ok = !esAudio || (h1 && h1 === h2);
     console.log(`  ${ok ? "OK" : "!!"}  ${de}\n      -> ${a}`);
