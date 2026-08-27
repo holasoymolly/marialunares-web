@@ -22,6 +22,32 @@ export interface ReleaseCredits {
   cover: string;
 }
 
+/**
+ * Una pista dentro de un EP o álbum. Un sencillo no las usa: pone su letra
+ * directamente en `lyrics`.
+ */
+export interface Track {
+  title: string;
+  /** Texto plano con saltos de línea. Las líneas [entre corchetes] se marcan solas. */
+  lyrics?: string;
+  /** Qué representa la pista dentro del concepto del disco. */
+  noteEs?: string;
+  noteEn?: string;
+  /** Pista de SoundCloud para escucharla desde la página. */
+  soundcloudTrackUrl?: string;
+}
+
+/**
+ * Cita de prensa. Se guarda un extracto corto con su atribución y el enlace a
+ * la reseña completa; el texto entero es de quien lo escribió, no nuestro.
+ */
+export interface ReleasePress {
+  quote: string;
+  author: string;
+  outlet: string;
+  url?: string;
+}
+
 export interface Release {
   /** Identificador en la URL: /musica/<slug>. */
   slug: string;
@@ -36,6 +62,12 @@ export interface Release {
   descriptionEn: string;
   /** Texto plano con saltos de línea. Las líneas [entre corchetes] se marcan solas. */
   lyrics?: string;
+  /**
+   * Pistas del disco, en el orden en que se muestran. Solo para EPs y álbumes:
+   * si está presente, la página las lista en lugar de una única letra.
+   */
+  tracks?: Track[];
+  press?: ReleasePress;
   credits?: ReleaseCredits;
   links?: ReleaseLinks;
   /** Enlace de compra/descarga (Lemon Squeezy). Vacío = "Próximamente". */
@@ -111,13 +143,90 @@ Y buena suerte`,
     hasPage: true,
   },
   {
-    // TODO: confirmar año y añadir descripciones antes de activar hasPage.
+    // TODO: confirmar el año de publicación y los créditos.
     slug: "de-noche",
     title: "De Noche",
     cover: "/images/covers/ml-de-noche-coverart.webp",
-    descriptionEs: "",
-    descriptionEn: "",
+    descriptionEs:
+      "De Noche es la historia de ML, un ser que cae a la Tierra y busca su luz interior en un mundo oscuro que no conoce. Cuatro pistas de trip-hop, electrónica y sonidos espaciales que recorren la dualidad entre esa oscuridad de adentro y la luz de la Luna que la guía.",
+    descriptionEn:
+      "De Noche is the story of ML, a being who falls to Earth and searches for her inner light in a dark world she doesn't know. Four tracks of trip-hop, electronica and spatial sounds tracing the duality between that darkness within and the light of the Moon that guides her.",
+    tracks: [
+      {
+        title: "Asfalto",
+        lyrics: `Donde las sombras fluyan
+Bailando en la oscuridad
+Debajo de las estrellas
+Bailando en la oscuridad
+
+[Coro]
+Debajo del asfalto
+Encuentro el ritmo
+Pounding, pounding
+Pounding, pounding`,
+        noteEs: "La conexión de ML con la Tierra, donde se encuentra el ritmo.",
+        noteEn: "ML's connection to the Earth, where the rhythm is found.",
+      },
+      {
+        title: "Andando",
+        lyrics: `[Verso]
+Andando
+Andando
+Andando
+Feeling it
+
+[Coro Instrumental]`,
+        noteEs:
+          "La vida como un viaje donde los pasos no tienen fin: se guían por el instinto, por lo aprendido y por el ritmo al que dejas fluir las cosas.",
+        noteEn:
+          "Life as a journey where the steps never end: guided by instinct, by what you have learned, and by the rhythm you let things flow at.",
+      },
+      {
+        title: "Humo",
+        lyrics: `[Verso]
+Rostros pasan pero están perdidos
+Secretos que se esfuman con el humo
+Mi rumbo lo veo yo
+Laberinto resuelto
+
+[Coro]
+Aquí y ahora
+El abismo es mío
+Aunque no lo quieran ver
+El abismo es mío`,
+        noteEs:
+          "La gente y sus secretos se pueden desvanecer, pero ML sigue su camino y conquista el abismo. Decir que el abismo le pertenece es reconocer el poder que da aceptar el caos y la oscuridad de adentro.",
+        noteEn:
+          "People and their secrets may fade, but ML keeps to her path and conquers the abyss. Saying the abyss is hers is recognising the power that comes from accepting the chaos and the darkness within.",
+      },
+      {
+        title: "Fantasmas",
+        lyrics: `[Verso]
+Escondida me habla una luz
+Siento el peso, es una cruz
+En mi mente, el pecho se fuga
+A ver si encuentra algo en la luna
+
+[Coro]
+Sueños con sombras
+Tierras baldías
+En el silencio
+Están las almas`,
+        noteEs:
+          "Un momento de introspección: la luz y la oscuridad se encuentran, y la Luna guía a ML entre los sueños y las sombras que habitan su mente.",
+        noteEn:
+          "A moment of introspection: light and darkness meet, and the Moon guides ML through the dreams and shadows that live in her mind.",
+      },
+    ],
+    // Extracto de la reseña de Discolai. Se cita una frase con atribución; el
+    // texto completo es de su autor. Falta el enlace al original.
+    press: {
+      quote: "En este EP, ambos aspectos —la producción y la voz— se fusionan de manera perfecta.",
+      author: "Max Cueto",
+      outlet: "Discolai",
+    },
     externalUrl: "https://hypeddit.com/l3psaf",
+    hasPage: true,
   },
   {
     // TODO: confirmar título exacto y año antes de activar hasPage.

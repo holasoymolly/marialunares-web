@@ -65,6 +65,8 @@ type Dict = {
     download: string;
     comingSoon: string;
     lyrics: string;
+    tracks: string;
+    press: string;
     credits: string;
     links: string;
     writtenBy: string;
@@ -160,6 +162,8 @@ export const translations: Record<Locale, Dict> = {
       download: "Descargar",
       comingSoon: "Próximamente",
       lyrics: "Letra",
+      tracks: "Pistas",
+      press: "Prensa",
       credits: "Créditos",
       links: "Enlaces",
       writtenBy: "Escrito por",
@@ -253,6 +257,8 @@ export const translations: Record<Locale, Dict> = {
       download: "Download",
       comingSoon: "Coming soon",
       lyrics: "Lyrics",
+      tracks: "Tracks",
+      press: "Press",
       credits: "Credits",
       links: "Links",
       writtenBy: "Written by",

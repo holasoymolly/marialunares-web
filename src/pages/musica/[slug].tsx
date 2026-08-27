@@ -28,6 +28,28 @@ function SectionLabel({ children }: { children: string }) {
   return <h2 className="mb-5 text-xs uppercase tracking-[0.2em] opacity-60">{children}</h2>;
 }
 
+// Letra en texto plano. Las marcas de estructura ([Verso 1], [Coro]…) se
+// atenúan; las líneas en blanco se conservan como separación.
+function Lyrics({ text }: { text: string }) {
+  return (
+    <div className="max-w-[46ch] text-base leading-[1.9]">
+      {text.split("\n").map((line, i) => {
+        const trimmed = line.trim();
+        if (!trimmed) return <span key={i} aria-hidden="true" className="block h-5" />;
+        const isMarker = trimmed.startsWith("[");
+        return (
+          <span
+            key={i}
+            className={isMarker ? "mt-3 block text-xs uppercase tracking-[0.18em] opacity-50" : "block"}
+          >
+            {line}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 // Plantilla común a todas las canciones. El contenido viene de
 // src/data/releases.ts; aquí solo se decide qué se muestra y cómo.
 export default function ReleasePage({ release }: ReleasePageProps) {
@@ -139,26 +161,76 @@ export default function ReleasePage({ release }: ReleasePageProps) {
               {release.lyrics && (
                 <section>
                   <SectionLabel>{t.release.lyrics}</SectionLabel>
-                  <div className="max-w-[46ch] text-base leading-[1.9]">
-                    {release.lyrics.split("\n").map((line, i) => {
-                      const text = line.trim();
-                      if (!text) return <span key={i} aria-hidden="true" className="block h-5" />;
-                      // Las marcas de estructura ([Verso 1], [Coro]…) se atenúan.
-                      const isMarker = text.startsWith("[");
+                  <Lyrics text={release.lyrics} />
+                </section>
+              )}
+
+              {/* EP o álbum: cada pista con su nota y su letra. */}
+              {release.tracks && release.tracks.length > 0 && (
+                <section>
+                  <SectionLabel>{t.release.tracks}</SectionLabel>
+                  <ol className="flex flex-col gap-14">
+                    {release.tracks.map((track, i) => {
+                      const note = locale === "en" ? track.noteEn : track.noteEs;
                       return (
-                        <span
-                          key={i}
-                          className={
-                            isMarker
-                              ? "mt-3 block text-xs uppercase tracking-[0.18em] opacity-50"
-                              : "block"
-                          }
-                        >
-                          {line}
-                        </span>
+                        <li key={track.title}>
+                          <h3 className="flex items-baseline gap-3 text-xl font-bold tracking-tight">
+                            <span className="text-sm font-normal tabular-nums opacity-40">
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
+                            {track.title}
+                          </h3>
+
+                          {note && (
+                            <p className="mt-3 max-w-[52ch] text-sm leading-relaxed opacity-70">
+                              {note}
+                            </p>
+                          )}
+
+                          {track.soundcloudTrackUrl && (
+                            <div className="mt-5">
+                              <SoundCloudFacade
+                                trackUrl={track.soundcloudTrackUrl}
+                                title={track.title}
+                              />
+                            </div>
+                          )}
+
+                          {track.lyrics && (
+                            <div className="mt-5">
+                              <Lyrics text={track.lyrics} />
+                            </div>
+                          )}
+                        </li>
                       );
                     })}
-                  </div>
+                  </ol>
+                </section>
+              )}
+
+              {/* Prensa: se cita un extracto con atribución, no la reseña entera. */}
+              {release.press && (
+                <section>
+                  <SectionLabel>{t.release.press}</SectionLabel>
+                  <blockquote className="max-w-[46ch] border-l border-white/25 pl-5">
+                    <p className="text-lg leading-relaxed">“{release.press.quote}”</p>
+                    <footer className="mt-3 text-sm opacity-60">
+                      {release.press.url ? (
+                        <a
+                          href={release.press.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline underline-offset-4 transition duration-300 hover:opacity-100"
+                        >
+                          {release.press.author} · {release.press.outlet}
+                        </a>
+                      ) : (
+                        <>
+                          {release.press.author} · {release.press.outlet}
+                        </>
+                      )}
+                    </footer>
+                  </blockquote>
                 </section>
               )}
 
