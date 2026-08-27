@@ -1,8 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import Seo from "@/components/Seo";
 import { useNewsletter } from "@/components/NewsletterProvider";
 import { useTranslations } from "@/i18n/useTranslations";
+import { photos } from "@/data/photos";
 
 // Etiqueta de sección: mismo tratamiento que en /musica/[slug] para que las
 // dos páginas de texto largo se lean como una sola familia. Aquí el espaciado
@@ -14,7 +16,7 @@ function SectionLabel({ children }: { children: string }) {
 // Página de identidad del proyecto. Todo el copy viene de
 // src/i18n/translations.ts (bloques `sobre` y `brand`).
 export default function Sobre() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const { openNewsletter } = useNewsletter();
 
   // El titular se parte justo después de la coma para que las dos mitades de
@@ -26,11 +28,32 @@ export default function Sobre() {
       ? [t.brand.place]
       : [t.brand.place.slice(0, comma + 1), t.brand.place.slice(comma + 1).trim()];
 
+  // Dos secciones llevan foto, y no por decorar: ML describe a la entidad que
+  // canta, y esos retratos son ML; "El proyecto" habla de trabajar la canción y
+  // el universo visual. El resto de fotos viven en /fotos.
   const blocks = [
     { key: "what", label: t.sobre.whatLabel, text: t.sobre.what },
-    { key: "ml", label: t.sobre.mlLabel, text: t.sobre.ml },
-    { key: "project", label: t.sobre.projectLabel, text: t.sobre.project },
+    {
+      key: "ml",
+      label: t.sobre.mlLabel,
+      text: t.sobre.ml,
+      image: { src: "/images/fotos/sev/sev_1479.webp", w: 1334, h: 2000, max: "22rem" },
+    },
+    {
+      key: "project",
+      label: t.sobre.projectLabel,
+      text: t.sobre.project,
+      image: { src: "/images/fotos/raices-bts/raices-bts-4.jpg", w: 2000, h: 1333, max: "40rem" },
+    },
   ];
+
+  // El texto alternativo se reutiliza del catálogo de /fotos: son las mismas
+  // imágenes, así que no hay que escribirlo dos veces ni arriesgar que difiera.
+  const altFor = (src: string) => {
+    const photo = photos.find((p) => p.src === src);
+    if (!photo) return "";
+    return locale === "en" ? photo.altEn : photo.altEs;
+  };
 
   return (
     <>
@@ -70,7 +93,21 @@ export default function Sobre() {
                 className="grid gap-5 lg:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] lg:gap-x-20"
               >
                 <SectionLabel>{block.label}</SectionLabel>
-                <p className="max-w-[58ch] text-lg leading-relaxed opacity-90">{block.text}</p>
+                <div className="flex flex-col gap-10">
+                  <p className="max-w-[58ch] text-lg leading-relaxed opacity-90">{block.text}</p>
+                  {block.image && (
+                    <div className="w-full overflow-hidden rounded-lg" style={{ maxWidth: block.image.max }}>
+                      <Image
+                        src={block.image.src}
+                        alt={altFor(block.image.src)}
+                        width={block.image.w}
+                        height={block.image.h}
+                        sizes="(max-width: 1023px) 92vw, 40rem"
+                        className="h-auto w-full object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
               </section>
             ))}
           </div>
