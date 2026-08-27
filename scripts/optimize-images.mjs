@@ -21,9 +21,15 @@ const OUT = "public/images";
 const QUALITY = 80;
 
 // De dónde sale cada cosa y dónde acaba.
-//   maxEdge: lado largo máximo en píxeles. `copy: true` pasa el archivo tal cual.
-//   porProyecto: cada subcarpeta es una canción; se busca dentro un "portada.*"
-//                y se emite con el nombre que espera releases.ts.
+//
+// Hoy solo las portadas se generan desde estudio/. El resto de public/images
+// ya está en su forma final y no hace falta regenerarlo:
+//
+//   brand/  el logo se copió siempre tal cual (1682x1682): eso YA es el original.
+//   fotos/  reducidas a 2000px en su día. Los originales de cámara viven en el
+//           backup, fuera de este ordenador. Si algún día hay que rehacerlas,
+//           se traen a estudio/sesiones-fotos/<sesion>/ y se añade su regla aquí.
+//   home/   el póster sale del video de fondo con ffmpeg (ver docs/ASSETS.md).
 const MAPA = [
   {
     desde: "canciones",
@@ -32,9 +38,6 @@ const MAPA = [
     maxEdge: 1200,
     nombre: (slug) => `ml-${slug}-coverart.webp`,
   },
-  { desde: "sesiones-fotos", hacia: "fotos", maxEdge: 2000 },
-  { desde: "marca", hacia: "brand", copy: true },
-  { desde: "video-portada", hacia: "home", maxEdge: 1600 },
 ];
 
 const EXTS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
