@@ -60,6 +60,11 @@ to **65 MB**). After optimization, served media is **~7.3 MB** total.
 
 ## Remaining opportunities (not yet done)
 
+- **La tienda de Printful no vende fuera de EE.UU. (P0).** `marialunares.printful.me` es una
+  Quick Store y su checkout solo acepta direcciones de Estados Unidos, así que el enlace "Tienda"
+  del nav lleva al público español y europeo a una tienda que los rechaza. Análisis, opciones y
+  recomendación en [TIENDA.md](TIENDA.md).
+
 - **`npm run dev` does not hydrate React** in the current local environment (see
   [CLAUDE.md → Known issues](../CLAUDE.md#known-issues)). Production builds are unaffected; root
   cause still unknown.

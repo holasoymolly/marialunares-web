@@ -47,3 +47,4 @@ Full project context lives in [`CLAUDE.md`](./CLAUDE.md) (the hub) and the focus
 - [`docs/AUDIT.md`](./docs/AUDIT.md) — UX & performance audit with prioritized recommendations.
 - [`docs/ASSETS.md`](./docs/ASSETS.md) — media inventory & optimization pipeline.
 - [`docs/CARRITO.md`](./docs/CARRITO.md) — compra de varios releases a la vez: análisis y decisión (aparcado).
+- [`docs/TIENDA.md`](./docs/TIENDA.md) — la tienda de artículos físicos (Printful): bloqueada, decisión pendiente.

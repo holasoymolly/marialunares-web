@@ -8,7 +8,7 @@ A small content site on **Next.js 15 (Pages Router)**, deployed on **Vercel**. T
 database and no custom backend — content is either hardcoded in the pages, typed into the release
 catalogue (`src/data/releases.ts`), or pulled from embeds (YouTube, SoundCloud) and external links
 (Printful shop, Hypeddit smart links, Lemon Squeezy checkout). The newsletter signup is
-native (Kit).
+native (Kit). Traffic is measured with Vercel Web Analytics (`<Analytics />` in `_app.tsx`).
 
 ## Pages (`src/pages`)
 
@@ -23,7 +23,7 @@ native (Kit).
 | `/fotos` | `fotos.tsx` | Masonry (CSS columns) photo gallery via `next/image`; client-side shuffle after mount. The repeating bleed title is localized (`FOTOS…` / `PHOTOS…`). |
 | `/contacto` | `contacto.tsx` | Heading + `mailto:` link. |
 | `/api/subscribe` | `api/subscribe.ts` | POST `{ email }`. Validates it and subscribes to Kit (ConvertKit) v4 server-side. The only place the API key is read. |
-| `/tienda` | — | **No page.** `next.config.js` `redirects()` → external Printful shop (307). |
+| `/tienda` | — | **No page.** `next.config.js` `redirects()` → external Printful shop (307). ⚠️ La tienda de destino solo envía a EE.UU.: ver [TIENDA.md](TIENDA.md). |
 
 `_app.tsx` wraps every page in `Layout`. `_document.tsx` sets `<html lang>` from the active locale.
 
@@ -82,8 +82,9 @@ The release catalogue is a typed array and the single source of truth for `/musi
 | YouTube | `/videos` | Embeds via `youtube-nocookie.com`, lazy facade. |
 | SoundCloud | background player + release previews | Background player: track "Lejos". Previews: `soundcloudTrackUrl` per release. |
 | Lemon Squeezy | release download CTA | `checkoutUrl` per release. Empty = disabled "Próximamente" button. When set, `lemon.js` (loaded with `next/script`, `afterInteractive`) opens the checkout in an overlay; the link keeps `target="_blank"` as a no-JS fallback. |
-| Printful | nav "Tienda" + `/tienda` redirect | External storefront `marialunares.printful.me`. |
+| Printful | nav "Tienda" + `/tienda` redirect | External storefront `marialunares.printful.me`. ⚠️ **Es una Quick Store: el checkout solo acepta direcciones de EE.UU.**, así que el público español y europeo no puede comprar. Decisión pendiente en [TIENDA.md](TIENDA.md). |
 | Hypeddit | `/musica` cover links | Smart links to streaming platforms. |
+| Vercel Web Analytics | `<Analytics />` en `_app.tsx` | Visitas por página, sin cookies. Plan **Hobby**: no hay *custom events*, así que los clics salientes (p. ej. a la tienda) no se pueden medir. |
 | Kit (ConvertKit) | Newsletter modal | Native form → `POST /api/subscribe` → Kit API v4. Double opt-in. Replaced the old Google Form. |
 
 ## Environment

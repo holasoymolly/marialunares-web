@@ -24,6 +24,8 @@ ese encuadre en ningún texto.
 - **React 18 + TypeScript** (strict).
 - **Tailwind CSS 3** + some `styled-jsx` for per-page layout.
 - **Icons:** `@iconify/react` (the only runtime UI dependency besides Next/React).
+- **Analítica:** `@vercel/analytics` (`<Analytics />` en `_app.tsx`). Solo visitas por página: la
+  cuenta de Vercel está en plan Hobby y los *custom events* requieren Pro.
 - **Deploy:** Vercel. Image optimization via built-in `next/image`.
 
 ## Commands
@@ -184,3 +186,4 @@ Para ver los formularios de la cuenta y sus IDs: `GET https://api.kit.com/v4/for
 - [docs/AUDIT.md](docs/AUDIT.md) — UX & performance audit + status of recommendations.
 - [docs/ASSETS.md](docs/ASSETS.md) — media inventory & optimization pipeline.
 - [docs/CARRITO.md](docs/CARRITO.md) — compra de varios releases a la vez: análisis y decisión (aparcado).
+- [docs/TIENDA.md](docs/TIENDA.md) — la tienda de artículos físicos (Printful): **bloqueada**, decisión pendiente.
