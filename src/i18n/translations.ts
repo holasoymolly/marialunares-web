@@ -20,7 +20,7 @@ type Dict = {
   // porque se muestra en pantalla (home y /sobre), no solo en las etiquetas.
   //
   // Regla de copy: "neo-bolero" nunca va solo. Siempre acompañado de
-  // trip-hop, electrónica, sonidos espaciales o experimental, para que no se
+  // trip-hop, shoegaze, noise, electrónica, sonidos espaciales o experimental, para que no se
   // lea como bolero tradicional. Del bolero viene la lírica, no la
   // instrumentación.
   brand: { descriptorShort: string; descriptorLong: string; place: string };
@@ -91,42 +91,42 @@ export const translations: Record<Locale, Dict> = {
       newsletter: "Newsletter",
     },
     brand: {
-      descriptorShort: "Neo-bolero espacial, trip-hop y electrónica",
-      descriptorLong: "Neo-bolero, trip-hop, electrónica y sonidos espaciales",
+      descriptorShort: "Neo-bolero espacial, trip-hop y shoegaze",
+      descriptorLong: "Neo-bolero, trip-hop, shoegaze, noise y sonidos espaciales",
       place: "Aterricé en el Caribe, pero no soy de aquí…",
     },
     player: { play: "Reproducir música", label: "Reproductor de música de fondo" },
     langToggle: { label: "Idioma", toEs: "ES", toEn: "EN" },
     meta: {
       home: {
-        title: "Maria Lunares — Neo-bolero espacial, trip-hop y electrónica",
+        title: "Maria Lunares — Neo-bolero espacial, trip-hop y shoegaze",
         description:
-          "Maria Lunares — neo-bolero espacial: trip-hop, guitarras y sonidos espaciales. Escucha, descarga y compra directo.",
+          "Maria Lunares — neo-bolero espacial: trip-hop, shoegaze, noise y sonidos espaciales. Escucha, descarga y compra directo.",
       },
       sobre: {
         title: "Sobre — Maria Lunares",
         description:
-          "Maria Lunares es el proyecto musical de Cinthya (Molly) Paulino: neo-bolero espacial, la lírica del bolero escrita sobre trip-hop, electrónica y sonidos espaciales.",
+          "Maria Lunares es el proyecto musical de Cinthya (Molly) Paulino: neo-bolero espacial, la lírica del bolero escrita sobre trip-hop, shoegaze, noise y sonidos espaciales.",
       },
       musica: {
         title: "Música — Maria Lunares",
         description:
-          "Escucha la música de Maria Lunares: neo-bolero espacial con trip-hop, guitarras con reverb y sonidos espaciales. Descarga y compra directo.",
+          "Escucha la música de Maria Lunares: neo-bolero espacial con trip-hop, shoegaze, noise y sonidos espaciales. Descarga y compra directo.",
       },
       videos: {
         title: "Videos — Maria Lunares",
         description:
-          "Videos musicales de Maria Lunares: neo-bolero espacial, trip-hop, electrónica y sonidos espaciales.",
+          "Videos musicales de Maria Lunares: neo-bolero espacial, trip-hop, shoegaze, noise y sonidos espaciales.",
       },
       fotos: {
         title: "Fotos — Maria Lunares",
         description:
-          "Galería de fotos de Maria Lunares, proyecto de neo-bolero espacial, trip-hop y electrónica.",
+          "Galería de fotos de Maria Lunares, proyecto de neo-bolero espacial, trip-hop y shoegaze.",
       },
       contacto: {
         title: "Contacto — Maria Lunares",
         description:
-          "Ponte en contacto con Maria Lunares para colaboraciones y prensa. Neo-bolero espacial, trip-hop y electrónica.",
+          "Ponte en contacto con Maria Lunares para colaboraciones y prensa. Neo-bolero espacial, trip-hop y shoegaze.",
       },
     },
     contacto: { heading: "CONTACTO" },
@@ -134,13 +134,13 @@ export const translations: Record<Locale, Dict> = {
       eyebrow: "Sobre",
       whatLabel: "Qué es",
       what:
-        "Maria Lunares es el proyecto musical de Cinthya (Molly) Paulino. Neo-bolero espacial: la lírica del bolero; el desamor, la melancolía sin vergüenza, la entrega total, en la línea de La Lupe; escrita sobre trip-hop, electrónica, guitarras con reverb y sonidos espaciales. Del bolero viene la escritura, no la instrumentación: la herida de siempre, contada con mis sonidos de adentro.",
+        "Maria Lunares es el proyecto musical de Cinthya (Molly) Paulino. Neo-bolero espacial: la lírica del bolero; el desamor, la melancolía sin vergüenza, la entrega total, en la línea de La Lupe; escrita sobre trip-hop, shoegaze, noise y sonidos espaciales. Del bolero viene la escritura, no la instrumentación: la herida de siempre, contada con mis sonidos de adentro.",
       mlLabel: "ML",
       ml:
         "ML es quien canta. Una entidad andrógina y oscura que llegó tarde a un mundo que no acaba de entender, y que observa la experiencia humana: el cuerpo, el amor, la culpa, la belleza; como quien mira algo por primera vez. No vine a encajar. Vine a mirar, y a contarte lo que vi.",
       projectLabel: "El proyecto",
       project:
-        "Nació en 2008 como una exploración autodidacta e intuitiva, y desde entonces ha transitado el indie pop, la electrónica, el trip-hop y las texturas shoegaze. Hoy el centro es la canción: escribir, componer, interpretar, y cuidar el universo visual tanto como el sonido.",
+        "Nació en 2008 como una exploración autodidacta e intuitiva, y desde entonces ha transitado el indie pop, la electrónica, el trip-hop, el shoegaze y el noise. Hoy el centro es la canción: escribir, componer, interpretar, y cuidar el universo visual tanto como el sonido.",
       directLabel: "Directo",
       direct:
         "Esta web es la casa. Aquí se escucha, se descarga y se compra directo, sin intermediarios ni algoritmos.",
@@ -187,42 +187,42 @@ export const translations: Record<Locale, Dict> = {
       newsletter: "Newsletter",
     },
     brand: {
-      descriptorShort: "Spatial neo-bolero, trip-hop and electronica",
-      descriptorLong: "Neo-bolero, trip-hop, electronica and spatial sounds",
+      descriptorShort: "Spatial neo-bolero, trip-hop and shoegaze",
+      descriptorLong: "Neo-bolero, trip-hop, shoegaze, noise and spatial sounds",
       place: "I landed in the Caribbean, but I'm not from here…",
     },
     player: { play: "Play music", label: "Background music player" },
     langToggle: { label: "Language", toEs: "ES", toEn: "EN" },
     meta: {
       home: {
-        title: "Maria Lunares — Spatial neo-bolero, trip-hop and electronica",
+        title: "Maria Lunares — Spatial neo-bolero, trip-hop and shoegaze",
         description:
-          "Maria Lunares — spatial neo-bolero: trip-hop, guitars and spatial sounds. Listen, download and buy directly.",
+          "Maria Lunares — spatial neo-bolero: trip-hop, shoegaze, noise and spatial sounds. Listen, download and buy directly.",
       },
       sobre: {
         title: "About — Maria Lunares",
         description:
-          "Maria Lunares is the music project of Cinthya (Molly) Paulino: spatial neo-bolero, the lyrics of the bolero written over trip-hop, electronica and spatial sounds.",
+          "Maria Lunares is the music project of Cinthya (Molly) Paulino: spatial neo-bolero, the lyrics of the bolero written over trip-hop, shoegaze, noise and spatial sounds.",
       },
       musica: {
         title: "Music — Maria Lunares",
         description:
-          "Listen to Maria Lunares: spatial neo-bolero with trip-hop, reverb-drenched guitars and spatial sounds. Download and buy directly.",
+          "Listen to Maria Lunares: spatial neo-bolero with trip-hop, shoegaze, noise and spatial sounds. Download and buy directly.",
       },
       videos: {
         title: "Videos — Maria Lunares",
         description:
-          "Music videos by Maria Lunares: spatial neo-bolero, trip-hop, electronica and spatial sounds.",
+          "Music videos by Maria Lunares: spatial neo-bolero, trip-hop, shoegaze, noise and spatial sounds.",
       },
       fotos: {
         title: "Photos — Maria Lunares",
         description:
-          "Photo gallery of Maria Lunares, a spatial neo-bolero, trip-hop and electronica project.",
+          "Photo gallery of Maria Lunares, a spatial neo-bolero, trip-hop and shoegaze project.",
       },
       contacto: {
         title: "Contact — Maria Lunares",
         description:
-          "Get in touch with Maria Lunares for collaborations and press. Spatial neo-bolero, trip-hop and electronica.",
+          "Get in touch with Maria Lunares for collaborations and press. Spatial neo-bolero, trip-hop and shoegaze.",
       },
     },
     contacto: { heading: "CONTACT" },
@@ -230,13 +230,13 @@ export const translations: Record<Locale, Dict> = {
       eyebrow: "About",
       whatLabel: "What it is",
       what:
-        "Maria Lunares is the music project of Cinthya (Molly) Paulino. Spatial neo-bolero: the lyrics of the bolero; heartbreak, unashamed melancholy, total surrender, in the vein of La Lupe; written over trip-hop, electronica, reverb-drenched guitars and spatial sounds. The bolero is in the writing, not the instrumentation: the same old wound, told with my sounds.",
+        "Maria Lunares is the music project of Cinthya (Molly) Paulino. Spatial neo-bolero: the lyrics of the bolero; heartbreak, unashamed melancholy, total surrender, in the vein of La Lupe; written over trip-hop, shoegaze, noise and spatial sounds. The bolero is in the writing, not the instrumentation: the same old wound, told with my sounds.",
       mlLabel: "ML",
       ml:
         "ML is the one who sings. An androgynous, dark entity who arrived late to a world she still doesn't quite understand, watching human experience: the body, love, guilt, beauty; like someone seeing it for the first time. I didn't come to fit in. I came to look, and to tell you what I saw.",
       projectLabel: "The project",
       project:
-        "It began in 2008 as a self-taught, intuitive exploration, moving through indie pop, electronica, trip-hop and shoegaze textures. Today the song is at the center: writing, composing, performing, and caring for the visual universe as much as the sound.",
+        "It began in 2008 as a self-taught, intuitive exploration, moving through indie pop, electronica, trip-hop, shoegaze and noise. Today the song is at the center: writing, composing, performing, and caring for the visual universe as much as the sound.",
       directLabel: "Direct",
       direct:
         "This site is the house. Here you listen, download and buy directly, no middlemen, no algorithms.",
