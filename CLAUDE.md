@@ -96,6 +96,15 @@ una canción nueva basta con añadir un objeto al array `releases`:
 4. Pon `hasPage: true` cuando las descripciones ES/EN estén escritas. Sin ese flag la portada de
    `/musica` enlaza a `externalUrl` (smart link de Hypeddit) en lugar de a la página interna.
 5. Pega el `checkoutUrl` de Lemon Squeezy cuando exista. Vacío = botón "Próximamente" deshabilitado.
+6. Pon `priceUsd` con el mismo precio que cobra Lemon Squeezy. Sale en el botón ("Comprar ·
+   US$1.50") para que nadie llegue al checkout sin saber el precio. **No se lee de la API de
+   Lemon Squeezy: si cambias el precio allí, cámbialo aquí.**
+
+**Prensa.** `press` sirve para dos casos. Una reseña escrita lleva `quote`, `author` y `outlet`.
+Una emisión de radio lleva `broadcast: true` y entonces la página muestra primero el hecho de que
+sonó ("Sonó en KEXP (El Sonido), programada por Albina Cabrera · 7 de septiembre de 2026"), con la
+cita debajo solo si existe; `show` y `date` (en ISO) son opcionales. Las citas se guardan tal como
+se dijeron, sin traducir, también en la versión inglesa.
 
 **Sencillo o disco.** Un sencillo pone su letra en `lyrics`. Un EP o álbum usa `tracks[]`: la
 página lista las pistas numeradas, cada una con su título, su nota y su letra. Los dos casos
@@ -165,6 +174,27 @@ Para ver los formularios de la cuenta y sus IDs: `GET https://api.kit.com/v4/for
 - Vercel construye una preview automática por cada rama que se sube, además de la URL fija de
   `preview` (que está atada a la rama, no a un deployment concreto).
 - `preview.marialunares.com` tiene la protección de deployments de Vercel activada: pide login.
+
+### Cuando un push parece no desplegarse
+
+Aprendido a base de perder una tarde el 18-09-2026. Antes de dar por rota la integración con
+GitHub, descarta estas dos, que dan exactamente el mismo síntoma —el dominio sirve contenido
+viejo— por causas distintas:
+
+- **El deployment se queda en "Staged".** Construye bien y queda READY, pero Vercel marca
+  *Assigning Custom Domains: Skipped* y el dominio sigue en el deployment anterior. Se reconoce
+  mirando los alias del deployment (`vercel inspect <url>`): si no aparecen ahí los dominios
+  propios, es esto. Se arregla con **Promote** en el menú `···` del deployment. Ojo: el chevron
+  pegado al botón *Visit* no es ese menú, abre un QR.
+- **Vercel se salta el build de un commit ya desplegado.** Si `main` y `preview` apuntan al mismo
+  SHA, solo construye el primero que llegue y el segundo no genera nada. Por eso, al fusionar a
+  `main`, conviene un merge commit (`git merge --no-ff preview`): cambia el SHA y producción
+  construye lo suyo.
+
+**No promociones a producción un deployment construido como preview.** `NEXT_PUBLIC_SITE_URL`
+solo existe en el entorno Production; un build de preview se hace con el valor por defecto del
+código (sin `www`) y promocionarlo dejaría las URL canónicas y el sitemap apuntando al dominio
+que redirige. Producción necesita siempre un build propio.
 
 ## Environment
 
