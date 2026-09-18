@@ -62,7 +62,7 @@ type Dict = {
     listen: string;
     playPreview: string;
     previewLabel: string;
-    download: string;
+    buy: string;
     comingSoon: string;
     lyrics: string;
     tracks: string;
@@ -163,7 +163,7 @@ export const translations: Record<Locale, Dict> = {
       listen: "Escuchar",
       playPreview: "Escuchar un adelanto",
       previewLabel: "Reproductor de SoundCloud",
-      download: "Descargar",
+      buy: "Comprar",
       comingSoon: "Próximamente",
       lyrics: "Letra",
       tracks: "Pistas",
@@ -262,7 +262,7 @@ export const translations: Record<Locale, Dict> = {
       listen: "Listen",
       playPreview: "Play a preview",
       previewLabel: "SoundCloud player",
-      download: "Download",
+      buy: "Buy",
       comingSoon: "Coming soon",
       lyrics: "Lyrics",
       tracks: "Tracks",

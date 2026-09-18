@@ -90,6 +90,12 @@ export interface Release {
   links?: ReleaseLinks;
   /** Enlace de compra/descarga (Lemon Squeezy). Vacío = "Próximamente". */
   checkoutUrl?: string;
+  /**
+   * Precio en dólares, el mismo que cobra Lemon Squeezy. Se enseña en el botón
+   * para que nadie llegue al checkout sin saber lo que cuesta. Si se cambia el
+   * precio en Lemon Squeezy, hay que cambiarlo aquí: no se lee de su API.
+   */
+  priceUsd?: number;
   /** Pista de SoundCloud para el adelanto embebido de la página. */
   soundcloudTrackUrl?: string;
   /** Smart link externo (Hypeddit) para releases que aún no tienen página propia. */
@@ -176,6 +182,7 @@ Aunque duela, ya ves`,
     },
     checkoutUrl:
       "https://marialunares.lemonsqueezy.com/checkout/buy/4c1fe1ee-6a83-4c14-8da2-9d80939ab2e5",
+    priceUsd: 1.5,
     externalUrl: "https://hypeddit.com/7cfw0z",
     soundcloudTrackUrl: "https://soundcloud.com/marialunares/lejos",
     hasPage: true,
@@ -237,6 +244,7 @@ Y buena suerte`,
       broadcast: true,
     },
     checkoutUrl: "https://marialunares.lemonsqueezy.com/checkout/buy/3d3adc09-ffe6-4384-be81-2b0d4d5d0bd5",
+    priceUsd: 1.5,
     // Se conserva el smart link anterior; al tener hasPage, la grid enlaza a la página propia.
     externalUrl: "https://hypeddit.com/wdp8t4",
     hasPage: true,
@@ -342,6 +350,7 @@ Están las almas`,
     },
     checkoutUrl:
       "https://marialunares.lemonsqueezy.com/checkout/buy/496b0382-2660-4001-854a-cacf3fa1a3dd",
+    priceUsd: 6.0,
     externalUrl: "https://hypeddit.com/l3psaf",
     hasPage: true,
   },
@@ -377,6 +386,7 @@ Están las almas`,
     soundcloudTrackUrl: "https://soundcloud.com/marialunares/sets/sol-trips",
     checkoutUrl:
       "https://marialunares.lemonsqueezy.com/checkout/buy/373bbd6d-b912-46e5-b26e-2837209614a5",
+    priceUsd: 7.5,
     externalUrl: "https://hypeddit.com/jz5sqo",
     hasPage: true,
   },
@@ -453,6 +463,7 @@ Que no lo entiendo
     soundcloudTrackUrl: "https://soundcloud.com/marialunares/sol",
     checkoutUrl:
       "https://marialunares.lemonsqueezy.com/checkout/buy/8b9cf9a2-0aac-469d-bd11-5db3b92ba840",
+    priceUsd: 1.5,
     externalUrl: "https://hypeddit.com/uz51hf",
     hasPage: true,
   },

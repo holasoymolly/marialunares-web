@@ -76,6 +76,11 @@ export default function ReleasePage({ release }: ReleasePageProps) {
     .filter(Boolean)
     .join(" · ");
 
+  // "US$1.50". Se escribe igual en español y en inglés: el cobro es en dólares
+  // y un formato local ("1,50 US$") solo añade dudas sobre la moneda.
+  const priceLabel =
+    typeof release.priceUsd === "number" ? `US$${release.priceUsd.toFixed(2)}` : null;
+
   // Prensa. Una emisión de radio se resume en una línea; la fecha se formatea
   // en UTC para que el servidor y el cliente pinten exactamente lo mismo.
   const press = release.press;
@@ -146,8 +151,8 @@ export default function ReleasePage({ release }: ReleasePageProps) {
                     rel="noopener noreferrer"
                     className="lemonsqueezy-button inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black transition duration-300 hover:bg-white/85 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                   >
-                    <Icon icon="mdi:tray-arrow-down" className="text-lg" aria-hidden="true" />
-                    {t.release.download}
+                    <Icon icon="mdi:cart-outline" className="text-lg" aria-hidden="true" />
+                    {priceLabel ? `${t.release.buy} · ${priceLabel}` : t.release.buy}
                   </a>
                 ) : (
                   <button
