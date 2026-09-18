@@ -67,6 +67,9 @@ type Dict = {
     lyrics: string;
     tracks: string;
     press: string;
+    broadcastOn: string;
+    broadcastBy: string;
+    broadcastClip: string;
     credits: string;
     links: string;
     writtenBy: string;
@@ -165,6 +168,9 @@ export const translations: Record<Locale, Dict> = {
       lyrics: "Letra",
       tracks: "Pistas",
       press: "Prensa",
+      broadcastOn: "Sonó en",
+      broadcastBy: "programada por",
+      broadcastClip: "Escuchar el clip",
       credits: "Créditos",
       links: "Enlaces",
       writtenBy: "Escrito por",
@@ -261,6 +267,9 @@ export const translations: Record<Locale, Dict> = {
       lyrics: "Lyrics",
       tracks: "Tracks",
       press: "Press",
+      broadcastOn: "Played on",
+      broadcastBy: "selected by",
+      broadcastClip: "Listen to the clip",
       credits: "Credits",
       links: "Links",
       writtenBy: "Written by",

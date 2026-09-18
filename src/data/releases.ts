@@ -44,10 +44,26 @@ export interface Track {
  * la reseña completa; el texto entero es de quien lo escribió, no nuestro.
  */
 export interface ReleasePress {
-  quote: string;
+  /**
+   * Cita textual; la plantilla le pone las comillas. Es opcional: una emisión
+   * de radio puede no dejar ninguna frase citable.
+   */
+  quote?: string;
+  /** Quien firma la reseña, o quien programó la canción al aire. */
   author: string;
+  /** Medio o emisora. */
   outlet: string;
+  /** Programa dentro de la emisora, si lo tiene. */
+  show?: string;
+  /** Fecha en ISO (YYYY-MM-DD). La plantilla la formatea según el idioma. */
+  date?: string;
+  /** Enlace al original: la reseña publicada, el clip de la emisión. */
   url?: string;
+  /**
+   * Una emisión de radio no es una reseña: se presenta como el hecho de que la
+   * canción sonó («Sonó en KEXP…») y la cita, si la hay, va debajo.
+   */
+  broadcast?: boolean;
 }
 
 export interface Release {
@@ -207,6 +223,19 @@ Y buena suerte`,
       youtube: "https://youtu.be/Ql-CUR6wggk",
     },
     soundcloudTrackUrl: "https://soundcloud.com/marialunares/sabescorrer",
+    // Estreno en El Sonido (KEXP). Se cita un extracto de lo que dijo Albina
+    // Cabrera al aire, no la presentación entera; los puntos suspensivos marcan
+    // lo que se omite. Se conserva tal cual se dijo, en inglés y español
+    // mezclados, también en la versión inglesa de la página.
+    press: {
+      quote:
+        "Dominican shoegaze?! That sounds like something that I would love… So I really want to introduce the next artist for the first time here en el aire del Sonido.",
+      author: "Albina Cabrera",
+      outlet: "KEXP",
+      show: "El Sonido",
+      date: "2026-09-07",
+      broadcast: true,
+    },
     checkoutUrl: "https://marialunares.lemonsqueezy.com/checkout/buy/3d3adc09-ffe6-4384-be81-2b0d4d5d0bd5",
     // Se conserva el smart link anterior; al tener hasPage, la grid enlaza a la página propia.
     externalUrl: "https://hypeddit.com/wdp8t4",

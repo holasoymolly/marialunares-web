@@ -76,6 +76,23 @@ export default function ReleasePage({ release }: ReleasePageProps) {
     .filter(Boolean)
     .join(" · ");
 
+  // Prensa. Una emisión de radio se resume en una línea; la fecha se formatea
+  // en UTC para que el servidor y el cliente pinten exactamente lo mismo.
+  const press = release.press;
+  const pressDate = press?.date
+    ? new Date(`${press.date}T12:00:00Z`).toLocaleDateString(locale === "en" ? "en-US" : "es-ES", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      })
+    : null;
+  // "Sonó en KEXP (El Sonido), programada por Albina Cabrera · 12 de septiembre de 2026"
+  const broadcastLine = press?.broadcast
+    ? `${t.release.broadcastOn} ${press.outlet}${press.show ? ` (${press.show})` : ""}, ` +
+      `${t.release.broadcastBy} ${press.author}${pressDate ? ` · ${pressDate}` : ""}`
+    : null;
+
   return (
     <>
       <Seo
@@ -210,29 +227,54 @@ export default function ReleasePage({ release }: ReleasePageProps) {
                 </section>
               )}
 
-              {/* Prensa: se cita un extracto con atribución, no la reseña entera. */}
-              {release.press && (
+              {/* Prensa: de una reseña se cita un extracto con atribución; de una
+                  emisión de radio se cuenta que la canción sonó y dónde. */}
+              {press && (
                 <section>
                   <SectionLabel>{t.release.press}</SectionLabel>
-                  <blockquote className="max-w-[46ch] border-l border-white/25 pl-5">
-                    <p className="text-lg leading-relaxed">“{release.press.quote}”</p>
-                    <footer className="mt-3 text-sm opacity-60">
-                      {release.press.url ? (
-                        <a
-                          href={release.press.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="underline underline-offset-4 transition duration-300 hover:opacity-100"
-                        >
-                          {release.press.author} · {release.press.outlet}
-                        </a>
-                      ) : (
-                        <>
-                          {release.press.author} · {release.press.outlet}
-                        </>
+                  {press.broadcast ? (
+                    <div className="max-w-[46ch] border-l border-white/25 pl-5">
+                      <p className="text-lg leading-relaxed">{broadcastLine}</p>
+                      {press.quote && (
+                        <blockquote className="mt-4">
+                          <p className="text-lg leading-relaxed">“{press.quote}”</p>
+                        </blockquote>
                       )}
-                    </footer>
-                  </blockquote>
+                      {press.url && (
+                        <p className="mt-3 text-sm opacity-60">
+                          <a
+                            href={press.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${t.release.broadcastClip} (${t.release.externalHint})`}
+                            className="underline underline-offset-4 transition duration-300 hover:opacity-100"
+                          >
+                            {t.release.broadcastClip}
+                          </a>
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <blockquote className="max-w-[46ch] border-l border-white/25 pl-5">
+                      <p className="text-lg leading-relaxed">“{press.quote}”</p>
+                      <footer className="mt-3 text-sm opacity-60">
+                        {press.url ? (
+                          <a
+                            href={press.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline underline-offset-4 transition duration-300 hover:opacity-100"
+                          >
+                            {press.author} · {press.outlet}
+                          </a>
+                        ) : (
+                          <>
+                            {press.author} · {press.outlet}
+                          </>
+                        )}
+                      </footer>
+                    </blockquote>
+                  )}
                 </section>
               )}
 
