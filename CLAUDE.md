@@ -191,6 +191,21 @@ viejo— por causas distintas:
   `main`, conviene un merge commit (`git merge --no-ff preview`): cambia el SHA y producción
   construye lo suyo.
 
+**Para saber qué deployment sirve un dominio, no preguntes: compara el `buildId`.** Ni
+`vercel inspect` ni la API de Vercel dan bien esa relación en este proyecto —los dos llegaron a
+listar `www.marialunares.com` colgando de deployments que ya no lo servían, y ninguno reflejó las
+asignaciones hechas a mano con `vercel alias set`. Fiarse de ellos para borrar un deployment es
+tumbar el sitio. Cada build de Next.js tiene un `buildId` único, así que la comprobación real es:
+
+```bash
+bid() { curl -s "$1/musica/sabes-correr" | grep -o '"buildId":"[^"]*"' | head -1 | cut -d'"' -f4; }
+bid https://www.marialunares.com                                   # el que está vivo
+bid https://marialunares-<hash>-molly-ylloms-projects.vercel.app   # el candidato a borrar
+```
+
+Coinciden = es el que está sirviendo, no lo toques. **Antes de borrar cualquier deployment, pasa
+esta comprobación**, y vuelve a pasarla después de cada borrado.
+
 **No promociones a producción un deployment construido como preview.** `NEXT_PUBLIC_SITE_URL`
 solo existe en el entorno Production; un build de preview se hace con el valor por defecto del
 código (sin `www`) y promocionarlo dejaría las URL canónicas y el sitemap apuntando al dominio
