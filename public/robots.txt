@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+# Material para radio y prensa. La URL se manda a mano por correo.
+Disallow: /promo/
+Disallow: /en/promo/
 
 Sitemap: https://marialunares.com/sitemap.xml

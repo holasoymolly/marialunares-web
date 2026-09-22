@@ -8,6 +8,35 @@
 the optimizer. Only optimized files are served. This is what keeps the site fast and the repo
 working tree small.
 
+### The one documented exception: `public/promo/`
+
+On 2026-09-22 the automated replies from KEXP and KCRW made the rule impossible to follow for
+one case. Both stations require a **direct download link** to a broadcast-quality file — KCRW's
+words: *"music submitted without a direct download link will likely not be reviewed"*, and both
+say **no attachments**. A Bandcamp redemption code is not a direct link, and neither is a page
+behind a checkout.
+
+So `public/promo/` holds full-res audio on purpose, served straight by Vercel:
+
+```
+public/promo/Maria Lunares - Lejos.wav   49 MB   (bit-identical to the master)
+public/promo/Maria Lunares - Lejos.mp3   11 MB   (320 kbps CBR, 44.1 kHz, artwork embedded)
+```
+
+Filenames are human-readable because that name is what a station librarian files the song under.
+Both files are generated from `estudio/canciones/<slug>/audio/wav/*.wav`; the MP3 is re-encoded
+from that same WAV so the two are provably the same audio (the shipped MP3 in `estudio/` was at
+48 kHz while the master is 44.1 kHz).
+
+`/promo/*` is kept out of Google by an `X-Robots-Tag` header in `next.config.js` **and** by
+`Disallow:` in `public/robots.txt` — a `<meta robots>` tag would not cover a `.wav`. The page
+`src/pages/promo/lejos.tsx` is deliberately **not** a release entry, because `sitemap.xml.ts`
+generates itself from `releases.ts` and would list it.
+
+**When to stop doing this:** one song is fine. Five songs would be ~270 MB permanently in git
+history, which git never reclaims. At that point move the audio to external storage (Vercel Blob
+or R2) and keep only the page here.
+
 ## Folder layout
 
 `estudio/` and `public/images/` are **not** mirrors of each other, on purpose:
