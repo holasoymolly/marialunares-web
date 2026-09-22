@@ -80,6 +80,34 @@ type Dict = {
     reissue: string;
     externalHint: string;
   };
+  // Página de promo para radio y prensa (/promo/<slug>). No está enlazada
+  // desde el sitio ni indexada: la URL se manda a mano en el correo. Existe
+  // porque KEXP y KCRW exigen un enlace de descarga directo, no un código.
+  promo: {
+    eyebrow: string;
+    intro: string;
+    download: string;
+    downloadWav: string;
+    downloadMp3: string;
+    details: string;
+    artist: string;
+    titleLabel: string;
+    isrc: string;
+    duration: string;
+    year: string;
+    label: string;
+    labelValue: string;
+    genre: string;
+    pronunciation: string;
+    pronunciationValue: string;
+    pronouns: string;
+    pronounsValue: string;
+    fcc: string;
+    fccValue: string;
+    about: string;
+    publicPage: string;
+    contact: string;
+  };
 };
 
 export const translations: Record<Locale, Dict> = {
@@ -181,6 +209,33 @@ export const translations: Record<Locale, Dict> = {
       reissue: "Remastered",
       externalHint: "se abre en una pestaña nueva",
     },
+    promo: {
+      eyebrow: "Para radio y prensa",
+      intro:
+        "Descarga de calidad de emisión, sin registro y sin caducidad. Si necesitas otro formato, escríbeme.",
+      download: "Descargar",
+      downloadWav: "WAV · 44,1 kHz · 16 bit",
+      downloadMp3: "MP3 · 320 kbps",
+      details: "Ficha técnica",
+      artist: "Artista",
+      titleLabel: "Título",
+      isrc: "ISRC",
+      duration: "Duración",
+      year: "Año",
+      label: "Sello",
+      labelValue: "Autoeditado",
+      genre: "Género",
+      pronunciation: "Pronunciación",
+      pronunciationValue: "ma-RÍ-a lu-NA-res (Maria va sin acento)",
+      pronouns: "Pronombres",
+      pronounsValue: "ella",
+      fcc: "FCC",
+      fccValue:
+        "Sin lenguaje explícito. No hace falta edición limpia: se puede emitir tal cual.",
+      about: "Sobre el proyecto",
+      publicPage: "Página pública de la canción",
+      contact: "Contacto",
+    },
   },
   en: {
     nav: {
@@ -279,6 +334,32 @@ export const translations: Record<Locale, Dict> = {
       coverAltPrefix: "Cover art for",
       reissue: "Remastered",
       externalHint: "opens in a new tab",
+    },
+    promo: {
+      eyebrow: "For radio and press",
+      intro:
+        "Broadcast-quality download. No sign-up, no expiry. If you need another format, just ask.",
+      download: "Download",
+      downloadWav: "WAV · 44.1 kHz · 16 bit",
+      downloadMp3: "MP3 · 320 kbps",
+      details: "Track details",
+      artist: "Artist",
+      titleLabel: "Title",
+      isrc: "ISRC",
+      duration: "Duration",
+      year: "Year",
+      label: "Label",
+      labelValue: "Self-released",
+      genre: "Genre",
+      pronunciation: "Pronunciation",
+      pronunciationValue: "ma-REE-ah loo-NAH-res (no accent on Maria)",
+      pronouns: "Pronouns",
+      pronounsValue: "she/her",
+      fcc: "FCC",
+      fccValue: "No explicit language. No clean edit needed — safe to air as is.",
+      about: "About the project",
+      publicPage: "Public page for this song",
+      contact: "Contact",
     },
   },
 };

@@ -30,6 +30,17 @@ export interface ReleaseCredits {
  */
 export interface Track {
   title: string;
+  /**
+   * ISRC de esta grabación. El código de registrante `DO-A1R` es propio (lo
+   * emitió SODINPRO), así que los asignamos nosotras: DO-A1R-<año de
+   * asignación>-<designación de 5 cifras>. La designación no se reutiliza jamás.
+   */
+  isrc?: string;
+  /**
+   * Duración en segundos. SODINPRO exige llevarla en el registro de cada ISRC,
+   * así que vive aquí y no en una hoja aparte que se desincroniza.
+   */
+  durationSeconds?: number;
   /** Texto plano con saltos de línea. Las líneas [entre corchetes] se marcan solas. */
   lyrics?: string;
   /** Qué representa la pista dentro del concepto del disco. */
@@ -74,6 +85,17 @@ export interface Release {
   year?: number;
   /** Año de la nueva versión, si la canción se reeditó. */
   reissueYear?: number;
+  /**
+   * ISRC del sencillo. Un EP o álbum no lo usa: el ISRC identifica una
+   * grabación, no un lanzamiento, así que ahí cada pista lleva el suyo en
+   * `tracks`.
+   */
+  isrc?: string;
+  /**
+   * Duración en segundos. SODINPRO exige llevarla en el registro de cada ISRC,
+   * así que vive aquí y no en una hoja aparte que se desincroniza.
+   */
+  durationSeconds?: number;
   /** Ruta dentro de /public (usar siempre imágenes optimizadas). */
   cover: string;
   descriptionEs: string;
@@ -113,6 +135,8 @@ export const releases: Release[] = [
     slug: "lejos",
     title: "Lejos",
     year: 2026,
+    isrc: "DO-A1R-26-00012",
+    durationSeconds: 291,
     cover: "/images/covers/ml-lejos-coverart.webp",
     descriptionEs:
       "Marcharse cansada y abrir las alas igual. Lejos es dejar atrás las cenizas grises que te dieron y buscar el sol un pasito a la vez, aunque duela.",
@@ -191,6 +215,8 @@ Aunque duela, ya ves`,
     slug: "sabes-correr",
     title: "Sabes Correr",
     year: 2017,
+    isrc: "DO-A1R-26-00001",
+    durationSeconds: 270,
     reissueYear: 2026,
     cover: "/images/covers/ml-sabes-correr-coverart.webp",
     descriptionEs:
@@ -261,6 +287,7 @@ Y buena suerte`,
     tracks: [
       {
         title: "Asfalto",
+        isrc: "DO-A1R-26-00008",
         soundcloudTrackUrl: "https://soundcloud.com/marialunares/01-asfalto-de-noche",
         lyrics: `Donde las sombras fluyan
 Bailando en la oscuridad
@@ -277,6 +304,7 @@ Pounding, pounding`,
       },
       {
         title: "Andando",
+        isrc: "DO-A1R-26-00009",
         soundcloudTrackUrl: "https://soundcloud.com/marialunares/02-andando-de-noche",
         lyrics: `[Verso]
 Andando
@@ -292,6 +320,7 @@ Feeling it
       },
       {
         title: "Humo",
+        isrc: "DO-A1R-26-00010",
         soundcloudTrackUrl: "https://soundcloud.com/marialunares/humo-de-noche",
         lyrics: `[Verso]
 Rostros pasan pero están perdidos
@@ -311,6 +340,7 @@ El abismo es mío`,
       },
       {
         title: "Fantasmas",
+        isrc: "DO-A1R-26-00011",
         soundcloudTrackUrl: "https://soundcloud.com/marialunares/04-fantasmas-de-noche",
         lyrics: `[Verso]
 Escondida me habla una luz
@@ -364,11 +394,11 @@ Están las almas`,
     descriptionEn:
       "The same song run through five different heads. Arialdo AP, Maria Lunares, Mkni, Romnie and Ben Garcia remix Sol, taking it from slow to aggressive and experimental, never repeating themselves.",
     tracks: [
-      { title: "Sol (A Trip x Arialdo AP)" },
-      { title: "Sol (A Trip x Maria Lunares)" },
-      { title: "Sol (A Trip x Mkni)" },
-      { title: "Sol (A Trip x Romnie)" },
-      { title: "Sol (A Trip x Ben Garcia)" },
+      { title: "Sol (A Trip x Arialdo AP)", isrc: "DO-A1R-26-00002" },
+      { title: "Sol (A Trip x Maria Lunares)", isrc: "DO-A1R-26-00003" },
+      { title: "Sol (A Trip x Mkni)", isrc: "DO-A1R-26-00004" },
+      { title: "Sol (A Trip x Romnie)", isrc: "DO-A1R-26-00005" },
+      { title: "Sol (A Trip x Ben Garcia)", isrc: "DO-A1R-26-00006" },
     ],
     credits: {
       writtenBy: "Maria Lunares",
@@ -394,6 +424,8 @@ Están las almas`,
     slug: "sol",
     title: "Sol",
     year: 2024,
+    // ISRC previo, asignado por la distribuidora en 2024. No se reemplaza.
+    isrc: "QZ-K6J-23-30648",
     cover: "/images/covers/ml-sol-coverart.webp",
     descriptionEs:
       "Amor sin ironía. Sol es la admiración por alguien que calienta como el sol y quema igual, y el asombro de haberse encontrado por una casualidad que nadie esperaba.",
