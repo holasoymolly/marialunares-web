@@ -193,6 +193,18 @@ Lejos de tu sombra, lejos de tu voz
 Me parto en pedazos, pero busco el sol
 Un pasito a la vez, un pasito otra vez
 Aunque duela, ya ves`,
+    // Primera emisión de la campaña de radio de septiembre. Alex Marrero no
+    // dijo nada citable al aire, así que va solo el hecho. Sin enlace: el
+    // episodio deja de estar a demanda hacia el 11 de octubre y «Escuchar el
+    // clip» quedaría apuntando a una playlist sin audio. Fuente verificada:
+    // kutx.org/episodes/horizontes-9-27-26/
+    press: {
+      author: "Alex Marrero",
+      outlet: "KUTX",
+      show: "Horizontes",
+      date: "2026-09-27",
+      broadcast: true,
+    },
     credits: {
       writtenBy: "Maria Lunares",
       mix: "Maria Lunares",
