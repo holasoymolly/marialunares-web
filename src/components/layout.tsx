@@ -7,6 +7,9 @@ import { useNewsletter } from "./NewsletterProvider";
 import { useTranslations } from "@/i18n/useTranslations";
 import { LOCALES, type Locale } from "@/i18n/translations";
 
+// Páginas de texto largo, donde el contenido pasa por debajo del menú fijo.
+const TEXT_PAGES = ["/musica/[slug]", "/sobre", "/promo/lejos"];
+
 interface LayoutProps {
   children: ReactNode;
 }
@@ -29,6 +32,28 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="relative min-h-screen text-white overflow-hidden bg-transparent">
+      {/* En móvil y tableta el menú y los botones de abajo ocupan mucha pantalla
+          y, en las páginas de texto largo, el texto pasa por debajo al hacer
+          scroll. Una franja negra que se desvanece detrás de cada zona deja leer
+          lo fijo y hace que el texto se vaya suavemente. Va sobre <main> (z-10)
+          y bajo lo fijo (z-20). Solo en esas páginas: en la portada taparía el
+          video, en Videos y Fotos el título grande que va pegado arriba, y
+          /musica ya desvanece sus portadas antes del menú (Reveal). */}
+      {TEXT_PAGES.includes(router.pathname) && (
+        <>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none fixed inset-x-0 top-0 z-[15] h-[250px] sm:h-[300px] lg:hidden"
+            style={{ background: "linear-gradient(to bottom, #000 calc(100% - 32px), rgba(0,0,0,0))" }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none fixed inset-x-0 bottom-0 z-[15] h-[200px] lg:hidden"
+            style={{ background: "linear-gradient(to top, #000 calc(100% - 32px), rgba(0,0,0,0))" }}
+          />
+        </>
+      )}
+
       {/* Logo */}
       <div className="fixed top-8 left-8 z-20">
         <Link href="/" aria-label="Maria Lunares — inicio">
