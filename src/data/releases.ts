@@ -277,10 +277,10 @@ Y buena suerte, y buena suerte
 Y buena suerte
 Y buena suerte`,
     credits: {
-      writtenBy: "Maria Lunares (Cinthya Paulino)",
+      writtenBy: "Maria Lunares",
       mix: "Cryo Mix",
       mastering: "Cryo Mix",
-      cover: "Maria Lunares (Cinthya Paulino)",
+      cover: "Molly Yllom",
     },
     links: {
       bandcamp: "https://marialunares.bandcamp.com/track/sabes-correr",
@@ -426,8 +426,8 @@ Están las almas`,
     descriptionEn:
       "A rework of “Jueves” by El Trío de Omar Rodríguez López, run through Maria Lunares.",
     credits: {
-      mix: "Maria Lunares",
-      mastering: "Maria Lunares",
+      mix: "Surya Cabral",
+      mastering: "Surya Cabral",
       cover: "Molly Yllom",
     },
     links: {
@@ -448,8 +448,10 @@ Están las almas`,
     title: "Salsa pa' tu Lechón (A trip x Maria Lunares)",
     year: 2023,
     cover: "/images/covers/ml-salsa-pa-tu-lechon-coverart.webp",
-    descriptionEs: "Versión de «Salsa pa' tu lechón», de Johnny Ventura, pasada por Maria Lunares.",
-    descriptionEn: "A rework of “Salsa pa' tu lechón” by Johnny Ventura, run through Maria Lunares.",
+    descriptionEs:
+      "Versión de «Salsa pa' tu lechón», de Johnny Ventura, pasada por Maria Lunares. En colaboración con Guarevel.",
+    descriptionEn:
+      "A rework of “Salsa pa' tu lechón” by Johnny Ventura, run through Maria Lunares. In collaboration with Guarevel.",
     credits: {
       mix: "Maria Lunares",
       mastering: "Maria Lunares",
