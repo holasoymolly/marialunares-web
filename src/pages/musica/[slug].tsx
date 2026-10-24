@@ -303,8 +303,12 @@ export default function ReleasePage({ release }: ReleasePageProps) {
                 <section>
                   <SectionLabel>{t.release.credits}</SectionLabel>
                   <dl className="grid gap-3 text-sm sm:grid-cols-[9rem_minmax(0,1fr)]">
-                    <dt className="opacity-50">{t.release.writtenBy}</dt>
-                    <dd>{release.credits.writtenBy}</dd>
+                    {release.credits.writtenBy && (
+                      <>
+                        <dt className="opacity-50">{t.release.writtenBy}</dt>
+                        <dd>{release.credits.writtenBy}</dd>
+                      </>
+                    )}
                     <dt className="opacity-50">{t.release.mix}</dt>
                     <dd>{release.credits.mix}</dd>
                     {release.credits.mastering && (
@@ -315,6 +319,12 @@ export default function ReleasePage({ release }: ReleasePageProps) {
                     )}
                     <dt className="opacity-50">{t.release.coverArt}</dt>
                     <dd>{release.credits.cover}</dd>
+                    {release.credits.coverPhoto && (
+                      <>
+                        <dt className="opacity-50">{t.release.coverPhoto}</dt>
+                        <dd>{release.credits.coverPhoto}</dd>
+                      </>
+                    )}
                   </dl>
                 </section>
               )}

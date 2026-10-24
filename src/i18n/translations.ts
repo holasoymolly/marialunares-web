@@ -78,6 +78,7 @@ type Dict = {
     mix: string;
     mastering: string;
     coverArt: string;
+    coverPhoto: string;
     coverAltPrefix: string;
     reissue: string;
     externalHint: string;
@@ -209,6 +210,7 @@ export const translations: Record<Locale, Dict> = {
       mix: "Mezcla",
       mastering: "Masterización",
       coverArt: "Portada",
+      coverPhoto: "Foto de portada",
       coverAltPrefix: "Portada de",
       reissue: "Remastered",
       externalHint: "se abre en una pestaña nueva",
@@ -337,6 +339,7 @@ export const translations: Record<Locale, Dict> = {
       mix: "Mix",
       mastering: "Mastering",
       coverArt: "Cover art",
+      coverPhoto: "Cover photo",
       coverAltPrefix: "Cover art for",
       reissue: "Remastered",
       externalHint: "opens in a new tab",
