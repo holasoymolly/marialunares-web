@@ -2,12 +2,17 @@ import { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Seo from "@/components/Seo";
+import Reveal from "@/components/Reveal";
 import { useTranslations } from "@/i18n/useTranslations";
 import { releaseHref, releases, hasOwnPage, type Release } from "@/data/releases";
 
 // Galería de portadas: la composición es la original (título en bleed +
 // portada principal grande y el resto en una rejilla de dos columnas), pero
 // las portadas salen de src/data/releases.ts.
+//
+// El título se queda fijo y la galería hace scroll por debajo: con todo el
+// catálogo ya no cabe en una pantalla. Cada portada aparece al entrar por abajo
+// y se desvanece al salir por arriba (Reveal).
 function Musica() {
   const { t } = useTranslations();
   const [main, ...rest] = releases;
@@ -15,16 +20,16 @@ function Musica() {
   return (
     <>
       <Seo title={t.meta.musica.title} description={t.meta.musica.description} />
-      <div className="relative w-screen h-screen bg-black text-white">
+      <div className="relative w-full min-h-screen bg-black text-white">
         {/* Título */}
-        <h1 className="text-9xl font-bold absolute desktop-title">
+        <h1 className="text-9xl font-bold fixed desktop-title pointer-events-none" data-reveal-ignore>
           MÚ<br />SI<br />CA
         </h1>
 
         {/* Galería de imágenes */}
-        <div className="absolute gallery-container">
+        <div className="relative gallery-container" data-reveal-zone>
           {/* Imagen principal */}
-          <div className="mb-5 gallery-main">
+          <Reveal className="mb-5 gallery-main">
             <CoverLink release={main}>
               <Image
                 src={main.cover}
@@ -36,21 +41,23 @@ function Musica() {
                 className="object-cover rounded-lg transition duration-300 hover:scale-105"
               />
             </CoverLink>
-          </div>
+          </Reveal>
 
           {/* Imágenes secundarias */}
           <div className="grid grid-cols-2 gap-2 gallery-grid">
             {rest.map((release) => (
-              <CoverLink key={release.slug} release={release}>
-                <Image
-                  src={release.cover}
-                  alt={`${t.release.coverAltPrefix} ${release.title}`}
-                  width={192}
-                  height={192}
-                  sizes="(max-width: 768px) 30vw, 192px"
-                  className="object-cover rounded-lg transition duration-300 hover:scale-105"
-                />
-              </CoverLink>
+              <Reveal key={release.slug}>
+                <CoverLink release={release}>
+                  <Image
+                    src={release.cover}
+                    alt={`${t.release.coverAltPrefix} ${release.title}`}
+                    width={192}
+                    height={192}
+                    sizes="(max-width: 768px) 30vw, 192px"
+                    className="object-cover rounded-lg transition duration-300 hover:scale-105"
+                  />
+                </CoverLink>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -68,9 +75,10 @@ function Musica() {
           }
 
           .gallery-container {
-            top: 55vh;
             left: 56vw;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
+            width: 384px;
+            padding: 16vh 0 30vh;
           }
 
           .gallery-main {
@@ -93,10 +101,10 @@ function Musica() {
           }
 
           .gallery-container {
-            top: 58vh;
             left: 68vw;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             width: 60vw;
+            padding: 22vh 0 30vh;
           }
 
           .gallery-main {
@@ -120,10 +128,10 @@ function Musica() {
           }
 
           .gallery-container {
-            top: 58vh;
             left: 55vw;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             width: 40vw;
+            padding: 26vh 0 30vh;
           }
 
           .gallery-main {
