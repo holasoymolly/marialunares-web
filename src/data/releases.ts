@@ -17,11 +17,19 @@ export interface ReleaseLinks {
 }
 
 export interface ReleaseCredits {
-  writtenBy: string;
+  /**
+   * Autoría de la canción. Opcional para las versiones de canciones ajenas:
+   * ahí el autor original ya va nombrado en la descripción, y no se pone un
+   * compositor que no esté verificado.
+   */
+  writtenBy?: string;
   mix: string;
   /** Rol aparte de la mezcla, aunque a menudo lo firme la misma persona. */
   mastering?: string;
+  /** Quien hizo la portada (creación, edición y diseño). */
   cover: string;
+  /** Autor de la foto de la portada, si la portada parte de una foto ajena. */
+  coverPhoto?: string;
 }
 
 /**
@@ -417,6 +425,11 @@ Están las almas`,
       "Versión de «Jueves», de El Trío de Omar Rodríguez López, pasada por Maria Lunares.",
     descriptionEn:
       "A rework of “Jueves” by El Trío de Omar Rodríguez López, run through Maria Lunares.",
+    credits: {
+      mix: "Maria Lunares",
+      mastering: "Maria Lunares",
+      cover: "Molly Yllom",
+    },
     links: {
       bandcamp:
         "https://marialunares.bandcamp.com/track/el-tr-o-de-omar-rodr-guez-l-pez-jueves-a-trip-x-maria-lunares",
@@ -437,6 +450,11 @@ Están las almas`,
     cover: "/images/covers/ml-salsa-pa-tu-lechon-coverart.webp",
     descriptionEs: "Versión de «Salsa pa' tu lechón», de Johnny Ventura, pasada por Maria Lunares.",
     descriptionEn: "A rework of “Salsa pa' tu lechón” by Johnny Ventura, run through Maria Lunares.",
+    credits: {
+      mix: "Maria Lunares",
+      mastering: "Maria Lunares",
+      cover: "Molly Yllom",
+    },
     links: {
       bandcamp:
         "https://marialunares.bandcamp.com/track/johnny-ventura-salsa-pa-tu-lech-n-a-trip-x-maria-lunares",
@@ -593,6 +611,12 @@ Me terminaste salvando tú, ¿quién lo iba a imaginar?
 Tú sabes, tú sabes bien
 Tú sabes a canela y miel
 Y tú sabes cómo envolverme`,
+    credits: {
+      writtenBy: "Maria Lunares",
+      mix: "Maria Lunares",
+      mastering: "Maria Lunares",
+      cover: "Molly Yllom",
+    },
     links: {
       bandcamp: "https://marialunares.bandcamp.com/track/sabes",
       soundcloud: "https://soundcloud.com/marialunares/sabes",
@@ -636,6 +660,13 @@ Pero déjame probar tus labios debajo de ellas`,
         soundcloudTrackUrl: "https://soundcloud.com/marialunares/luna-cuarto-menguante",
       },
     ],
+    credits: {
+      writtenBy: "Maria Lunares",
+      mix: "Maria Lunares",
+      mastering: "Maria Lunares",
+      cover: "Molly Yllom",
+      coverPhoto: "Amaury Díaz",
+    },
     links: {
       bandcamp: "https://marialunares.bandcamp.com/album/luna",
       youtube: "https://youtu.be/PV50x6TTWKA",
@@ -665,6 +696,12 @@ Al vacío de este río?
 Llevo una calma
 Como una sombra
 Que cuelga de mi alma`,
+    credits: {
+      writtenBy: "Maria Lunares",
+      mix: "Cino",
+      mastering: "Cino",
+      cover: "Molly Yllom",
+    },
     links: {
       bandcamp: "https://marialunares.bandcamp.com/track/sombra",
       soundcloud: "https://soundcloud.com/marialunares/sombra",
@@ -719,6 +756,12 @@ Que soy de donde soy
 Y de donde no vengo
 También soy
 También soy`,
+    credits: {
+      writtenBy: "Maria Lunares",
+      mix: "Cino",
+      mastering: "Cino",
+      cover: "Molly Yllom",
+    },
     links: {
       bandcamp: "https://marialunares.bandcamp.com/track/ra-ces",
       soundcloud: "https://soundcloud.com/marialunares/raices",
@@ -865,6 +908,12 @@ O si soy invisible`,
         durationSeconds: 363,
       },
     ],
+    credits: {
+      writtenBy: "Maria Lunares",
+      mix: "Maria Lunares",
+      mastering: "Maria Lunares",
+      cover: "Molly Yllom",
+    },
     links: {
       bandcamp: "https://marialunares.bandcamp.com/album/maria-lunares-demos",
       youtube: "https://youtu.be/9m13VLbqEWQ",
