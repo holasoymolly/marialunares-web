@@ -53,14 +53,6 @@ export default function Layout({ children }: LayoutProps) {
         <Link href="/fotos" className="transition duration-300 hover:font-bold cursor-pointer">
           {t.nav.fotos}
         </Link>
-        <a
-          href="https://marialunares.printful.me/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="transition duration-300 hover:font-bold cursor-pointer"
-        >
-          {t.nav.tienda}
-        </a>
         <Link href="/contacto" className="transition duration-300 hover:font-bold cursor-pointer">
           {t.nav.contacto}
         </Link>

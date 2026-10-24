@@ -12,7 +12,6 @@ type Dict = {
     musica: string;
     videos: string;
     fotos: string;
-    tienda: string;
     contacto: string;
     newsletter: string;
   };
@@ -62,6 +61,9 @@ type Dict = {
     listen: string;
     playPreview: string;
     previewLabel: string;
+    playAlbum: string;
+    bandcampPlayerLabel: string;
+    listenOnly: string;
     buy: string;
     comingSoon: string;
     lyrics: string;
@@ -117,7 +119,6 @@ export const translations: Record<Locale, Dict> = {
       musica: "Música",
       videos: "Videos",
       fotos: "Fotos",
-      tienda: "Tienda",
       contacto: "Contacto",
       newsletter: "Newsletter",
     },
@@ -191,6 +192,9 @@ export const translations: Record<Locale, Dict> = {
       listen: "Escuchar",
       playPreview: "Escuchar un adelanto",
       previewLabel: "Reproductor de SoundCloud",
+      playAlbum: "Escuchar el disco",
+      bandcampPlayerLabel: "Reproductor de Bandcamp",
+      listenOnly: "Solo para escuchar.",
       buy: "Comprar",
       comingSoon: "Próximamente",
       lyrics: "Letra",
@@ -243,7 +247,6 @@ export const translations: Record<Locale, Dict> = {
       musica: "Music",
       videos: "Videos",
       fotos: "Photos",
-      tienda: "Shop",
       contacto: "Contact",
       newsletter: "Newsletter",
     },
@@ -317,6 +320,9 @@ export const translations: Record<Locale, Dict> = {
       listen: "Listen",
       playPreview: "Play a preview",
       previewLabel: "SoundCloud player",
+      playAlbum: "Play the album",
+      bandcampPlayerLabel: "Bandcamp player",
+      listenOnly: "For listening only.",
       buy: "Buy",
       comingSoon: "Coming soon",
       lyrics: "Lyrics",

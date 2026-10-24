@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import Seo from "@/components/Seo";
 import SoundCloudFacade from "@/components/SoundCloudFacade";
+import BandcampFacade from "@/components/BandcampFacade";
 import { useNewsletter } from "@/components/NewsletterProvider";
 import { useTranslations } from "@/i18n/useTranslations";
 import { LOCALES } from "@/i18n/translations";
@@ -142,29 +143,33 @@ export default function ReleasePage({ release }: ReleasePageProps) {
                 <p className="max-w-[52ch] text-lg leading-relaxed opacity-90">{description}</p>
               )}
 
-              {/* Descarga / compra */}
-              <div className="flex flex-wrap items-center gap-4">
-                {checkoutHref ? (
-                  <a
-                    href={checkoutHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="lemonsqueezy-button inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black transition duration-300 hover:bg-white/85 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-                  >
-                    <Icon icon="mdi:cart-outline" className="text-lg" aria-hidden="true" />
-                    {priceLabel ? `${t.release.buy} · ${priceLabel}` : t.release.buy}
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    disabled
-                    className="inline-flex cursor-not-allowed items-center gap-2 whitespace-nowrap rounded-full border border-white/40 px-6 py-2.5 text-sm text-white/50"
-                  >
-                    <Icon icon="mdi:tray-arrow-down" className="text-lg" aria-hidden="true" />
-                    {t.release.comingSoon}
-                  </button>
-                )}
-              </div>
+              {/* Descarga / compra. Lo que es solo para escuchar no lleva botón. */}
+              {release.listenOnly ? (
+                <p className="text-sm opacity-60">{t.release.listenOnly}</p>
+              ) : (
+                <div className="flex flex-wrap items-center gap-4">
+                  {checkoutHref ? (
+                    <a
+                      href={checkoutHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="lemonsqueezy-button inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black transition duration-300 hover:bg-white/85 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                    >
+                      <Icon icon="mdi:cart-outline" className="text-lg" aria-hidden="true" />
+                      {priceLabel ? `${t.release.buy} · ${priceLabel}` : t.release.buy}
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      disabled
+                      className="inline-flex cursor-not-allowed items-center gap-2 whitespace-nowrap rounded-full border border-white/40 px-6 py-2.5 text-sm text-white/50"
+                    >
+                      <Icon icon="mdi:tray-arrow-down" className="text-lg" aria-hidden="true" />
+                      {t.release.comingSoon}
+                    </button>
+                  )}
+                </div>
+              )}
 
               {checkoutHref && (
                 <Script
@@ -175,11 +180,22 @@ export default function ReleasePage({ release }: ReleasePageProps) {
               )}
 
               {/* Adelanto: el embed solo se monta tras el clic */}
-              {release.soundcloudTrackUrl && (
+              {release.soundcloudTrackUrl ? (
                 <section>
                   <SectionLabel>{t.release.listen}</SectionLabel>
                   <SoundCloudFacade trackUrl={release.soundcloudTrackUrl} title={release.title} />
                 </section>
+              ) : (
+                release.bandcampAlbumId && (
+                  <section>
+                    <SectionLabel>{t.release.listen}</SectionLabel>
+                    <BandcampFacade
+                      albumId={release.bandcampAlbumId}
+                      trackCount={release.tracks?.length ?? 1}
+                      title={release.title}
+                    />
+                  </section>
+                )
               )}
 
               {release.lyrics && (
