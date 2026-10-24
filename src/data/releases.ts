@@ -120,6 +120,18 @@ export interface Release {
   priceUsd?: number;
   /** Pista de SoundCloud para el adelanto embebido de la página. */
   soundcloudTrackUrl?: string;
+  /**
+   * ID numérico del disco en Bandcamp (sin la «a» delante). Para lo que no está
+   * en SoundCloud, como los demos: la página monta el reproductor de Bandcamp
+   * con la lista de pistas. Se ve en el HTML de la página del disco, en
+   * `data-tralbum` → `id`, o en Tools → Track/Album Codes.
+   */
+  bandcampAlbumId?: string;
+  /**
+   * Solo para escuchar: la página no ofrece compra ni «Próximamente». Para las
+   * versiones de canciones de otros autores, que no se venden sin su licencia.
+   */
+  listenOnly?: boolean;
   /** Smart link externo (Hypeddit) para releases que aún no tienen página propia. */
   externalUrl?: string;
   /**
@@ -193,6 +205,18 @@ Lejos de tu sombra, lejos de tu voz
 Me parto en pedazos, pero busco el sol
 Un pasito a la vez, un pasito otra vez
 Aunque duela, ya ves`,
+    // Primera emisión de la campaña de radio de septiembre. Alex Marrero no
+    // dijo nada citable al aire, así que va solo el hecho. Sin enlace: el
+    // episodio deja de estar a demanda hacia el 11 de octubre y «Escuchar el
+    // clip» quedaría apuntando a una playlist sin audio. Fuente verificada:
+    // kutx.org/episodes/horizontes-9-27-26/
+    press: {
+      author: "Alex Marrero",
+      outlet: "KUTX",
+      show: "Horizontes",
+      date: "2026-09-27",
+      broadcast: true,
+    },
     credits: {
       writtenBy: "Maria Lunares",
       mix: "Maria Lunares",
@@ -385,6 +409,47 @@ Están las almas`,
     hasPage: true,
   },
   {
+    slug: "jueves",
+    title: "Jueves (A trip x Maria Lunares)",
+    year: 2023,
+    cover: "/images/covers/ml-jueves-coverart.webp",
+    descriptionEs:
+      "Versión de «Jueves», de El Trío de Omar Rodríguez López, pasada por Maria Lunares.",
+    descriptionEn:
+      "A rework of “Jueves” by El Trío de Omar Rodríguez López, run through Maria Lunares.",
+    links: {
+      bandcamp:
+        "https://marialunares.bandcamp.com/track/el-tr-o-de-omar-rodr-guez-l-pez-jueves-a-trip-x-maria-lunares",
+      soundcloud:
+        "https://soundcloud.com/marialunares/el-trio-de-omar-rodriguez-lopez-jueves-a-trip-x-maria-lunares",
+      youtube: "https://youtu.be/l_ovXctOwb4",
+    },
+    soundcloudTrackUrl:
+      "https://soundcloud.com/marialunares/el-trio-de-omar-rodriguez-lopez-jueves-a-trip-x-maria-lunares",
+    // Versión de una canción ajena: se escucha, no se vende.
+    listenOnly: true,
+    hasPage: true,
+  },
+  {
+    slug: "salsa-pa-tu-lechon",
+    title: "Salsa pa' tu Lechón (A trip x Maria Lunares)",
+    year: 2023,
+    cover: "/images/covers/ml-salsa-pa-tu-lechon-coverart.webp",
+    descriptionEs: "Versión de «Salsa pa' tu lechón», de Johnny Ventura, pasada por Maria Lunares.",
+    descriptionEn: "A rework of “Salsa pa' tu lechón” by Johnny Ventura, run through Maria Lunares.",
+    links: {
+      bandcamp:
+        "https://marialunares.bandcamp.com/track/johnny-ventura-salsa-pa-tu-lech-n-a-trip-x-maria-lunares",
+      soundcloud:
+        "https://soundcloud.com/marialunares/johnny-ventura-salsa-pa-tu-lechon-a-trip-x-maria-lunares",
+      youtube: "https://youtu.be/G1wMt_1MMrY",
+    },
+    soundcloudTrackUrl:
+      "https://soundcloud.com/marialunares/johnny-ventura-salsa-pa-tu-lechon-a-trip-x-maria-lunares",
+    listenOnly: true,
+    hasPage: true,
+  },
+  {
     slug: "sol-trips",
     title: "Sol: Trips",
     year: 2023,
@@ -497,6 +562,308 @@ Que no lo entiendo
       "https://marialunares.lemonsqueezy.com/checkout/buy/8b9cf9a2-0aac-469d-bd11-5db3b92ba840",
     priceUsd: 1.5,
     externalUrl: "https://hypeddit.com/uz51hf",
+    hasPage: true,
+  },
+  {
+    slug: "sabes",
+    title: "Sabes",
+    year: 2021,
+    // ISRC previo, asignado por la distribuidora. No se reemplaza.
+    isrc: "QZ-ES8-21-96511",
+    durationSeconds: 358,
+    cover: "/images/covers/ml-sabes-coverart.webp",
+    descriptionEs:
+      "Un sueño. Alguien se ahoga en la orilla, alguien lo lleva otra vez al mar, y al final no se sabe quién salvó a quién.",
+    descriptionEn:
+      "A dream. Someone drowning at the shore, someone carrying them back to the sea, and in the end nobody knows who saved whom.",
+    lyrics: `Te encontré en la orilla del mar
+Agonizando y yo queriéndote salvar
+Me dijiste "no puedo respirar,
+Llévame otra vez al mar"
+
+Tú sabes, tú sabes bien
+Tú sabes a canela y miel
+Y tú sabes cómo envolverme
+
+Y yo te llevé y no miré atrás
+¿Tú sabes cuánto tiempo tuve que esperar?
+Para ser yo quien no pueda respirar
+Me terminaste salvando tú, ¿quién lo iba a imaginar?
+
+Tú sabes, tú sabes bien
+Tú sabes a canela y miel
+Y tú sabes cómo envolverme`,
+    links: {
+      bandcamp: "https://marialunares.bandcamp.com/track/sabes",
+      soundcloud: "https://soundcloud.com/marialunares/sabes",
+      youtube: "https://youtu.be/fFe3-0NHnVg",
+    },
+    soundcloudTrackUrl: "https://soundcloud.com/marialunares/sabes",
+    priceUsd: 1.5,
+    hasPage: true,
+  },
+  {
+    slug: "luna",
+    title: "Luna",
+    year: 2020,
+    cover: "/images/covers/ml-luna-coverart.webp",
+    descriptionEs:
+      "Dos fases de la misma canción: llena y cuarto menguante.",
+    descriptionEn:
+      "Two phases of the same song: full and waning.",
+    tracks: [
+      {
+        title: "Luna (Llena)",
+        isrc: "QZ-HNB-20-67146",
+        durationSeconds: 353,
+        soundcloudTrackUrl: "https://soundcloud.com/marialunares/luna-llena",
+        lyrics: `Déjame ver
+Cómo se ve
+
+Déjame ver
+Cómo se ve tu piel
+Bajo la luna
+
+Sé que no te puedo bajar del cielo las estrellas
+Pero déjame probar tus labios debajo de ellas`,
+      },
+      {
+        title: "Luna (Cuarto Menguante)",
+        isrc: "QZ-HNB-20-67148",
+        durationSeconds: 353,
+        soundcloudTrackUrl: "https://soundcloud.com/marialunares/luna-cuarto-menguante",
+      },
+    ],
+    links: {
+      bandcamp: "https://marialunares.bandcamp.com/album/luna",
+      youtube: "https://youtu.be/PV50x6TTWKA",
+    },
+    priceUsd: 1.5,
+    hasPage: true,
+  },
+  {
+    slug: "sombra",
+    title: "Sombra",
+    year: 2020,
+    // ISRC previo, asignado por la distribuidora. No se reemplaza.
+    isrc: "QZ-HN8-20-10707",
+    durationSeconds: 533,
+    cover: "/images/covers/ml-sombra-coverart.webp",
+    descriptionEs:
+      "Nadar otra vez contra la corriente del mismo río. Y una calma que cuelga del alma como una sombra.",
+    descriptionEn:
+      "Swimming against the same river's current, one more time. And a calm that hangs from the soul like a shadow.",
+    lyrics: `¿Cuántas veces voy a nadar
+Contra la corriente de este río?
+¿Cuántas piedras más voy a lanzar
+Al vacío de este río?
+
+Llevo una calma
+Como una sombra
+Que cuelga de mi alma`,
+    links: {
+      bandcamp: "https://marialunares.bandcamp.com/track/sombra",
+      soundcloud: "https://soundcloud.com/marialunares/sombra",
+      youtube: "https://youtu.be/MZ3GH9DKR6c",
+    },
+    soundcloudTrackUrl: "https://soundcloud.com/marialunares/sombra",
+    priceUsd: 1.5,
+    hasPage: true,
+  },
+  {
+    slug: "raices",
+    title: "Raíces",
+    year: 2020,
+    // ISRC previo, asignado por la distribuidora. No se reemplaza.
+    isrc: "QZ-HN4-20-97705",
+    durationSeconds: 347,
+    cover: "/images/covers/ml-raices-coverart.webp",
+    descriptionEs:
+      "Un punto azul en medio de un abismo. Raíces es venir de dos ramas profundas y que igual todos digan que pareces de otro lugar.",
+    descriptionEn:
+      "A blue dot in the middle of an abyss. Raíces is about coming from two deep roots and still having everyone say you look like you're from somewhere else.",
+    lyrics: `Vivo en un punto azul
+En medio de un abismo
+Donde desde hace mucho tiempo
+Y hasta el día de hoy
+Hay partes de mí
+
+Flotando
+Rozando
+Explotando
+Con partes de ti
+
+Nací del resultado de
+Dos raíces, dos ramas profundas
+Y aunque me considere un espejo
+Todos dicen que
+Parezco de otro lugar
+
+Flotando
+Rozando
+Explotando
+Con partes de ti
+
+Siento que soy las raíces
+También siento que soy el abismo
+Que fui hace mucho tiempo
+Y aun soy hoy
+
+Que soy de donde soy
+Y de donde no vengo
+También soy
+También soy`,
+    links: {
+      bandcamp: "https://marialunares.bandcamp.com/track/ra-ces",
+      soundcloud: "https://soundcloud.com/marialunares/raices",
+      youtube: "https://youtu.be/o-nTgMCuISE",
+    },
+    soundcloudTrackUrl: "https://soundcloud.com/marialunares/raices",
+    priceUsd: 1.5,
+    hasPage: true,
+  },
+  {
+    slug: "maria-lunares-demos",
+    title: "Maria Lunares (Demos)",
+    year: 2016,
+    cover: "/images/covers/ml-maria-lunares-demos-coverart.webp",
+    // La descripción y la dedicatoria son las de Bandcamp, escritas por ella.
+    descriptionEs:
+      "Compilado de canciones creadas entre 2010 y 2016. A todo el que me ha motivado a publicar esta maña mía de expresarme a través de las ondas sonoras: gracias.",
+    descriptionEn:
+      "Songs made between 2010 and 2016. To everyone who pushed me to put out this habit of mine of speaking through sound waves: thank you.",
+    tracks: [
+      {
+        title: "Va y viene",
+        isrc: "DO-A1R-26-00013",
+        durationSeconds: 337,
+        lyrics: `Siento que la vida se me va
+Poco a poco tú también
+
+No sé porqué la vida se me va
+Poco a poco te quedas
+
+Impregnada, mi memoria
+Mi memoria de ti
+Congelada tu inocencia
+Tu decadencia en mí`,
+      },
+      {
+        title: "Lágrimas",
+        isrc: "DO-A1R-26-00014",
+        durationSeconds: 305,
+        lyrics: `Tan fuerte
+Tan frágil
+Tan tú y yo
+
+¿Por qué?`,
+      },
+      {
+        title: "El Camino",
+        isrc: "DO-A1R-26-00015",
+        durationSeconds: 315,
+        lyrics: `El camino es muy largo
+El camino es muy corto
+Eliges cosas en el camino
+Y cosas te eligen en el camino
+
+Luna, ¿dónde vas?
+Luna, ¿dónde me llevas?
+Luna
+
+El camino no importa
+Lo que importa: son los pasos
+Las respuestas no importan
+Lo que importa: son las preguntas
+
+Luna, ¿dónde vas?
+Luna, ¿dónde me llevas?
+Luna`,
+      },
+      {
+        title: "La Villana",
+        isrc: "DO-A1R-26-00016",
+        durationSeconds: 305,
+        lyrics: `Contigo no sé por dónde empezar
+Y contigo no sé por dónde terminar
+
+En esta y otras historias
+Yo siempre soy la villana
+Y no importa lo que yo haga
+Soy mala, mala, muy mala
+
+Y es que me es tan fácil
+Morir así, así, así
+Pero me es tan difícil
+Mantenerme así, así
+
+Y tú, y tú, tú no me crees
+Que yo soy frágil, que soy sensible
+Pero está bien, huye, huye porque yo sé
+
+Que en esta y otras historias
+Yo siempre soy la villana
+Y no importa lo que yo haga
+Soy mala, mala, muy mala
+
+Quién iba a decir
+Que iba a morir tan fácil
+Y quién iba a predecir
+Que iba a ser tan fugaz, así, así`,
+      },
+      {
+        title: "Eres",
+        isrc: "DO-A1R-26-00017",
+        durationSeconds: 309,
+        lyrics: `Un simple trazo sonoro
+Sale de mi alma enmudecida
+Y se enreda entre tu ser
+Y lo que queda, cenizas de mi ser
+
+Me has llevado a que ya no siento nada
+Y en medio de esta oscuridad me encuentro en ti
+
+Y es que te has convertido en la metáfora
+Que roza mis palabras y me desvanece
+Y es que eres la realidad que me hace dormitar
+En fantasías de esta vida misma
+
+La sombra de tu luz
+Me basta para sobrevivir en tu existencia
+Y tratas de postrar
+Ante tu corazón mi resistencia
+
+Es un grado en el que ya no siento nada
+Mientras mi mente cae hacia la gravedad vital
+
+Y es que te has convertido en la metáfora
+Que roza mis palabras y me desvanece
+Y es que eres la realidad que me hace dormitar
+En fantasías de esta vida misma`,
+      },
+      {
+        title: "Invisible",
+        isrc: "DO-A1R-26-00018",
+        durationSeconds: 293,
+        lyrics: `No sé
+No sé
+Si me ves
+
+O si soy invisible`,
+      },
+      {
+        title: "Una ola me abrazó",
+        isrc: "DO-A1R-26-00019",
+        durationSeconds: 363,
+      },
+    ],
+    links: {
+      bandcamp: "https://marialunares.bandcamp.com/album/maria-lunares-demos",
+      youtube: "https://youtu.be/9m13VLbqEWQ",
+    },
+    // No están en SoundCloud: se escuchan con el reproductor de Bandcamp.
+    bandcampAlbumId: "761046385",
+    priceUsd: 7,
     hasPage: true,
   },
 ];
