@@ -22,12 +22,12 @@ function Musica() {
       <Seo title={t.meta.musica.title} description={t.meta.musica.description} />
       <div className="relative w-full min-h-screen bg-black text-white">
         {/* Título */}
-        <h1 className="text-9xl font-bold fixed desktop-title pointer-events-none">
+        <h1 className="text-9xl font-bold fixed desktop-title pointer-events-none" data-reveal-ignore>
           MÚ<br />SI<br />CA
         </h1>
 
         {/* Galería de imágenes */}
-        <div className="relative gallery-container">
+        <div className="relative gallery-container" data-reveal-zone>
           {/* Imagen principal */}
           <Reveal className="mb-5 gallery-main">
             <CoverLink release={main}>
