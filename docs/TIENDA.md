@@ -2,9 +2,21 @@
 
 [← back to CLAUDE.md](../CLAUDE.md)
 
-> **Estado: bloqueada, decisión pendiente.** Analizado el 28 de agosto de 2026.
-> La tienda de Printful sigue enlazada desde el menú, pero **no puede venderle a
-> nadie fuera de Estados Unidos**. Retomar en la próxima sesión.
+> **Estado (5-nov-2026): sin tienda activa.** `/tienda` lleva a `/musica` porque la de Printful solo le vende a EE. UU.
+> **Corrección:** el análisis de agosto de abajo daba por hecho que Cinthya estaba en España. Vive en República Dominicana, así que las razones ligadas a España e IVA no aplican.
+
+## Recomendación actual: Fourthwall, cuando haya diseños
+
+- **Por qué:** dice que no tiene mensualidad, costo inicial ni contrato, y trae tienda propia. No hay que conectar otra plataforma.
+- **Pago a RD:** su ayuda lista a República Dominicana entre los países con método de pago, por PayPal o bill.com, con mínimo de US$25 en PayPal. Confirmar el método al crear la cuenta.
+- **En contra:** es una plataforma más que mantener, y falta comprobar el costo de envío a RD y Latinoamérica con un carrito de prueba.
+- **Alternativa:** Printful + Big Cartel. Antes de elegirla hay que comprobar si Printful le cobra cada pedido a su tarjeta, que es justo lo que se quiere evitar.
+
+**Orden:** 2 o 3 diseños con portadas propias, carrito de prueba, y solo entonces se vuelve a poner en la web. Las muestras físicas cuestan dinero y quedan para después.
+
+---
+
+## Análisis de agosto (28-08-2026)
 
 Este documento es solo sobre la tienda de **artículos físicos** (Printful).
 La venta de música digital (Lemon Squeezy, `checkoutUrl` por release) no entra
