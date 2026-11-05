@@ -30,6 +30,7 @@ type Dict = {
     { title: string; description: string }
   >;
   contacto: { heading: string };
+  sync: { title: string; description: string; label: string; heading: string; intro: string; rights: string; contact: string };
   // Página /sobre (en inglés, /about). El orden de los bloques es el de la
   // página: apertura, qué es el proyecto, el alter ego, la historia y el cierre.
   sobre: {
@@ -163,6 +164,15 @@ export const translations: Record<Locale, Dict> = {
       },
     },
     contacto: { heading: "CONTACTO" },
+    sync: {
+      title: "Música para cine y series — Maria Lunares",
+      description: "Tres canciones de Maria Lunares para licenciar en cine, series y publicidad.",
+      label: "Música para cine y series",
+      heading: "Tres canciones para escuchar",
+      intro: "Neo-bolero espacial con trip-hop y shoegaze, en español. Canciones de desamor para escenas que no se resuelven.",
+      rights: "Escribo y produzco mi música. Las licencias se hablan directo conmigo.",
+      contact: "Escríbeme",
+    },
     sobre: {
       eyebrow: "Sobre",
       whatLabel: "Qué es",
@@ -292,6 +302,15 @@ export const translations: Record<Locale, Dict> = {
       },
     },
     contacto: { heading: "CONTACT" },
+    sync: {
+      title: "Music for film and TV — Maria Lunares",
+      description: "Three songs by Maria Lunares to license for film, TV and advertising.",
+      label: "Music for film and TV",
+      heading: "Three songs to hear",
+      intro: "Spatial neo-bolero with trip-hop and shoegaze, sung in Spanish. Songs about heartbreak for scenes that don't resolve.",
+      rights: "I write and produce my own music. Licensing goes straight through me.",
+      contact: "Write to me",
+    },
     sobre: {
       eyebrow: "About",
       whatLabel: "What it is",
