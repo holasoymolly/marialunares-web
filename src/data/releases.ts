@@ -444,32 +444,6 @@ Están las almas`,
     hasPage: true,
   },
   {
-    slug: "salsa-pa-tu-lechon",
-    title: "Salsa pa' tu Lechón (A trip x Maria Lunares)",
-    year: 2023,
-    cover: "/images/covers/ml-salsa-pa-tu-lechon-coverart.webp",
-    descriptionEs:
-      "Versión de «Salsa pa' tu lechón», de Johnny Ventura, pasada por Maria Lunares. En colaboración con Guarevel.",
-    descriptionEn:
-      "A rework of “Salsa pa' tu lechón” by Johnny Ventura, run through Maria Lunares. In collaboration with Guarevel.",
-    credits: {
-      mix: "Maria Lunares",
-      mastering: "Maria Lunares",
-      cover: "Molly Yllom",
-    },
-    links: {
-      bandcamp:
-        "https://marialunares.bandcamp.com/track/johnny-ventura-salsa-pa-tu-lech-n-a-trip-x-maria-lunares",
-      soundcloud:
-        "https://soundcloud.com/marialunares/johnny-ventura-salsa-pa-tu-lechon-a-trip-x-maria-lunares",
-      youtube: "https://youtu.be/G1wMt_1MMrY",
-    },
-    soundcloudTrackUrl:
-      "https://soundcloud.com/marialunares/johnny-ventura-salsa-pa-tu-lechon-a-trip-x-maria-lunares",
-    listenOnly: true,
-    hasPage: true,
-  },
-  {
     slug: "sol-trips",
     title: "Sol: Trips",
     year: 2023,
