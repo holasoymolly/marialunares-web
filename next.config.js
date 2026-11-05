@@ -40,8 +40,10 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        // La tienda de Printful solo vende a EE. UU. (ver docs/TIENDA.md). Los enlaces
+        // viejos caen en la música hasta que haya una tienda que le venda a todo el mundo.
         source: "/tienda",
-        destination: "https://marialunares.printful.me/",
+        destination: "/musica",
         permanent: false,
       },
       // La página de identidad se sirve en inglés como /en/about. Se redirige
